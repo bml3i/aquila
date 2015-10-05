@@ -228,6 +228,13 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/RLib.jar</systemPath>
 		</dependency>
 
+		<!-- Web Collector Framework -->
+		<dependency>
+			<groupId>cn.edu.hfut.dmic.webcollector</groupId>
+			<artifactId>WebCollector</artifactId>
+			<version>1.31</version>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>

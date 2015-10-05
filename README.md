@@ -1,4 +1,4 @@
-I### Introduction
+### Introduction
 
 Aquila is an efficiency software which is powered by Spring MVC 3.2, Hibernate, JPA, spring-data. 
 
