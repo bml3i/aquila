@@ -49,8 +49,6 @@ public class ExcelReportController extends ExcelMultiActionController {
 				messageSource.getMessage("excelreports.info.user_report.user_name_header", new String[] {}, locale));
 		excelData.put("GroupDescriptionHeader", messageSource.getMessage(
 				"excelreports.info.user_report.group_description_header", new String[] {}, locale));
-		excelData.put("DepartmentNameHeader", messageSource.getMessage(
-				"excelreports.info.user_report.department_name_header", new String[] {}, locale));
 		excelData.put("CreateDateHeader",
 				messageSource.getMessage("excelreports.info.user_report.create_date_header", new String[] {}, locale));
 		excelData.put("UpdateDateTimeHeader", messageSource.getMessage(

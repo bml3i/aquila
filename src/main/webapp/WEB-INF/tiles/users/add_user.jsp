@@ -81,23 +81,6 @@
 			</div>
 		</s:bind>
 		
-		<s:bind path="departmentId">
-			<div class="control-group ${status.error ? 'error' : '' }">
-				<label class="control-label" for="departmentId"><s:message
-						code="users.info.user_department" /></label>
-				<div class="controls">
-					<form:select path="departmentId" tabindex="6">
-						<form:option value="0" label="${please_select}" />
-						<form:options items="${departments}" itemValue="id"
-							itemLabel="name" />
-					</form:select>
-					<c:if test="${status.error}">
-						<span class="help-inline">${status.errorMessage}</span>
-					</c:if>
-				</div>
-			</div>
-		</s:bind>
-
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary" tabindex="7">
 				<s:message code="users.info.btn.add_user" />

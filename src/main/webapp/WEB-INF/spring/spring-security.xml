@@ -39,13 +39,6 @@
 		<intercept-url pattern="/rest/users/*" access="hasRole('ROLE_USER_MANAGER')" />-->
 
 
-		<!-- Department Module 
-		<intercept-url pattern="/departments" access="hasRole('ROLE_DEPARTMENT_MANAGER')" />
-		<intercept-url pattern="/departments/*" access="hasRole('ROLE_DEPARTMENT_MANAGER')" />
-		<intercept-url pattern="/department/*" access="hasRole('ROLE_DEPARTMENT_MANAGER')" />
-		<intercept-url pattern="/ajax/departments/*" access="hasRole('ROLE_DEPARTMENT_MANAGER')" />
-		<intercept-url pattern="/rest/departments/*" access="hasRole('ROLE_DEPARTMENT_MANAGER')" />-->
-
 		<!-- Group Module 
 		<intercept-url pattern="/groups" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
 		<intercept-url pattern="/groups/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />

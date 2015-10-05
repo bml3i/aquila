@@ -16,7 +16,6 @@
 				<th><s:message code="users.info.users_userid" /></th>
 				<th><s:message code="users.info.users_name" /></th>
 				<th><s:message code="users.info.users_group" /></th>
-				<th><s:message code="users.info.users_department" /></th>
 				<th><s:message code="users.info.users_create_date" /></th>
 				<th><s:message code="users.info.users_status" /></th>
 				<th><s:message code="users.info.users_operation" /></th>
@@ -28,7 +27,6 @@
 					<td>${user.userId}</td>
 					<td>${user.name}</td>
 					<td>${user.group.description}</td>
-					<td>${user.department.name}</td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd"
 							value="${user.createDate}" /></td>
 					<td><c:if test="${user.activeFlag}">

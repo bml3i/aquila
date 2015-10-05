@@ -20,7 +20,7 @@
 					</sec:authorize>
 
 					<sec:authorize
-						access="hasAnyRole('ROLE_USER_MANAGER','ROLE_USER_GROUP_MANAGER', 'ROLE_DEPARTMENT_MANAGER')">
+						access="hasAnyRole('ROLE_USER_MANAGER','ROLE_USER_GROUP_MANAGER')">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> <s:message
 									code="global.info.system_manage" /> <b class="caret"></b>
@@ -33,10 +33,6 @@
 								<sec:authorize access="hasRole('ROLE_USER_GROUP_MANAGER')">
 									<li><a href="/groups"><s:message
 												code="global.info.group_setting" /></a></li>
-								</sec:authorize>
-								<sec:authorize access="hasRole('ROLE_DEPARTMENT_MANAGER')">
-									<li><a href="/departments"><s:message
-												code="global.info.department_setting" /></a></li>
 								</sec:authorize>
 							</ul></li>
 					</sec:authorize>

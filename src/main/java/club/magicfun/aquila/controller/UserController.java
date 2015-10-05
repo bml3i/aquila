@@ -30,7 +30,6 @@ import club.magicfun.aquila.common.ResponseResult;
 import club.magicfun.aquila.common.ValidationResult;
 import club.magicfun.aquila.form.UserFormBean;
 import club.magicfun.aquila.form.UserFormBeanValidator;
-import club.magicfun.aquila.model.Department;
 import club.magicfun.aquila.model.Group;
 import club.magicfun.aquila.model.User;
 import club.magicfun.aquila.service.AuthorityService;
@@ -60,11 +59,6 @@ public class UserController extends BaseController {
 		return authorityService.findAllGroups();
 	}
 	
-	@ModelAttribute("departments")
-	public List<Department> getAllDepartments() {
-		return authorityService.findAllDepartments();
-	}
-
 	@RequestMapping("users")
 	public String usersIndexHandler() {
 
@@ -114,10 +108,6 @@ public class UserController extends BaseController {
 		userFormBean.setEmail(editUser.getEmail());
 		userFormBean.setGroupId(editUser.getGroup().getId());
 		
-		if (editUser.getDepartment() != null) {
-			userFormBean.setDepartmentId(editUser.getDepartment().getId());
-		}
-
 		model.addAttribute("userFormBean", userFormBean);
 
 		return "users/edit_user";
@@ -130,7 +120,6 @@ public class UserController extends BaseController {
 
 		User editUser = authorityService.findUserByUserId(principal.getName());
 		Group editUserGroup = editUser.getGroup();
-		Department editDepartment = editUser.getDepartment();
 
 		UserFormBean userFormBean = new UserFormBean();
 		userFormBean.setId(editUser.getId());
@@ -140,13 +129,8 @@ public class UserController extends BaseController {
 		userFormBean.setEmail(editUser.getEmail());
 		userFormBean.setGroupId(editUser.getGroup().getId());
 		
-		if (editUser.getDepartment() != null) {
-			userFormBean.setDepartmentId(editUser.getDepartment().getId());
-		}
-
 		model.addAttribute("userFormBean", userFormBean);
 		model.addAttribute("editUserGroup", editUserGroup);
-		model.addAttribute("editDepartment", editDepartment);
 
 		return "users/edit_my_account";
 	}
@@ -167,12 +151,6 @@ public class UserController extends BaseController {
 			user.setPassword(userFormBean.getPassword());
 			user.setEmail(userFormBean.getEmail());
 			user.setGroup(authorityService.findGroupById(userFormBean.getGroupId()));
-			
-			if (userFormBean.getDepartmentId() != null && userFormBean.getDepartmentId() > 0) {
-				user.setDepartment(authorityService.findDepartmentById(userFormBean.getDepartmentId()));
-			} else {
-				user.setDepartment(null);
-			}
 			
 			user.setActiveFlag(true);
 			user.setCreateDate(new Date());
@@ -202,12 +180,6 @@ public class UserController extends BaseController {
 			user.setEmail(userFormBean.getEmail());
 			user.setGroup(authorityService.findGroupById(userFormBean.getGroupId()));
 
-			if (userFormBean.getDepartmentId() != null && userFormBean.getDepartmentId() > 0) {
-				user.setDepartment(authorityService.findDepartmentById(userFormBean.getDepartmentId()));
-			} else {
-				user.setDepartment(null);
-			}
-			
 			authorityService.persist(user);
 
 			redirectAttributes

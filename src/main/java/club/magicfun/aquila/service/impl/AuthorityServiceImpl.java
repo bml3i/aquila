@@ -18,11 +18,9 @@ import club.magicfun.aquila.common.GlobalManager;
 import club.magicfun.aquila.common.ResultType;
 import club.magicfun.aquila.common.ValidationResult;
 import club.magicfun.aquila.form.GroupFormBean;
-import club.magicfun.aquila.model.Department;
 import club.magicfun.aquila.model.Group;
 import club.magicfun.aquila.model.Role;
 import club.magicfun.aquila.model.User;
-import club.magicfun.aquila.repository.DepartmentRepository;
 import club.magicfun.aquila.repository.GroupRepository;
 import club.magicfun.aquila.repository.RoleRepository;
 import club.magicfun.aquila.repository.UserRepository;
@@ -44,9 +42,6 @@ public class AuthorityServiceImpl implements AuthorityService {
 	@Autowired
 	private GroupRepository groupRepository;
 	
-	@Autowired
-	private DepartmentRepository departmentRepository;
-
 	@Override
 	public User findUserById(Integer id) {
 		return userRepository.findOne(id);
@@ -178,45 +173,5 @@ public class AuthorityServiceImpl implements AuthorityService {
 		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
 		return groupRepository.findAll(pageRequest);
 	}
-	
-	@Override
-	public Page<Department> findPageableDepartments(Integer pageNumber) {
-		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
-		return departmentRepository.findAll(pageRequest);
-	}
-	
-	@Override
-	public Department persist(Department department) {
-		return departmentRepository.save(department);
-	}
-
-	@Override
-	public Department findDepartmentById(Integer id) {
-		return departmentRepository.findOne(id);
-	}
-
-	@Override
-	public ValidationResult validateBeforeDeleteDepartment(Integer departmentId, Locale locale) {
-		// TO-DO
-
-		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
-		return result;
-	}
-
-	@Override
-	public void deleteDepartment(Integer departmentId) {
-		departmentRepository.delete(departmentId);
-	}
-
-	@Override
-	public Department findDepartmentByName(String name) {
-		return departmentRepository.findByName(name);
-	}
-
-	@Override
-	public List<Department> findAllDepartments() {
-		return departmentRepository.findAll();
-	}
-
 
 }

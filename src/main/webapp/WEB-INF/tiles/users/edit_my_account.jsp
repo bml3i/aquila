@@ -73,15 +73,6 @@
 			</div>
 		</div>
 
-		<div class="control-group">
-			<label class="control-label" for="departmentName"><s:message
-					code="users.info.user_department" /></label>
-			<div class="controls">
-				<input class="input-xlarge" type="text" name="departmentName"
-					value="${editDepartment.name}" tabindex="6" readonly />
-			</div>
-		</div>
-
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary" tabindex="7">
 				<s:message code="global.info.btn.update" />

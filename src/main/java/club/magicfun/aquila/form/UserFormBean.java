@@ -14,8 +14,6 @@ public class UserFormBean {
 
 	private Integer groupId;
 	
-	private Integer departmentId;
-
 	public String getUserId() {
 		return userId;
 	}
@@ -62,14 +60,6 @@ public class UserFormBean {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getDepartmentId() {
-		return departmentId;
-	}
-
-	public void setDepartmentId(Integer departmentId) {
-		this.departmentId = departmentId;
 	}
 
 }

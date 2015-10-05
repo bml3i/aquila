@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 
 import club.magicfun.aquila.common.ValidationResult;
 import club.magicfun.aquila.form.GroupFormBean;
-import club.magicfun.aquila.model.Department;
 import club.magicfun.aquila.model.Group;
 import club.magicfun.aquila.model.Role;
 import club.magicfun.aquila.model.User;
@@ -48,18 +47,4 @@ public interface AuthorityService {
 	void deleteGroup(Integer groupId);
 	
 	Group saveNewGroup(GroupFormBean groupFormBean);
-	
-	Page<Department> findPageableDepartments(Integer pageNumber);
-	
-	List<Department> findAllDepartments();
-	
-	Department persist(Department department);
-	
-	Department findDepartmentById(Integer id);
-	
-	Department findDepartmentByName(String name);
-	
-	ValidationResult validateBeforeDeleteDepartment(Integer departmentId, Locale locale);
-	
-	void deleteDepartment(Integer departmentId);
 }

@@ -36,10 +36,6 @@ public class User {
 	@JoinColumn(name = "group_id")
 	private Group group;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "department_id")
-	private Department department;
-
 	@Column(name = "active_flg")
 	private Boolean activeFlag;
 
@@ -121,22 +117,9 @@ public class User {
 		this.email = email;
 	}
 
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-	
 	// used by user report
 	public String getGroupDesc() {
 		return this.getGroup() != null ? this.getGroup().getDescription() : null;
-	}
-	
-	// used by user report
-	public String getDepartmentName() {
-		return this.getDepartment() != null ? this.getDepartment().getName() : null;
 	}
 	
 	// used by user report
