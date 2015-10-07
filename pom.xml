@@ -228,6 +228,13 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/RLib.jar</systemPath>
 		</dependency>
 
+		<!-- Quartz Framework -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.8.4</version>
+		</dependency>
+
 		<!-- Web Collector Framework -->
 		<dependency>
 			<groupId>cn.edu.hfut.dmic.webcollector</groupId>
