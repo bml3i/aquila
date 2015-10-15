@@ -235,18 +235,18 @@
 			<version>1.8.4</version>
 		</dependency>
 
-		<!-- Web Collector Framework -->
-		<dependency>
-			<groupId>cn.edu.hfut.dmic.webcollector</groupId>
-			<artifactId>WebCollector</artifactId>
-			<version>2.09</version>
-		</dependency>
-
-		<!-- Selenium Framework -->
+		<!-- Selenium -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>2.44.0</version>
+			<version>2.46.0</version>
+		</dependency>
+		
+		<!-- guava -->
+ 		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>16.0.1</version>
 		</dependency>
 
 		<!-- Test -->
