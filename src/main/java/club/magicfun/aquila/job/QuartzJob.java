@@ -22,28 +22,15 @@ public class QuartzJob  {
         System.out.println("Quartz执行的任务调度");
         
 		String dir = System.getProperty("user.dir");
-		System.setProperty("webdriver.chrome.driver", dir + File.separator + "drivers" + File.separator + "chromedriver");
+		System.setProperty("webdriver.chrome.driver", dir + File.separator + "drivers" + File.separator + "win" + File.separator + "chromedriver.exe");
         
         WebDriver webDriver = new ChromeDriver();
         
         //webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         
-        webDriver.get("http://list.jd.com/9987-653-655-0-0-0-0-0-0-0-1-1-1-1-1-72-4137-33.html");  
+        webDriver.get("https://item.taobao.com/item.htm?id=39647261724");  
   
-        WebElement webElement = webDriver.findElement(By.xpath("//div[@id='plist']"));  
-  
-        System.out.println(webElement.getAttribute("outerHTML"));  
-  
-        WebElement li=webElement.findElement(By.xpath("//li[@index='1']"));  
-  
-        String name=li.findElement(By.xpath("//li[@index='1']//div[@class='p-name']/a")).getText();  
-        System.out.println("商品名:"+name);  
-  
-        String price=li.findElement(By.xpath("//li[@index='1']//div[@class='p-price']/strong")).getText();  
-        System.out.println("价格:"+price);  
-  
-        String eva=li.findElement(By.xpath("//li[@index='1']//span[@class='evaluate']/a[@target='_blank']")).getText();  
-        System.out.println("评价:"+eva);  
+        System.out.println("title: " + webDriver.getTitle());
         
         webDriver.close();  
         webDriver.quit();
