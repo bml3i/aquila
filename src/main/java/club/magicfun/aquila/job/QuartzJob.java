@@ -37,7 +37,7 @@ public class QuartzJob  {
         
         //webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         
-        webDriver.get("https://item.taobao.com/item.htm?id=39647261724");  
+        webDriver.get("https://item.taobao.com/item.htm?id=43462858898"); 
   
         System.out.println("title: " + webDriver.getTitle());
         
