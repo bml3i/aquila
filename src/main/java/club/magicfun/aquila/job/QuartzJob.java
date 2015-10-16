@@ -22,7 +22,16 @@ public class QuartzJob  {
         System.out.println("Quartz执行的任务调度");
         
 		String dir = System.getProperty("user.dir");
-		System.setProperty("webdriver.chrome.driver", dir + File.separator + "drivers" + File.separator + "win" + File.separator + "chromedriver.exe");
+		String osName = System.getProperty("os.name");
+		
+		// windows
+		if (osName.toLowerCase().indexOf("windows") > -1) {
+			System.setProperty("webdriver.chrome.driver", dir + File.separator + "drivers" + File.separator + "win"
+					+ File.separator + "chromedriver.exe");
+		} else if (osName.toLowerCase().indexOf("mac") > -1) {
+			System.setProperty("webdriver.chrome.driver", dir + File.separator + "drivers" + File.separator + "mac"
+					+ File.separator + "chromedriver");
+		}
         
         WebDriver webDriver = new ChromeDriver();
         
