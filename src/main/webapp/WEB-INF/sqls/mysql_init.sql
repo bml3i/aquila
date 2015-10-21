@@ -102,6 +102,8 @@ create table products (
 	primary key (id)
 );
 
+insert into products (taobao_product_id, product_name, taobao_shop_id, shop_name, month_sale_amount, create_datetime) values (111, '测试宝贝', 5656, '我的小店', 120, '2015-10-01 00:00:00');
+
 /* 6. categories */
 create table categories (
 	id int not null auto_increment,
@@ -113,3 +115,7 @@ create table categories (
 	foreign key (product_id) references products (id)
 );
 
+insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '白色款', 10.10, 100);
+insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '黑色款', 12.00, 100);
+insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '红色款', 25.00, 100);
+insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '蓝色款', 30.00, 100);
