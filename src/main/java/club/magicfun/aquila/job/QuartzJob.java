@@ -23,7 +23,7 @@ public class QuartzJob  {
         
         WebDriver webDriver = new ChromeDriver();
         
-        webDriver.get("https://item.taobao.com/item.htm?spm=a1z10.1-c.w10312587-8883412262.6.4dUlMo&id=41671173269"); 
+        webDriver.get("https://item.taobao.com/item.htm?id=12718544734"); 
         
         //webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         
@@ -35,6 +35,8 @@ public class QuartzJob  {
         	
         	// simulate choosing a color
         	colorCategory.click();
+        	
+        	//webDriver.manage().timeouts().implicitlyWait(500, TimeUnit.MICROSECONDS); 
         	
         	WebElement selectedColorLi = webDriver.findElement(By.xpath("//*[contains(concat(' ', normalize-space(@class), ' '), ' tb-selected ')]"));
         	System.out.println("selectedLi: " + selectedColorLi.findElements(By.cssSelector("a > span")).get(0).getAttribute("innerHTML"));
