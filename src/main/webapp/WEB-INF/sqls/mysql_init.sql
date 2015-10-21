@@ -113,4 +113,3 @@ create table categories (
 	foreign key (product_id) references products (id)
 );
 
-
