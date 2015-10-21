@@ -39,7 +39,7 @@ public class Product {
 	private Integer monthSaleAmount;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "product")
-	@OrderBy("sortOrder ASC")
+	@OrderBy("id ASC")
 	private Set<Category> categories = new HashSet<Category>();
 
 	public Integer getId() {
