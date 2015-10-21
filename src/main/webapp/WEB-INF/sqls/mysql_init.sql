@@ -119,3 +119,4 @@ insert into categories (product_id, category_name, category_price, category_stoc
 insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '黑色款', 12.00, 100);
 insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '红色款', 25.00, 100);
 insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '蓝色款', 30.00, 100);
+
