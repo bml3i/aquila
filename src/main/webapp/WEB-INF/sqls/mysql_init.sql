@@ -6,6 +6,8 @@ create database aquila charset=utf8;
 use aquila;
 
 /*
+drop table if exists categories; 
+drop table if exists products; 
 drop table if exists users; 
 drop table if exists group_role;
 drop table if exists roles; 
@@ -87,5 +89,28 @@ insert into users (userid, password, name, email, group_id, active_flg, create_d
 insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('user03', 'user03', 'user03', 'user03@gmail.com', 2, true, '2013-06-03', null);
 insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('user04', 'user04', 'user04', 'user04@gmail.com', 2, true, '2013-06-04', null);
 insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('user05', 'user05', 'user05', 'user05@gmail.com', 2, true, '2013-06-05', null);
+
+/* 5. products */
+create table products (
+	id int not null auto_increment,
+	goods_id int not null,
+	product_name varchar(64) not null,
+	shop_id int not null,
+	shop_name varchar(32) not null,
+	month_sale_amount int not null,
+	create_datetime timestamp null,
+	primary key (id)
+);
+
+/* 6. categories */
+create table categories (
+	id int not null auto_increment,
+	product_id int not null,
+	category_name varchar(32) not null,
+	category_price decimal(8,2) not null, 
+	category_stock_number int not null,
+	primary key (id),
+	foreign key (product_id) references products (id)
+);
 
 
