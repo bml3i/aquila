@@ -93,9 +93,9 @@ insert into users (userid, password, name, email, group_id, active_flg, create_d
 /* 5. products */
 create table products (
 	id int not null auto_increment,
-	goods_id int not null,
+	taobao_product_id int not null,
 	product_name varchar(64) not null,
-	shop_id int not null,
+	taobao_shop_id int not null,
 	shop_name varchar(32) not null,
 	month_sale_amount int not null,
 	create_datetime timestamp null,
