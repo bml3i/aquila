@@ -23,7 +23,8 @@ public class QuartzJob  {
         
         WebDriver webDriver = new ChromeDriver();
         
-        webDriver.get("https://item.taobao.com/item.htm?id=12718544734"); 
+        //webDriver.get("https://item.taobao.com/item.htm?id=12718544734"); // normal
+        webDriver.get("https://item.taobao.com/item.htm?id=41671173269"); // promo
         
         //webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         
