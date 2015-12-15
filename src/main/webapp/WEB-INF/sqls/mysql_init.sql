@@ -92,17 +92,14 @@ insert into users (userid, password, name, email, group_id, active_flg, create_d
 
 /* 5. products */
 create table products (
-	id int not null auto_increment,
-	taobao_product_id int not null,
+	id int not null,
 	product_name varchar(64) not null,
-	taobao_shop_id int not null,
-	shop_name varchar(32) not null,
 	month_sale_amount int not null,
 	create_datetime timestamp null,
 	primary key (id)
 );
 
-insert into products (taobao_product_id, product_name, taobao_shop_id, shop_name, month_sale_amount, create_datetime) values (111, '测试宝贝', 5656, '我的小店', 120, '2015-10-01 00:00:00');
+insert into products (id, product_name, month_sale_amount, create_datetime) values (123456, '测试宝贝', 120, '2015-10-01 00:00:00');
 
 /* 6. categories */
 create table categories (
@@ -115,8 +112,8 @@ create table categories (
 	foreign key (product_id) references products (id)
 );
 
-insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '白色款', 10.10, 100);
-insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '黑色款', 12.00, 100);
-insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '红色款', 25.00, 100);
-insert into categories (product_id, category_name, category_price, category_stock_number) values (1, '蓝色款', 30.00, 100);
+insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '白色款', 10.10, 100);
+insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '黑色款', 12.00, 100);
+insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '红色款', 25.00, 100);
+insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '蓝色款', 30.00, 100);
 

@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import club.magicfun.aquila.service.AuthorityService;
+
 @Controller
 public class DemoController extends BaseController {
 
@@ -17,9 +19,11 @@ public class DemoController extends BaseController {
 
 	@Autowired
 	MessageSource messageSource;
-
+	
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
 	public String indexHandler(Model model) {
+		
+		
 		
 		return "demo/index";
 	}

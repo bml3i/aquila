@@ -1,7 +1,6 @@
 package club.magicfun.aquila.job;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -17,7 +16,7 @@ public class QuartzJob  {
 		System.out.println("Quartzjob创建成功");
 	}
 	
-	@Scheduled(cron = "0/15 * * * * ? ")
+	//@Scheduled(cron = "0/15 * * * * ? ")
     public void run(){
         System.out.println("Quartz执行的任务调度");
         
