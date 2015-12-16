@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import club.magicfun.aquila.model.Category;
 import club.magicfun.aquila.model.Product;
+import club.magicfun.aquila.model.RankSearchKeyword;
+import club.magicfun.aquila.model.RankSearchType;
 import club.magicfun.aquila.repository.CategoryRepository;
 import club.magicfun.aquila.repository.ProductRepository;
+import club.magicfun.aquila.repository.RankSearchKeywordRepository;
 
 @Controller
 public class DemoController extends BaseController {
@@ -32,6 +35,10 @@ public class DemoController extends BaseController {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
+	@Autowired
+	private RankSearchKeywordRepository rankSearchKeywordRepository;
+	
+	
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
 	public String indexHandler(Model model) {
 		
@@ -45,6 +52,20 @@ public class DemoController extends BaseController {
 				
 				for (Category category : categories) {
 					logger.info(category.getCategoryName() + " - " + category.getCategoryPrice() + " - " + category.getCategoryStockNumber());
+				}
+			}
+		}
+		
+		List<RankSearchKeyword> rankSearchKeywords = rankSearchKeywordRepository.findAll();
+		
+		if (rankSearchKeywords != null && rankSearchKeywords.size() > 0) {
+			for(RankSearchKeyword rankSearchKeyword : rankSearchKeywords) {
+				logger.info(rankSearchKeyword.getId() + " - " + rankSearchKeyword.getKeyword());
+				
+				Set<RankSearchType> rankSearchTypes = rankSearchKeyword.getRankSearchTypes();
+				
+				for (RankSearchType rankSearchType : rankSearchTypes) {
+					logger.info(rankSearchType.getId() + " - " + rankSearchType.getName() + " - " + rankSearchType.getDescription());
 				}
 			}
 		}
