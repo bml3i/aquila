@@ -5,16 +5,6 @@ create database aquila charset=utf8;
 
 use aquila;
 
-/*
-drop table if exists categories; 
-drop table if exists products; 
-drop table if exists users; 
-drop table if exists group_role;
-drop table if exists roles; 
-drop table if exists groups;
-drop table if exists images;
-*/
-
 
 /* 0.1 images */
 create table images (
@@ -116,4 +106,44 @@ insert into categories (product_id, category_name, category_price, category_stoc
 insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '黑色款', 12.00, 100);
 insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '红色款', 25.00, 100);
 insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '蓝色款', 30.00, 100);
+
+
+/* 7. rank_search_keywords */
+create table rank_search_keywords (
+	id int not null auto_increment, 
+	keyword varchar(32) not null,
+	create_datetime timestamp null,
+	primary key (id)
+);
+
+insert into rank_search_keywords (keyword, create_datetime) values ('水果刀', '2015-12-01 00:00:00');
+
+
+/* 8. rank_search_types */
+create table rank_search_types (
+	id int not null auto_increment, 
+	name varchar(32) not null,
+	description varchar(32),
+	primary key (id)
+);
+
+insert into rank_search_types (name, description) values ('DEFAULT', '默认排序');
+insert into rank_search_types (name, description) values ('RENQI', '人气排序');
+insert into rank_search_types (name, description) values ('XIAOLIANG', '销量排序');
+insert into rank_search_types (name, description) values ('XINYONG', '信用排序');
+
+/* 9. rank_search_keyword_type */
+create table rank_search_keyword_type (
+	rank_search_keyword_id int not null,
+	rank_search_type_id int not null,
+	primary key (rank_search_keyword_id, rank_search_type_id),
+	foreign key (rank_search_keyword_id) references rank_search_keywords (id),
+	foreign key (rank_search_type_id) references rank_search_types (id)
+);
+
+insert into rank_search_keyword_type (rank_search_keyword_id, rank_search_type_id) values (1, 1);
+insert into rank_search_keyword_type (rank_search_keyword_id, rank_search_type_id) values (1, 2);
+insert into rank_search_keyword_type (rank_search_keyword_id, rank_search_type_id) values (1, 3);
+
+
 
