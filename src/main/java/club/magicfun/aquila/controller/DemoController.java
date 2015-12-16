@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import club.magicfun.aquila.model.Category;
+import club.magicfun.aquila.model.Job;
 import club.magicfun.aquila.model.Product;
 import club.magicfun.aquila.model.RankSearchKeyword;
 import club.magicfun.aquila.model.RankSearchType;
-import club.magicfun.aquila.repository.CategoryRepository;
+import club.magicfun.aquila.repository.JobRepository;
 import club.magicfun.aquila.repository.ProductRepository;
 import club.magicfun.aquila.repository.RankSearchKeywordRepository;
 
@@ -33,10 +34,10 @@ public class DemoController extends BaseController {
 	private ProductRepository productRepository;
 	
 	@Autowired
-	private CategoryRepository categoryRepository;
+	private RankSearchKeywordRepository rankSearchKeywordRepository;
 	
 	@Autowired
-	private RankSearchKeywordRepository rankSearchKeywordRepository;
+	private JobRepository jobRepository;
 	
 	
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
@@ -71,6 +72,14 @@ public class DemoController extends BaseController {
 					logger.info(rankSearchType.getId() + " - " + rankSearchType.getName() + " - " + rankSearchType.getDescription());
 				}
 			}
+		}
+		
+		String testJobClassName = "club.magicfun.aquila.job.QuartzJob";
+		
+		Job job = jobRepository.findByClassName(testJobClassName);
+		
+		if (job != null) {
+			logger.info(job.getId() + " - " + job.getClassName() + " - " + job.getDescription());
 		}
 		
 		return "demo/index";
