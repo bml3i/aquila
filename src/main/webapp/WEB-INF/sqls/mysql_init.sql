@@ -146,4 +146,18 @@ insert into rank_search_keyword_type (rank_search_keyword_id, rank_search_type_i
 insert into rank_search_keyword_type (rank_search_keyword_id, rank_search_type_id) values (1, 3);
 
 
+/* 10. jobs */
+create table jobs (
+	id int not null auto_increment, 
+	class_name varchar(128) not null,
+	description varchar(32),
+	active_flg boolean default 1,
+	create_datetime timestamp null,
+	start_datetime timestamp null,
+	end_datetime timestamp null,
+	primary key (id)
+);
+
+insert into jobs (class_name, description, active_flg, create_datetime, start_datetime, end_datetime) values ('club.magicfun.aquila.job.QuartzJob', 'JOB FOR TESTING', 1, '2015-12-01 00:00:00', null, null);
+
 

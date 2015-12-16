@@ -18,6 +18,7 @@ public class QuartzJob  {
 	
 	//@Scheduled(cron = "0/15 * * * * ? ")
     public void run(){
+    	
         System.out.println("Quartz执行的任务调度");
         
         WebDriver webDriver = new ChromeDriver();

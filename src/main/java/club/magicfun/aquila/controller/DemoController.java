@@ -42,6 +42,9 @@ public class DemoController extends BaseController {
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
 	public String indexHandler(Model model) {
 		
+		System.out.println("Class -  Name: " + this.getClass().getName());
+    	System.out.println("Class - Simple Name: " + this.getClass().getSimpleName());
+		
 		List<Product> products = productRepository.findAll();
 		
 		if (products != null && products.size() > 0) {
