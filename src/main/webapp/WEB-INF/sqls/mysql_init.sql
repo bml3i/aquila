@@ -158,7 +158,7 @@ create table jobs (
 	primary key (id)
 );
 
-insert into jobs (class_name, description, active_flg, create_datetime, start_datetime, end_datetime) values ('club.magicfun.aquila.job.QuartzJob', 'JOB FOR TESTING', 1, '2015-12-01 00:00:00', null, null);
+insert into jobs (class_name, description, active_flg, create_datetime, start_datetime, end_datetime) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, '2015-12-01 00:00:00', null, null);
 
 
 /* 11. rank_search_details */
