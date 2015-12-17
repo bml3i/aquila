@@ -28,10 +28,10 @@ public class RankSearchJob {
 		Job job = scheduleService.findJobByClassName(className);
 		
 		// determine if to run this job
-		if (job != null && job.getActiveFlag() && "C".equalsIgnoreCase(job.getRunStatus())) {
+		if (job != null && job.isJobReadyToRun()) {
 			
 			job = scheduleService.startJob(job);
-			logger.info("Job [" + job.getId() + "|" + job.getClassName() + "] is started.");
+			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 			
 			
 			

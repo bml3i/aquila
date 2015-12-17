@@ -13,6 +13,10 @@ import javax.persistence.Table;
 @Table(name = "jobs")
 public class Job {
 
+	public static final String JOB_RUN_STATUS_IN_PROCESS = "I";
+	public static final String JOB_RUN_STATUS_COMPLETE = "C";
+	public static final String JOB_RUN_STATUS_FAILURE = "F";
+	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -103,4 +107,11 @@ public class Job {
 		this.runStatus = runStatus;
 	}
 	
+	public boolean isJobReadyToRun() {
+		if (this.getActiveFlag() && JOB_RUN_STATUS_COMPLETE.equalsIgnoreCase(this.getRunStatus())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
