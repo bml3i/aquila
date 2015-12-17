@@ -7,16 +7,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import club.magicfun.aquila.model.Job;
-import club.magicfun.aquila.repository.JobRepository;
+import club.magicfun.aquila.service.ScheduleService;
 
 @Component
 public class RankSearchJob {
 	
-	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(RankSearchJob.class);
 	
 	@Autowired
-	private JobRepository jobRepository;
+	private ScheduleService scheduleService;
 	
 	public RankSearchJob() {
 		super();
@@ -26,15 +25,20 @@ public class RankSearchJob {
     public void run(){
 		
 		String className = this.getClass().getName();
-		Job currentJob = jobRepository.findByClassName(className);
+		Job job = scheduleService.findJobByClassName(className);
 		
 		// determine if to run this job
-		if (currentJob != null && currentJob.getActiveFlag() && "C".equalsIgnoreCase(currentJob.getRunStatus())) {
-			System.out.println("job: " + currentJob.getId() + " - " + currentJob.getClassName());
+		if (job != null && job.getActiveFlag() && "C".equalsIgnoreCase(job.getRunStatus())) {
+			
+			job = scheduleService.startJob(job);
+			logger.info("Job [" + job.getId() + "|" + job.getClassName() + "] is started.");
 			
 			
+			
+			
+			job = scheduleService.completeJob(job);
 		} else {
-			logger.warn("Job has not been configured or job is inactive or still in-processing.");
+			logger.warn("Job has not been configured for " + className + " or the job is inactive/still in-processing.");
 		}
 	}
 }
