@@ -118,7 +118,7 @@ create table rank_search_keywords (
 	primary key (id)
 );
 
-insert into rank_search_keywords (keyword, create_datetime) values ('水果刀', '2015-12-01 00:00:00');
+insert into rank_search_keywords (keyword, create_datetime) values ('魔方', '2015-12-01 00:00:00');
 
 
 /* 8. rank_search_types */
