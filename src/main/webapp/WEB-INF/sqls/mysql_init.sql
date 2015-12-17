@@ -85,11 +85,13 @@ create table products (
 	id int not null,
 	product_name varchar(64) not null,
 	month_sale_amount int not null,
+	product_price decimal(8,2) not null,
+	shop_name varchar(32) not null,
 	create_datetime timestamp null,
 	primary key (id)
 );
 
-insert into products (id, product_name, month_sale_amount, create_datetime) values (123456, '测试宝贝', 120, '2015-10-01 00:00:00');
+insert into products (id, product_name, month_sale_amount, product_price, shop_name, create_datetime) values (123456, '测试宝贝', 120, 11.5, '测试商店', '2015-10-01 00:00:00');
 
 /* 6. categories */
 create table categories (
@@ -169,9 +171,6 @@ create table rank_search_details (
 	rank_search_type_id int not null,
 	ranking int not null,
 	product_id int not null,
-	product_name varchar(32) not null,
-	shop_name varchar(32) not null,
-	sale_price decimal(8,2) not null, 
 	create_datetime timestamp not null,
 	primary key (id)
 );
