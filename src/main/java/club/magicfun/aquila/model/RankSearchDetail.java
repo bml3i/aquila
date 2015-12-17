@@ -35,6 +35,18 @@ public class RankSearchDetail {
 	@Column(name = "product_id")
 	private Integer productId;
 	
+	@Column(name = "product_name")
+	private String productName;
+	
+	@Column(name = "product_price")
+	private Double productPrice; 
+	
+	@Column(name = "deal_count")
+	private Integer dealCount;
+	
+	@Column(name = "shop_name")
+	private String shopName;
+	
 	@Column(name = "create_datetime")
 	private Date createDatetime;
 
@@ -85,7 +97,36 @@ public class RankSearchDetail {
 	public void setCreateDatetime(Date createDatetime) {
 		this.createDatetime = createDatetime;
 	}
-	
-	
-	
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public Double getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(Double productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public Integer getDealCount() {
+		return dealCount;
+	}
+
+	public void setDealCount(Integer dealCount) {
+		this.dealCount = dealCount;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
 }

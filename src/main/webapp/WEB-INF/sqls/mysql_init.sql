@@ -171,6 +171,10 @@ create table rank_search_details (
 	rank_search_type_id int not null,
 	rank_num int not null,
 	product_id int not null,
+	product_name varchar(64) not null,
+	product_price decimal(8,2) not null,
+	deal_count int not null,
+	shop_name varchar(32) not null,
 	create_datetime timestamp not null,
 	primary key (id)
 );
