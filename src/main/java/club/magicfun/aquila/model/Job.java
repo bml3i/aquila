@@ -27,6 +27,9 @@ public class Job {
 	@Column(name = "active_flg")
 	private Boolean activeFlag;
 	
+	@Column(name = "run_status")
+	private String runStatus;
+	
 	@Column(name = "create_datetime")
 	private Date createDatetime;
 	
@@ -90,6 +93,14 @@ public class Job {
 
 	public void setEndDatetime(Date endDatetime) {
 		this.endDatetime = endDatetime;
+	}
+
+	public String getRunStatus() {
+		return runStatus;
+	}
+
+	public void setRunStatus(String runStatus) {
+		this.runStatus = runStatus;
 	}
 	
 }

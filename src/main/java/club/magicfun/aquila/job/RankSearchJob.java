@@ -29,12 +29,12 @@ public class RankSearchJob {
 		Job currentJob = jobRepository.findByClassName(className);
 		
 		// determine if to run this job
-		if (currentJob != null && currentJob.getActiveFlag()) {
+		if (currentJob != null && currentJob.getActiveFlag() && "C".equalsIgnoreCase(currentJob.getRunStatus())) {
 			System.out.println("job: " + currentJob.getId() + " - " + currentJob.getClassName());
 			
 			
 		} else {
-			logger.error("Job has not been configured or job is inactive.");
+			logger.warn("Job has not been configured or job is inactive or still in-processing.");
 		}
 	}
 }

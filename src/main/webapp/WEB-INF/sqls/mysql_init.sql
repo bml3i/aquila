@@ -152,13 +152,14 @@ create table jobs (
 	class_name varchar(128) not null,
 	description varchar(32),
 	active_flg boolean default 1,
+	run_status varchar(4) not null, /* C=Completed, I=In-Process, F=Failure */
 	create_datetime timestamp null,
 	start_datetime timestamp null,
 	end_datetime timestamp null,
 	primary key (id)
 );
 
-insert into jobs (class_name, description, active_flg, create_datetime, start_datetime, end_datetime) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, '2015-12-01 00:00:00', null, null);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, 'C', '2015-12-01 00:00:00', null, null);
 
 
 /* 11. rank_search_details */
