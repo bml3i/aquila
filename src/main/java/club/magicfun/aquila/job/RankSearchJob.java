@@ -21,6 +21,7 @@ import club.magicfun.aquila.model.RankSearchType;
 import club.magicfun.aquila.service.RankingService;
 import club.magicfun.aquila.service.ScheduleService;
 import club.magicfun.aquila.util.HtmlUtility;
+import club.magicfun.aquila.util.StringUtility;
 
 @Component
 public class RankSearchJob {
@@ -94,11 +95,14 @@ public class RankSearchJob {
 								
 								String itemProductPrice = prodItemDiv.findElement(By.xpath("div[@class='col col-3']/div/span/strong")).getText();
 								
+								String itemProductDealCount = StringUtility.extractFirstFewDigits(prodItemDiv.findElement(By.xpath("div[@class='col col-4']/p[@class='deal-cnt']")).getText());
+								
 								/*
 								System.out.println("Item Rank index: " + rankIndex);
 								System.out.println("item product id: " + itemProductId);
 								System.out.println("item product name: " + itemProductName);
 								System.out.println("item product price: " + itemProductPrice);
+								System.out.println("item product deal count: " + itemProductDealCount);
 								System.out.println("shop name: " + itemShopName);
 								System.out.println("------------------------");
 								*/
@@ -110,7 +114,7 @@ public class RankSearchJob {
 								rankSearchDetail.setProductId(Long.parseLong(itemProductId));
 								rankSearchDetail.setProductName(itemProductName);
 								rankSearchDetail.setProductPrice(Double.parseDouble(itemProductPrice));
-								rankSearchDetail.setDealCount(0);
+								rankSearchDetail.setDealCount(Integer.parseInt(itemProductDealCount));
 								rankSearchDetail.setShopName(itemShopName);
 								rankSearchDetail.setCreateDatetime(new Date());
 								
