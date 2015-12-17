@@ -169,7 +169,7 @@ create table rank_search_details (
 	id int not null auto_increment, 
 	rank_search_keyword_id int not null,
 	rank_search_type_id int not null,
-	ranking int not null,
+	rank_num int not null,
 	product_id int not null,
 	create_datetime timestamp not null,
 	primary key (id)
