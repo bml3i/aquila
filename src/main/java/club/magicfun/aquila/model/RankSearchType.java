@@ -28,6 +28,9 @@ public class RankSearchType {
 	@Column(name = "description")
 	private String description;
 	
+	@Column(name = "sort_type")
+	private String sortType;
+	
 	@OneToMany(mappedBy = "rankSearchType", fetch = FetchType.LAZY)
 	private Set<RankSearchKeywordType> rankSearchKeywordTypes;
 
@@ -72,6 +75,14 @@ public class RankSearchType {
 
 	public void setRankSearchKeywords(Set<RankSearchKeyword> rankSearchKeywords) {
 		this.rankSearchKeywords = rankSearchKeywords;
+	}
+
+	public String getSortType() {
+		return sortType;
+	}
+
+	public void setSortType(String sortType) {
+		this.sortType = sortType;
 	}
 	
 }

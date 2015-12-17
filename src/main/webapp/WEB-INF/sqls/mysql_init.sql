@@ -126,13 +126,14 @@ create table rank_search_types (
 	id int not null auto_increment, 
 	name varchar(32) not null,
 	description varchar(32),
+	sort_type varchar(32) not null,
 	primary key (id)
 );
 
-insert into rank_search_types (name, description) values ('DEFAULT', '默认排序');
-insert into rank_search_types (name, description) values ('RENQI', '人气排序');
-insert into rank_search_types (name, description) values ('XIAOLIANG', '销量排序');
-insert into rank_search_types (name, description) values ('XINYONG', '信用排序');
+insert into rank_search_types (name, description, sort_type) values ('DEFAULT', '默认排序', 'default');
+insert into rank_search_types (name, description, sort_type) values ('RENQI', '人气排序', 'renqi-desc');
+insert into rank_search_types (name, description, sort_type) values ('XIAOLIANG', '销量排序', 'sale-desc');
+insert into rank_search_types (name, description, sort_type) values ('XINYONG', '信用排序', 'credit-desc');
 
 /* 9. rank_search_keyword_type */
 create table rank_search_keyword_type (
