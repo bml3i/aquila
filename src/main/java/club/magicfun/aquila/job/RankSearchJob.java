@@ -1,5 +1,6 @@
 package club.magicfun.aquila.job;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -14,10 +15,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import club.magicfun.aquila.model.Job;
+import club.magicfun.aquila.model.RankSearchDetail;
 import club.magicfun.aquila.model.RankSearchKeyword;
 import club.magicfun.aquila.model.RankSearchType;
 import club.magicfun.aquila.service.RankingService;
 import club.magicfun.aquila.service.ScheduleService;
+import club.magicfun.aquila.util.HtmlUtility;
 
 @Component
 public class RankSearchJob {
@@ -36,7 +39,7 @@ public class RankSearchJob {
 		super();
 	}
 
-	@Scheduled(cron = "0/15 * * * * ? ")
+	@Scheduled(cron = "0/20 * * * * ? ")
     public void run(){
 		
 		String className = this.getClass().getName();
@@ -71,13 +74,48 @@ public class RankSearchJob {
 							
 							webDriver.get(url);
 							
-							// TODO
+							List<WebElement> prodItemDivs = webDriver.findElements(By.xpath("//*[@class='list']/div/div[contains(concat(' ', normalize-space(@class), ' '), ' item ')]"));
 							
-//							List<WebElement> prodItemDivs = webDriver.findElements(By.xpath("//*[@class='list']/div/div[contains(concat(' ', normalize-space(@class), ' '), ' item ')]"));
-//							
-//							for (WebElement webElement : prodItemDivs) {
-//								logger.info("webElement " + webElement.toString());
-//							}
+							int rankIndex = 0; 
+							
+							for (WebElement prodItemDiv : prodItemDivs) {
+								
+								//System.out.println("webElement " + prodItemDiv.toString());
+								
+								rankIndex++;
+								
+								WebElement itemTitleLink = prodItemDiv.findElement(By.xpath("div[@class='col col-2']/p/a"));
+								
+								String itemProductId = itemTitleLink.getAttribute("data-nid");
+								
+								String itemProductName = HtmlUtility.removeHtmlTags(itemTitleLink.getText());
+								
+								String itemShopName = HtmlUtility.removeHtmlTags(prodItemDiv.findElement(By.xpath("div[@class='col col-2']/div/div[@class='shop']")).getText());
+								
+								String itemProductPrice = prodItemDiv.findElement(By.xpath("div[@class='col col-3']/div/span/strong")).getText();
+								
+								/*
+								System.out.println("Item Rank index: " + rankIndex);
+								System.out.println("item product id: " + itemProductId);
+								System.out.println("item product name: " + itemProductName);
+								System.out.println("item product price: " + itemProductPrice);
+								System.out.println("shop name: " + itemShopName);
+								System.out.println("------------------------");
+								*/
+								
+								RankSearchDetail rankSearchDetail = new RankSearchDetail();
+								rankSearchDetail.setRankSearchKeyword(rankSearchKeyword);
+								rankSearchDetail.setRankSearchType(rankSearchType);
+								rankSearchDetail.setRankNumber(rankIndex);
+								rankSearchDetail.setProductId(Long.parseLong(itemProductId));
+								rankSearchDetail.setProductName(itemProductName);
+								rankSearchDetail.setProductPrice(Double.parseDouble(itemProductPrice));
+								rankSearchDetail.setDealCount(0);
+								rankSearchDetail.setShopName(itemShopName);
+								rankSearchDetail.setCreateDatetime(new Date());
+								
+								rankingService.persist(rankSearchDetail);
+							}
 							
 						}
 						

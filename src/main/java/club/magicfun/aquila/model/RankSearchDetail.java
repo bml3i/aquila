@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rank_search_detail")
+@Table(name = "rank_search_details")
 public class RankSearchDetail {
 
 	@Id
@@ -33,7 +33,7 @@ public class RankSearchDetail {
 	private Integer rankNumber;
 
 	@Column(name = "product_id")
-	private Integer productId;
+	private Long productId;
 	
 	@Column(name = "product_name")
 	private String productName;
@@ -81,12 +81,12 @@ public class RankSearchDetail {
 	public void setRankNumber(Integer rankNumber) {
 		this.rankNumber = rankNumber;
 	}
-
-	public Integer getProductId() {
+	
+	public Long getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 

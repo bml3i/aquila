@@ -82,7 +82,7 @@ insert into users (userid, password, name, email, group_id, active_flg, create_d
 
 /* 5. products */
 create table products (
-	id int not null,
+	id bigint not null,
 	product_name varchar(64) not null,
 	month_sale_amount int not null,
 	product_price decimal(8,2) not null,
@@ -96,7 +96,7 @@ insert into products (id, product_name, month_sale_amount, product_price, shop_n
 /* 6. categories */
 create table categories (
 	id int not null auto_increment,
-	product_id int not null,
+	product_id bigint not null,
 	category_name varchar(32) not null,
 	category_price decimal(8,2) not null, 
 	category_stock_number int not null,
@@ -171,7 +171,7 @@ create table rank_search_details (
 	rank_search_keyword_id int not null,
 	rank_search_type_id int not null,
 	rank_num int not null,
-	product_id int not null,
+	product_id bigint not null,
 	product_name varchar(64) not null,
 	product_price decimal(8,2) not null,
 	deal_count int not null,
