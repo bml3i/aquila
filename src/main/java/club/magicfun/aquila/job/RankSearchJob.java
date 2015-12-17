@@ -127,7 +127,7 @@ public class RankSearchJob {
 			
 			job = scheduleService.completeJob(job);
 		} else {
-			logger.warn("Job has not been configured for " + className + " or the job is inactive/still in-processing.");
+			logger.warn("Job has not been configured for " + className + " or the job is not ready to run.");
 		}
 	}
 }

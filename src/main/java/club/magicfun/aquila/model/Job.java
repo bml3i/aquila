@@ -42,6 +42,9 @@ public class Job {
 	
 	@Column(name = "end_datetime")
 	private Date endDatetime;
+	
+	@Column(name = "min_interval_minute")
+	private Integer minIntervalMinute;
 
 	public Integer getId() {
 		return id;
@@ -107,8 +110,27 @@ public class Job {
 		this.runStatus = runStatus;
 	}
 	
+	public Integer getMinIntervalMinute() {
+		return minIntervalMinute;
+	}
+
+	public void setMinIntervalMinute(Integer minIntervalMinute) {
+		this.minIntervalMinute = minIntervalMinute;
+	}
+
 	public boolean isJobReadyToRun() {
 		if (this.getActiveFlag() && JOB_RUN_STATUS_COMPLETE.equalsIgnoreCase(this.getRunStatus())) {
+			
+			if (this.getEndDatetime() != null && this.getMinIntervalMinute() > 0) {
+				Date currentDate = new Date();
+
+				if (currentDate.getTime() - this.getEndDatetime().getTime() >= this.getMinIntervalMinute() * 60 * 1000) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			
 			return true;
 		} else {
 			return false;

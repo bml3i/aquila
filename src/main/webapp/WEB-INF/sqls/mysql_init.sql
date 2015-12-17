@@ -159,10 +159,11 @@ create table jobs (
 	create_datetime timestamp null,
 	start_datetime timestamp null,
 	end_datetime timestamp null,
+	min_interval_minute int default 0 not null,
 	primary key (id)
 );
 
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, 'C', '2015-12-01 00:00:00', null, null);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 60);
 
 
 /* 11. rank_search_details */
