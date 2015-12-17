@@ -36,7 +36,7 @@ public class RankSearchJob {
 		super();
 	}
 
-	@Scheduled(cron = "0/30 * * * * ? ")
+	@Scheduled(cron = "0/15 * * * * ? ")
     public void run(){
 		
 		String className = this.getClass().getName();
@@ -73,9 +73,11 @@ public class RankSearchJob {
 							
 							// TODO
 							
-							//List<WebElement> colorCategoryList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li/a"));
-							
-							
+//							List<WebElement> prodItemDivs = webDriver.findElements(By.xpath("//*[@class='list']/div/div[contains(concat(' ', normalize-space(@class), ' '), ' item ')]"));
+//							
+//							for (WebElement webElement : prodItemDivs) {
+//								logger.info("webElement " + webElement.toString());
+//							}
 							
 						}
 						
