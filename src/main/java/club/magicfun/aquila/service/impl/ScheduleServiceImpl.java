@@ -1,6 +1,7 @@
 package club.magicfun.aquila.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -62,6 +63,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 		job.setRunStatus(JOB_RUN_STATUS_FAILURE);
 		
 		return jobRepository.save(job);
+	}
+
+	@Override
+	public List<Job> findAllJobs() {
+		return jobRepository.findAll();
 	}
 	
 }
