@@ -166,8 +166,8 @@ create table jobs (
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 60);
 
 
-/* 11. rank_search_details */
-create table rank_search_details (
+/* 11. rank_search_hist */
+create table rank_search_hist (
 	id int not null auto_increment, 
 	rank_search_keyword_id int not null,
 	rank_search_type_id int not null,

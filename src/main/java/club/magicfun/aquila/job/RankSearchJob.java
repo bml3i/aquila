@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import club.magicfun.aquila.model.Job;
-import club.magicfun.aquila.model.RankSearchDetail;
+import club.magicfun.aquila.model.RankSearchHistory;
 import club.magicfun.aquila.model.RankSearchKeyword;
 import club.magicfun.aquila.model.RankSearchType;
 import club.magicfun.aquila.service.RankingService;
@@ -40,7 +40,7 @@ public class RankSearchJob {
 		super();
 	}
 
-	@Scheduled(cron = "0/20 * * * * ? ")
+	@Scheduled(cron = "0/30 * * * * ? ")
     public void run(){
 		
 		String className = this.getClass().getName();
@@ -107,18 +107,18 @@ public class RankSearchJob {
 								System.out.println("------------------------");
 								*/
 								
-								RankSearchDetail rankSearchDetail = new RankSearchDetail();
-								rankSearchDetail.setRankSearchKeyword(rankSearchKeyword);
-								rankSearchDetail.setRankSearchType(rankSearchType);
-								rankSearchDetail.setRankNumber(rankIndex);
-								rankSearchDetail.setProductId(Long.parseLong(itemProductId));
-								rankSearchDetail.setProductName(itemProductName);
-								rankSearchDetail.setProductPrice(Double.parseDouble(itemProductPrice));
-								rankSearchDetail.setDealCount(Integer.parseInt(itemProductDealCount));
-								rankSearchDetail.setShopName(itemShopName);
-								rankSearchDetail.setCreateDatetime(new Date());
+								RankSearchHistory rankSearchHistory = new RankSearchHistory();
+								rankSearchHistory.setRankSearchKeyword(rankSearchKeyword);
+								rankSearchHistory.setRankSearchType(rankSearchType);
+								rankSearchHistory.setRankNumber(rankIndex);
+								rankSearchHistory.setProductId(Long.parseLong(itemProductId));
+								rankSearchHistory.setProductName(itemProductName);
+								rankSearchHistory.setProductPrice(Double.parseDouble(itemProductPrice));
+								rankSearchHistory.setDealCount(Integer.parseInt(itemProductDealCount));
+								rankSearchHistory.setShopName(itemShopName);
+								rankSearchHistory.setCreateDatetime(new Date());
 								
-								rankingService.persist(rankSearchDetail);
+								rankingService.persist(rankSearchHistory);
 							}
 							
 						}

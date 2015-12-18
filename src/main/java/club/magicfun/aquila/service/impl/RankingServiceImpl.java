@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import club.magicfun.aquila.model.RankSearchDetail;
+import club.magicfun.aquila.model.RankSearchHistory;
 import club.magicfun.aquila.model.RankSearchKeyword;
-import club.magicfun.aquila.repository.RankSearchDetailRepository;
+import club.magicfun.aquila.repository.RankSearchHistoryRepository;
 import club.magicfun.aquila.repository.RankSearchKeywordRepository;
 import club.magicfun.aquila.repository.RankSearchTypeRepository;
 import club.magicfun.aquila.service.RankingService;
@@ -25,7 +25,7 @@ public class RankingServiceImpl implements RankingService {
 	private RankSearchTypeRepository rankSearchTypeRepository;
 	
 	@Autowired
-	private RankSearchDetailRepository rankSearchDetailRepository;
+	private RankSearchHistoryRepository rankSearchHistoryRepository;
 
 	@Override
 	public List<RankSearchKeyword> findAllRankSearchKeywords() {
@@ -33,11 +33,11 @@ public class RankingServiceImpl implements RankingService {
 	}
 
 	@Override
-	public RankSearchDetail persist(RankSearchDetail rankSearchDetail) {
-		if (rankSearchDetail.getId() != null) {
-			rankSearchDetail.setCreateDatetime(new Date());
+	public RankSearchHistory persist(RankSearchHistory rankSearchHistory) {
+		if (rankSearchHistory.getId() != null) {
+			rankSearchHistory.setCreateDatetime(new Date());
 		}
-		return rankSearchDetailRepository.save(rankSearchDetail);
+		return rankSearchHistoryRepository.save(rankSearchHistory);
 	}
 	
 }
