@@ -2,6 +2,8 @@ package club.magicfun.aquila.job;
 
 import java.util.List;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,15 +51,23 @@ public class ProductSearchJob {
 				
 				logger.info("Product Search queue size = " + productSearchQueues.size());
 				
+				WebDriver webDriver = new ChromeDriver();
+				
 				for (ProductSearchQueue productSearchQueue : productSearchQueues) {
 					logger.info("Dealing with Product Id: " + productSearchQueue.getProductId());
+					
+					String url = PRODUCT_CATEGORY_URL_TEMPLATE.replaceFirst("\\{PRODUCTID\\}", productSearchQueue.getProductId().toString());
+					logger.info("URL: " + url);
+					
+					webDriver.get(url);
 					
 					
 					
 				}
+				
+				webDriver.close();  
+				webDriver.quit();
 			}
-			
-			
 			
 			job = scheduleService.completeJob(job);
 		} else {
