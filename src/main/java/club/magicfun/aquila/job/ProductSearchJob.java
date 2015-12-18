@@ -57,9 +57,11 @@ public class ProductSearchJob {
 					logger.info("Dealing with Product Id: " + productSearchQueue.getProductId());
 					
 					String url = PRODUCT_CATEGORY_URL_TEMPLATE.replaceFirst("\\{PRODUCTID\\}", productSearchQueue.getProductId().toString());
-					logger.info("URL: " + url);
 					
 					webDriver.get(url);
+					
+					System.out.println("Current URL: " + webDriver.getCurrentUrl());
+					
 					
 					
 					
