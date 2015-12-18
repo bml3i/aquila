@@ -14,6 +14,7 @@ import club.magicfun.aquila.model.Job;
 import club.magicfun.aquila.model.ProductSearchQueue;
 import club.magicfun.aquila.service.ProductService;
 import club.magicfun.aquila.service.ScheduleService;
+import club.magicfun.aquila.util.StringUtility;
 
 @Component
 public class ProductSearchJob {
@@ -22,6 +23,9 @@ public class ProductSearchJob {
 	
 	private static final String PRODUCT_CATEGORY_URL_TEMPLATE = "http://item.taobao.com/item.htm?id={PRODUCTID}";
 
+	private static final String SHOP_TYPE_TMALL = "tmall";
+	private static final String SHOP_TYPE_TAOBAO = "taobao";
+	
 
 	@Autowired
 	private ScheduleService scheduleService;
@@ -54,6 +58,9 @@ public class ProductSearchJob {
 				WebDriver webDriver = new ChromeDriver();
 				
 				for (ProductSearchQueue productSearchQueue : productSearchQueues) {
+					
+					String shopType = null; 
+					
 					logger.info("Dealing with Product Id: " + productSearchQueue.getProductId());
 					
 					String url = PRODUCT_CATEGORY_URL_TEMPLATE.replaceFirst("\\{PRODUCTID\\}", productSearchQueue.getProductId().toString());
@@ -61,6 +68,16 @@ public class ProductSearchJob {
 					webDriver.get(url);
 					
 					System.out.println("Current URL: " + webDriver.getCurrentUrl());
+					
+					if (StringUtility.containsAny(webDriver.getCurrentUrl(), "detail.tmall.com")) {
+						shopType = SHOP_TYPE_TMALL;
+					} else if (StringUtility.containsAny(webDriver.getCurrentUrl(), "item.taobao.com")) {
+						shopType = SHOP_TYPE_TAOBAO;
+					}
+					
+					logger.info("shop type = " + shopType);
+					
+					
 					
 					
 					

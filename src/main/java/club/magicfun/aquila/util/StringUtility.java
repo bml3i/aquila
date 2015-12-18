@@ -14,4 +14,8 @@ public class StringUtility {
 			return null;
 		}
 	}
+	
+	public static boolean containsAny(String targetString, String searchChars){
+		return targetString.contains(searchChars);
+	}
 }
