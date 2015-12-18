@@ -165,6 +165,7 @@ create table jobs (
 );
 
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 60);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.ProductSearchJob', 'Product Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 5);
 
 
 /* 11. rank_search_hist */
@@ -185,9 +186,11 @@ create table rank_search_hist (
 /* 12. product_search_queue */
 create table product_search_queue (
 	id int not null auto_increment, 
-	product_id varchar(32) not null,
+	product_id bigint not null,
 	create_datetime timestamp null,
 	primary key (id)
 );
 
+insert into product_search_queue (product_id, create_datetime) values (21429655813, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, create_datetime) values (37802140119, '2015-12-01 00:00:00');
 
