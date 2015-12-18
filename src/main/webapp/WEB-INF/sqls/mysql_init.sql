@@ -182,3 +182,12 @@ create table rank_search_hist (
 	primary key (id)
 );
 
+/* 12. product_search_queue */
+create table product_search_queue (
+	id int not null auto_increment, 
+	product_id varchar(32) not null,
+	create_datetime timestamp null,
+	primary key (id)
+);
+
+
