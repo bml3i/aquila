@@ -193,4 +193,6 @@ create table product_search_queue (
 
 insert into product_search_queue (product_id, create_datetime) values (21429655813, '2015-12-01 00:00:00');
 insert into product_search_queue (product_id, create_datetime) values (37802140119, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, create_datetime) values (44860074108, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, create_datetime) values (520680685488, '2015-12-01 00:00:00');
 

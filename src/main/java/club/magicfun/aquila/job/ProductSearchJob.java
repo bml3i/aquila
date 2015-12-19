@@ -2,7 +2,9 @@ package club.magicfun.aquila.job;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +62,8 @@ public class ProductSearchJob {
 				for (ProductSearchQueue productSearchQueue : productSearchQueues) {
 					
 					String shopType = null; 
+					String productName = null;
+					
 					
 					logger.info("Dealing with Product Id: " + productSearchQueue.getProductId());
 					
@@ -77,10 +81,20 @@ public class ProductSearchJob {
 					
 					logger.info("shop type = " + shopType);
 					
+					// get product name
+					
+					if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(SHOP_TYPE_TAOBAO)) {
+						productName = webDriver.findElement(By.xpath("//div[@id='J_Title']/h3[@class='tb-main-title']")).getText();
+					} else if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(SHOP_TYPE_TMALL)) {
+						productName = webDriver.findElement(By.xpath("//div[@class='tb-detail-hd']/h1")).getText();
+					}
+					
+					logger.info("productName: " + productName);
 					
 					
 					
-					
+					// remove from product search queue
+					//productService.deleteProductSearchQueue(productSearchQueue.getId());
 					
 				}
 				
