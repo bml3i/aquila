@@ -39,8 +39,8 @@ public class TestWebDriver3 {
 		WebDriver webDriver = new ChromeDriver();
         
 		List<Long> productIds = new ArrayList<Long>();
-		productIds.add(21429655813l);
-		productIds.add(37802140119l);
+		//productIds.add(21429655813l);
+		//productIds.add(37802140119l);
 		productIds.add(44860074108l);
 		productIds.add(520680685488l);
 		
@@ -48,6 +48,8 @@ public class TestWebDriver3 {
 			
 			String shopType = null; 
 			String productName = null;
+			String monthSaleAmount = null;
+			String favouriteCount = null;
 			
 			logger.info("Dealing with Product Id: " + productId);
 			
@@ -66,15 +68,26 @@ public class TestWebDriver3 {
 			
 			logger.info("shop type = " + shopType);
 			
-			// get product name
-			
-			if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(SHOP_TYPE_TAOBAO)) {
-				productName = webDriver.findElement(By.xpath("//div[@id='J_Title']/h3[@class='tb-main-title']")).getText();
-			} else if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(SHOP_TYPE_TMALL)) {
-				productName = webDriver.findElement(By.xpath("//div[@class='tb-detail-hd']/h1")).getText();
+			if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(shopType)) {
+				productName = webDriver.findElement(By.xpath("//div[@id='J_Title']/h3[@class='tb-main-title']")).getText().trim();
+				monthSaleAmount = webDriver.findElement(By.xpath("//em[@class='J_TDealCount']")).getText();
+				favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//em[@class='J_FavCount']")).getText());
+				
+				
+				
+			} else if (SHOP_TYPE_TMALL.equalsIgnoreCase(shopType)) {
+				productName = webDriver.findElement(By.xpath("//div[@class='tb-detail-hd']/h1")).getText().trim();
+				monthSaleAmount = webDriver.findElement(By.xpath("//div[@class='tm-indcon']/span[@class='tm-count']")).getText();
+				favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//span[@id='J_CollectCount']")).getText());
+
+				
 			}
 			
 			logger.info("productName: " + productName);
+			logger.info("monthSaleAmount: " + monthSaleAmount);
+			logger.info("favouriteCount: " + favouriteCount);
+			
+			logger.info("favouriteCount(2): " + StringUtility.extractFirstFewDigits(favouriteCount));
 			
 		}
 		

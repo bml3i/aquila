@@ -83,9 +83,9 @@ public class ProductSearchJob {
 					
 					// get product name
 					
-					if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(SHOP_TYPE_TAOBAO)) {
+					if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(shopType)) {
 						productName = webDriver.findElement(By.xpath("//div[@id='J_Title']/h3[@class='tb-main-title']")).getText();
-					} else if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(SHOP_TYPE_TMALL)) {
+					} else if (SHOP_TYPE_TMALL.equalsIgnoreCase(shopType)) {
 						productName = webDriver.findElement(By.xpath("//div[@class='tb-detail-hd']/h1")).getText();
 					}
 					
