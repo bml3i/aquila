@@ -41,6 +41,14 @@ public class TestWebDriver3 {
         
 		/*
 		taobao:
+		
+		http://item.taobao.com/item.htm?id=44057413538
+		http://item.taobao.com/item.htm?id=42453456250
+		http://item.taobao.com/item.htm?id=41129702139
+		http://item.taobao.com/item.htm?id=1771185060
+		http://item.taobao.com/item.htm?id=37833049213
+		http://item.taobao.com/item.htm?id=38403988528
+		
 			1) promote, no category
 			44057413538
 
