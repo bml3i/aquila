@@ -60,8 +60,23 @@ public class TestWebDriver3 {
 			38403988528
 
 		tmall:
-			1) 
-
+			1) promote, category, picture
+			5968030997
+			
+			2) promote, category, no picture
+			523767556371
+			
+			3) promote, no category
+			524740490317
+			
+			4) no promote, category, no picture
+			521299241246
+			
+			5) no promote, no category
+			520878856645
+			
+			6) no promote, category, picture
+			45855398633
 		*/
 
 		List<Long> productIds = new ArrayList<Long>();
