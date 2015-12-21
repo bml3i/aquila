@@ -39,11 +39,38 @@ public class TestWebDriver3 {
 		
 		WebDriver webDriver = new ChromeDriver();
         
+		/*
+		taobao:
+			1) promote, no category
+			44057413538
+
+			2) promote, category, picture
+			42453456250
+
+			3) promote, category, no picture
+			41129702139
+
+			4) no promote, no category
+			1771185060
+
+			5) no promote, category, picture
+			37833049213
+
+			6)no promote, category, no picture
+			38403988528
+
+		tmall:
+			1) 
+
+		*/
+
 		List<Long> productIds = new ArrayList<Long>();
-		productIds.add(21429655813l);
-		//productIds.add(37802140119l);
-		productIds.add(44860074108l);
-		productIds.add(520680685488l);
+		productIds.add(44057413538l);
+		productIds.add(42453456250l);
+		productIds.add(41129702139l);
+		productIds.add(1771185060l);
+		productIds.add(37833049213l);
+		productIds.add(38403988528l);
 		
 		for (Long productId : productIds) {
 			
