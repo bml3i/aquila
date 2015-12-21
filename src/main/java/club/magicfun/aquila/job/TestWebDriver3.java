@@ -49,6 +49,7 @@ public class TestWebDriver3 {
 		http://item.taobao.com/item.htm?id=37833049213
 		http://item.taobao.com/item.htm?id=38403988528
 		
+		
 			1) promote, no category
 			44057413538
 
