@@ -1,5 +1,6 @@
 package club.magicfun.aquila.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +41,9 @@ public class RankSearchKeyword {
 	@JoinTable(name = "rank_search_keyword_type", joinColumns = { @JoinColumn(name = "rank_search_keyword_id") }, inverseJoinColumns = { @JoinColumn(name = "rank_search_type_id") })
 	private Set<RankSearchType> rankSearchTypes = new HashSet<RankSearchType>();
 
+	@Column(name = "create_datetime")
+	private Date createDatetime;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -78,6 +82,14 @@ public class RankSearchKeyword {
 
 	public void setRankSearchTypes(Set<RankSearchType> rankSearchTypes) {
 		this.rankSearchTypes = rankSearchTypes;
+	}
+
+	public Date getCreateDatetime() {
+		return createDatetime;
+	}
+
+	public void setCreateDatetime(Date createDatetime) {
+		this.createDatetime = createDatetime;
 	}
 
 }

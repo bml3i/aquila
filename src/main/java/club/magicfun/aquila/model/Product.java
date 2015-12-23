@@ -1,5 +1,6 @@
 package club.magicfun.aquila.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +36,12 @@ public class Product {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "product")
 	@OrderBy("id ASC")
 	private Set<Category> categories = new HashSet<Category>();
+	
+	@Column(name = "active_flg")
+	private Boolean activeFlag;
+	
+	@Column(name = "create_datetime")
+	private Date createDatetime;
 
 	public Long getId() {
 		return id;
@@ -83,4 +90,21 @@ public class Product {
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
 	}
+
+	public Boolean getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(Boolean activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+
+	public Date getCreateDatetime() {
+		return createDatetime;
+	}
+
+	public void setCreateDatetime(Date createDatetime) {
+		this.createDatetime = createDatetime;
+	}
+	
 }
