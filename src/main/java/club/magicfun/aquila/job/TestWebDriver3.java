@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import club.magicfun.aquila.model.Product;
 import club.magicfun.aquila.util.HtmlUtility;
 import club.magicfun.aquila.util.StringUtility;
 
@@ -98,6 +99,8 @@ public class TestWebDriver3 {
 		
 		for (Long productId : productIds) {
 			
+			boolean containsError = false; 
+			
 			String shopType = null;
 			boolean containsCategoryFlag = false; 
 			boolean isPromotedFlag = false; 
@@ -107,10 +110,16 @@ public class TestWebDriver3 {
 			String favouriteCount = null;
 			String shopName = null;
 			
+			List<WebElement> categoryLinkElementList = null; 
+			
+			// Delete existing product if it exits.
+			
+			Product product = new Product();
+			
+			
 			logger.info("Dealing with Product Id: " + productId);
 			
 			String url = PRODUCT_CATEGORY_URL_TEMPLATE.replaceFirst("\\{PRODUCTID\\}", productId.toString());
-			
 			
 			webDriver.get(url);
 			
@@ -141,11 +150,46 @@ public class TestWebDriver3 {
 					// do nothing here
 				}
 				
-				productName = webDriver.findElement(By.xpath("//div[@id='J_Title']/h3[@class='tb-main-title']")).getText().trim();
-				monthSaleAmount = webDriver.findElement(By.xpath("//em[@class='J_TDealCount']")).getText();
-				favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//em[@class='J_FavCount']")).getText());
-				shopName = webDriver.findElement(By.xpath("//div[@class='tb-shop-name']//a")).getText();
-				
+				try{
+					productName = webDriver.findElement(By.xpath("//div[@id='J_Title']/h3[@class='tb-main-title']")).getText().trim();
+					monthSaleAmount = webDriver.findElement(By.xpath("//em[@class='J_TDealCount']")).getText();
+					favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//em[@class='J_FavCount']")).getText());
+					shopName = webDriver.findElement(By.xpath("//div[@class='tb-shop-name']//a")).getText();
+					
+					if (containsCategoryFlag) {
+						
+						categoryLinkElementList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li/a"));
+						
+						for (WebElement categoryLinkElement : categoryLinkElementList) {
+							
+							String categoryName = null; 
+							String categoryPrice = null; 
+							String categoryStockNumber = null; 
+							
+							// simulate choosing a color category
+							categoryLinkElement.click();
+							
+							WebElement selectedCategoryLi = webDriver.findElement(By.xpath("//*[@data-property='颜色分类']/li[contains(concat(' ', normalize-space(@class), ' '), ' tb-selected ')]"));
+							
+							categoryName = selectedCategoryLi.findElements(By.cssSelector("a > span")).get(0).getAttribute("innerHTML");
+				        	
+							if (isPromotedFlag) {
+								categoryPrice = webDriver.findElement(By.id("J_PromoPriceNum")).getText();
+							} else {
+								categoryPrice = StringUtility.extractFirstFewDigits(webDriver.findElement(By.id("J_StrPrice")).getText());
+							}
+							
+							categoryStockNumber = webDriver.findElement(By.id("J_SpanStock")).getText();
+							
+							logger.info("categoryName = " + categoryName);
+							logger.info("categoryPrice = " + categoryPrice);
+							logger.info("categoryStockNumber = " + categoryStockNumber);
+							
+						}
+					}
+				} catch (NoSuchElementException ex) {
+					containsError = true; 
+				}
 				
 			} else if (SHOP_TYPE_TMALL.equalsIgnoreCase(shopType)) {
 				try{
@@ -164,11 +208,14 @@ public class TestWebDriver3 {
 					// do nothing here
 				}
 				
-				productName = webDriver.findElement(By.xpath("//div[@class='tb-detail-hd']/h1")).getText().trim();
-				monthSaleAmount = webDriver.findElement(By.xpath("//div[@class='tm-indcon']/span[@class='tm-count']")).getText();
-				favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//span[@id='J_CollectCount']")).getText());
-				shopName = HtmlUtility.removeHtmlTags(webDriver.findElement(By.xpath("//a[@class='slogo-shopname']")).getText());
-				
+				try{
+					productName = webDriver.findElement(By.xpath("//div[@class='tb-detail-hd']/h1")).getText().trim();
+					monthSaleAmount = webDriver.findElement(By.xpath("//div[@class='tm-indcon']/span[@class='tm-count']")).getText();
+					favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//span[@id='J_CollectCount']")).getText());
+					shopName = HtmlUtility.removeHtmlTags(webDriver.findElement(By.xpath("//a[@class='slogo-shopname']")).getText());
+				} catch (NoSuchElementException ex) {
+					containsError = true; 
+				}
 			}
 			
 			logger.info("containsCategoryFlag = " + containsCategoryFlag);
@@ -179,10 +226,7 @@ public class TestWebDriver3 {
 			logger.info("favouriteCount: " + favouriteCount);
 			logger.info("shopName: " + shopName);
 			
-			
-			
-			
-			
+			logger.info("containsError: " + containsError);
 			
 			logger.info("---------------------");
 			
