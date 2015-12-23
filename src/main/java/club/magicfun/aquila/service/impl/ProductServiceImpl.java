@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import club.magicfun.aquila.model.Product;
 import club.magicfun.aquila.model.ProductSearchQueue;
+import club.magicfun.aquila.repository.ProductRepository;
 import club.magicfun.aquila.repository.ProductSearchQueueRepository;
 import club.magicfun.aquila.service.ProductService;
 
@@ -17,6 +19,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductSearchQueueRepository productSearchQueueRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
 	
 	@Override
 	public List<ProductSearchQueue> findAllProductSearchQueues() {
@@ -36,5 +41,27 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteProductSearchQueue(Integer productSearchQueueId) {
 		productSearchQueueRepository.delete(productSearchQueueId);
 	}
+
+	@Override
+	public Product findProductById(Long productId) {
+		return productRepository.findById(productId);
+	}
+	
+	@Override
+	public Product persist(Product product) {
+		if (product.getCreateDatetime() == null) {
+			product.setCreateDatetime(new Date());
+		}
+		
+		return productRepository.save(product);
+	}
+
+	@Override
+	public void deleteProduct(Product product) {
+		productRepository.delete(product);
+	}
+
+
+	
 
 }

@@ -6,4 +6,6 @@ import club.magicfun.aquila.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
+	Product findById(Long productId);
+	
 }

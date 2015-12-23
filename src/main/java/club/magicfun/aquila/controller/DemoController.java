@@ -20,11 +20,11 @@ import club.magicfun.aquila.model.RankSearchType;
 import club.magicfun.aquila.repository.JobRepository;
 import club.magicfun.aquila.repository.ProductRepository;
 import club.magicfun.aquila.repository.RankSearchKeywordRepository;
+import club.magicfun.aquila.service.ProductService;
 
 @Controller
 public class DemoController extends BaseController {
 
-	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(DemoController.class);
 
 	@Autowired
@@ -38,6 +38,9 @@ public class DemoController extends BaseController {
 	
 	@Autowired
 	private JobRepository jobRepository;
+	
+	@Autowired
+	private ProductService productService;
 	
 	
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
@@ -81,6 +84,20 @@ public class DemoController extends BaseController {
 		if (job != null) {
 			logger.info(job.getId() + " - " + job.getClassName() + " - " + job.getDescription());
 		}
+		
+		
+		Product product = productService.findProductById(123456l);
+		
+		if (product != null) {
+			logger.info("product 123456 exists, will delete it soon. ");
+			
+			productService.deleteProduct(product);
+			logger.info("product 123456 had been deleted. ");
+		}
+		
+		
+		
+		
 		
 		return "demo/index";
 	}
