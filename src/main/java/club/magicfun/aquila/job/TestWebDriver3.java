@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import club.magicfun.aquila.model.Category;
 import club.magicfun.aquila.model.Product;
 import club.magicfun.aquila.util.HtmlUtility;
 import club.magicfun.aquila.util.StringUtility;
@@ -109,6 +110,7 @@ public class TestWebDriver3 {
 			String monthSaleAmount = null;
 			String favouriteCount = null;
 			String shopName = null;
+			String productPrice = null;
 			
 			List<WebElement> categoryLinkElementList = null; 
 			
@@ -156,11 +158,14 @@ public class TestWebDriver3 {
 					favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//em[@class='J_FavCount']")).getText());
 					shopName = webDriver.findElement(By.xpath("//div[@class='tb-shop-name']//a")).getText();
 					
+					
 					if (containsCategoryFlag) {
 						
 						categoryLinkElementList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li/a"));
 						
 						for (WebElement categoryLinkElement : categoryLinkElementList) {
+							
+							Category category = new Category();
 							
 							String categoryName = null; 
 							String categoryPrice = null; 
@@ -185,10 +190,50 @@ public class TestWebDriver3 {
 							logger.info("categoryPrice = " + categoryPrice);
 							logger.info("categoryStockNumber = " + categoryStockNumber);
 							
+							category.setCategoryName(categoryName);
+							category.setCategoryPrice(new Double(categoryPrice));
+							category.setCategoryStockNumber(new Integer(categoryStockNumber));
+							
+							product.addProductCategory(category);
 						}
+					} else {
+						if (isPromotedFlag) {
+							productPrice = webDriver.findElement(By.id("J_PromoPriceNum")).getText();
+						} else {
+							productPrice = StringUtility.extractFirstFewDigits(webDriver.findElement(By.id("J_StrPrice")).getText());
+						}
+						
+						String defaultStockNumber = webDriver.findElement(By.id("J_SpanStock")).getText();
+						
+						Category defaultCategory = new Category();
+						defaultCategory.setCategoryName("默认款式");
+						defaultCategory.setCategoryPrice(new Double(productPrice));
+						defaultCategory.setCategoryStockNumber(new Integer(defaultStockNumber));
+						
+						product.addProductCategory(defaultCategory);
 					}
-				} catch (NoSuchElementException ex) {
+					
+					product.setProductId(productId);
+					product.setProductName(productName);
+					product.setMonthSaleAmount(new Integer(monthSaleAmount));
+					
+					if (!containsCategoryFlag) {
+						product.setProductPrice(new Double(productPrice));
+					} else {
+						product.setProductPrice(product.getMinCategoryPrice());
+					}
+					
+					product.setShopName(shopName);
+					
+					if (favouriteCount != null && favouriteCount.trim().length() > 0) {
+						product.setFavouriteCount(new Integer(favouriteCount));
+					} else {
+						product.setFavouriteCount(0);
+					}
+					
+				} catch (Exception ex) {
 					containsError = true; 
+					ex.printStackTrace();
 				}
 				
 			} else if (SHOP_TYPE_TMALL.equalsIgnoreCase(shopType)) {
@@ -228,8 +273,14 @@ public class TestWebDriver3 {
 			
 			logger.info("containsError: " + containsError);
 			
-			logger.info("---------------------");
 			
+			if (!containsError) {
+				product.setActiveFlag(true);
+				
+				// save product here
+			}
+			
+			logger.info("---------------------");
 		}
 		
         webDriver.close();  

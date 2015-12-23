@@ -136,5 +136,21 @@ public class Product {
 		category.setProduct(this);
 		this.getCategories().add(category);
 	}
+	
+	public Double getMinCategoryPrice() {
+		
+		Double minPrice = null;
+		
+		for (Category category : this.getCategories()) {
+			
+			if (minPrice == null) {
+				minPrice = category.getCategoryPrice(); 
+			} else if (category.getCategoryPrice() < minPrice) {
+				minPrice = category.getCategoryPrice(); 
+			}
+		}
+		
+		return minPrice; 
+	}
 
 }

@@ -106,14 +106,12 @@ public class DemoController extends BaseController {
 		newProduct.setActiveFlag(true);
 		
 		Category cat1 = new Category();
-		cat1.setProduct(newProduct);
 		cat1.setCategoryName("红色");
 		cat1.setCategoryPrice(10.1d);
 		cat1.setCategoryStockNumber(100);
 		newProduct.addProductCategory(cat1);
 		
 		Category cat2 = new Category();
-		cat1.setProduct(newProduct);
 		cat2.setCategoryName("绿色");
 		cat2.setCategoryPrice(15.1d);
 		cat2.setCategoryStockNumber(200);
