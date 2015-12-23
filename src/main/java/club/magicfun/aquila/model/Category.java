@@ -20,7 +20,7 @@ public class Category {
 	private Integer id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id")
+	@JoinColumn(name = "product_table_id")
 	private Product product;
 	
 	@Column(name = "category_name")

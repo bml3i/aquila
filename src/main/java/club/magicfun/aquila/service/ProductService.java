@@ -13,7 +13,7 @@ public interface ProductService {
 	
 	void deleteProductSearchQueue(Integer productSearchQueueId);
 	
-	Product findProductById(Long productId);
+	Product findProductByProductId(Long productId);
 	
 	Product persist(Product product);
 	

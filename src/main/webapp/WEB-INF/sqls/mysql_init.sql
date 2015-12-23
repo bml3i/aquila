@@ -82,7 +82,8 @@ insert into users (userid, password, name, email, group_id, active_flg, create_d
 
 /* 5. products */
 create table products (
-	id bigint not null,
+	id int not null auto_increment,
+	product_id bigint not null,
 	product_name varchar(64) not null,
 	month_sale_amount int not null,
 	product_price decimal(8,2) not null,
@@ -93,23 +94,23 @@ create table products (
 	primary key (id)
 );
 
-insert into products (id, product_name, month_sale_amount, product_price, fav_count, shop_name, active_flg, create_datetime) values (123456, '测试宝贝', 1200, 11.5, 101, '测试商店', true, '2015-10-01 00:00:00');
+insert into products (product_id, product_name, month_sale_amount, product_price, fav_count, shop_name, active_flg, create_datetime) values (123456, '测试宝贝', 1200, 11.5, 101, '测试商店', true, '2015-10-01 00:00:00');
 
 /* 6. categories */
 create table categories (
 	id int not null auto_increment,
-	product_id bigint not null,
+	product_table_id int not null,
 	category_name varchar(32) not null,
 	category_price decimal(8,2) not null, 
 	category_stock_number int not null,
 	primary key (id),
-	foreign key (product_id) references products (id)
+	foreign key (product_table_id) references products (id)
 );
 
-insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '白色款', 10.10, 100);
-insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '黑色款', 12.00, 100);
-insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '红色款', 25.00, 100);
-insert into categories (product_id, category_name, category_price, category_stock_number) values (123456, '蓝色款', 30.00, 100);
+insert into categories (product_table_id, category_name, category_price, category_stock_number) values (1, '白色款', 10.10, 100);
+insert into categories (product_table_id, category_name, category_price, category_stock_number) values (1, '黑色款', 12.00, 100);
+insert into categories (product_table_id, category_name, category_price, category_stock_number) values (1, '红色款', 25.00, 100);
+insert into categories (product_table_id, category_name, category_price, category_stock_number) values (1, '蓝色款', 30.00, 100);
 
 
 /* 7. rank_search_keywords */

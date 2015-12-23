@@ -1,5 +1,6 @@
 package club.magicfun.aquila.controller;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -86,7 +87,7 @@ public class DemoController extends BaseController {
 		}
 		
 		
-		Product product = productService.findProductById(123456l);
+		Product product = productService.findProductByProductId(123456l);
 		
 		if (product != null) {
 			logger.info("product 123456 exists, will delete it soon. ");
@@ -95,9 +96,31 @@ public class DemoController extends BaseController {
 			logger.info("product 123456 had been deleted. ");
 		}
 		
+		Product newProduct = new Product();
+		newProduct.setProductId(123456l);
+		newProduct.setProductName("测试商品");
+		newProduct.setMonthSaleAmount(1000);
+		newProduct.setProductPrice(3.95d);
+		newProduct.setShopName("MY SHOP");
+		newProduct.setFavouriteCount(601);
+		newProduct.setActiveFlag(true);
 		
+		Category cat1 = new Category();
+		cat1.setProduct(newProduct);
+		cat1.setCategoryName("红色");
+		cat1.setCategoryPrice(10.1d);
+		cat1.setCategoryStockNumber(100);
+		newProduct.addProductCategory(cat1);
 		
+		Category cat2 = new Category();
+		cat1.setProduct(newProduct);
+		cat2.setCategoryName("绿色");
+		cat2.setCategoryPrice(15.1d);
+		cat2.setCategoryStockNumber(200);
+		newProduct.addProductCategory(cat2);
 		
+		productService.persist(newProduct);
+		logger.info("newProduct had been saved.");
 		
 		return "demo/index";
 	}

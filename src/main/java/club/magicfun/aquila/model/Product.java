@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -18,9 +20,13 @@ import javax.persistence.Table;
 public class Product {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
-	private Long id;
+	private Integer id;
 
+	@Column(name = "product_id")
+	private Long productId;
+	
 	@Column(name = "product_name")
 	private String productName;
 	
@@ -32,6 +38,9 @@ public class Product {
 	
 	@Column(name = "shop_name")
 	private String shopName;
+	
+	@Column(name = "fav_count")
+	private Integer favouriteCount;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "product")
 	@OrderBy("id ASC")
@@ -43,11 +52,11 @@ public class Product {
 	@Column(name = "create_datetime")
 	private Date createDatetime;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -106,5 +115,26 @@ public class Product {
 	public void setCreateDatetime(Date createDatetime) {
 		this.createDatetime = createDatetime;
 	}
+
+	public Integer getFavouriteCount() {
+		return favouriteCount;
+	}
+
+	public void setFavouriteCount(Integer favouriteCount) {
+		this.favouriteCount = favouriteCount;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
 	
+	public void addProductCategory(Category category) {
+		category.setProduct(this);
+		this.getCategories().add(category);
+	}
+
 }
