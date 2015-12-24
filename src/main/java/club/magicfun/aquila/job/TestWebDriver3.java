@@ -71,6 +71,14 @@ public class TestWebDriver3 {
 			38403988528
 
 		tmall:
+		
+		http://item.taobao.com/item.htm?id=5968030997
+		http://item.taobao.com/item.htm?id=523767556371
+		http://item.taobao.com/item.htm?id=524740490317
+		http://item.taobao.com/item.htm?id=521299241246
+		http://item.taobao.com/item.htm?id=520878856645
+		http://item.taobao.com/item.htm?id=520878856645
+		
 			1) promote, category, picture
 			5968030997
 			
@@ -87,7 +95,7 @@ public class TestWebDriver3 {
 			520878856645
 			
 			6) no promote, category, picture
-			45855398633
+			520878856645
 		*/
 
 		List<Long> productIds = new ArrayList<Long>();
@@ -96,7 +104,14 @@ public class TestWebDriver3 {
 //		productIds.add(41129702139l);
 //		productIds.add(1771185060l);
 //		productIds.add(37833049213l);
-		productIds.add(38403988528l);
+//		productIds.add(38403988528l);
+		
+		productIds.add(5968030997l);
+		productIds.add(523767556371l);
+		productIds.add(524740490317l);
+		productIds.add(521299241246l);
+		productIds.add(520878856645l);
+		productIds.add(45855398633l);
 		
 		for (Long productId : productIds) {
 			
