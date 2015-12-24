@@ -66,6 +66,11 @@ public class ProductServiceImpl implements ProductService {
 		productRepository.delete(productTableId); 
 	}
 
+	@Override
+	public List<ProductSearchQueue> findProductSearchQueuesByMaxRetryCount(Integer maxRetryCount) {
+		return productSearchQueueRepository.findByMaxRetryCount(maxRetryCount);
+	}
+
 
 	
 

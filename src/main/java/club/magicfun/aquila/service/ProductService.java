@@ -9,6 +9,8 @@ public interface ProductService {
 
 	List<ProductSearchQueue> findAllProductSearchQueues();
 	
+	List<ProductSearchQueue> findProductSearchQueuesByMaxRetryCount(Integer maxRetryCount);
+	
 	ProductSearchQueue persist(ProductSearchQueue productSearchQueue);
 	
 	void deleteProductSearchQueue(Integer productSearchQueueId);
