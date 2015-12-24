@@ -193,8 +193,10 @@ create table product_search_queue (
 	primary key (id)
 );
 
-insert into product_search_queue (product_id, create_datetime) values (21429655813, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, create_datetime) values (37802140119, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, create_datetime) values (44860074108, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, create_datetime) values (520680685488, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, create_datetime) values (44057413538, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, create_datetime) values (42453456250, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, create_datetime) values (41129702139, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, create_datetime) values (1771185060, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, create_datetime) values (37833049213, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, create_datetime) values (38403988528, '2015-12-01 00:00:00');
 

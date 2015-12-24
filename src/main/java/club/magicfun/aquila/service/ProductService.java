@@ -19,4 +19,6 @@ public interface ProductService {
 	
 	void deleteProduct(Product product);
 	
+	void deleteProduct(Integer productTableId);
+	
 }

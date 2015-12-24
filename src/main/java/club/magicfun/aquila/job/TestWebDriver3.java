@@ -91,11 +91,11 @@ public class TestWebDriver3 {
 		*/
 
 		List<Long> productIds = new ArrayList<Long>();
-		productIds.add(44057413538l);
-		productIds.add(42453456250l);
-		productIds.add(41129702139l);
+//		productIds.add(44057413538l);
+//		productIds.add(42453456250l);
+//		productIds.add(41129702139l);
 		productIds.add(1771185060l);
-		productIds.add(37833049213l);
+//		productIds.add(37833049213l);
 		productIds.add(38403988528l);
 		
 		for (Long productId : productIds) {

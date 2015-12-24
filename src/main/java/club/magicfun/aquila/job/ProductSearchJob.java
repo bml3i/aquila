@@ -3,6 +3,7 @@ package club.magicfun.aquila.job;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,10 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import club.magicfun.aquila.model.Category;
 import club.magicfun.aquila.model.Job;
+import club.magicfun.aquila.model.Product;
 import club.magicfun.aquila.model.ProductSearchQueue;
 import club.magicfun.aquila.service.ProductService;
 import club.magicfun.aquila.service.ScheduleService;
+import club.magicfun.aquila.util.HtmlUtility;
 import club.magicfun.aquila.util.StringUtility;
 
 @Component
@@ -61,8 +65,30 @@ public class ProductSearchJob {
 				
 				for (ProductSearchQueue productSearchQueue : productSearchQueues) {
 					
-					String shopType = null; 
+					boolean containsError = false; 
+					
+					String shopType = null;
+					boolean containsCategoryFlag = false; 
+					boolean isPromotedFlag = false; 
+					
 					String productName = null;
+					String monthSaleAmount = null;
+					String favouriteCount = null;
+					String shopName = null;
+					String productPrice = null;
+					
+					List<WebElement> categoryLinkElementList = null; 
+					
+					// Delete existing product if it exits.
+					Product existProduct = productService.findProductByProductId(productSearchQueue.getProductId());
+					
+					if(existProduct != null) {
+						logger.info("Deleting Product Id: " + productSearchQueue.getProductId());
+						
+						productService.deleteProduct(existProduct);
+					}
+					
+					Product product = new Product();
 					
 					
 					logger.info("Dealing with Product Id: " + productSearchQueue.getProductId());
@@ -81,20 +107,158 @@ public class ProductSearchJob {
 					
 					logger.info("shop type = " + shopType);
 					
-					// get product name
-					
 					if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(shopType)) {
-						productName = webDriver.findElement(By.xpath("//div[@id='J_Title']/h3[@class='tb-main-title']")).getText();
+						try{
+							if (webDriver.findElement(By.xpath("//div[@class='tb-skin']/dl/dt")).getText().equals("颜色分类")) {
+								containsCategoryFlag = true; 
+							}
+						} catch (NoSuchElementException ex) {
+							// do nothing here
+						}
+						
+						try{
+							if (webDriver.findElement(By.xpath("//*[@id='J_PromoPriceNum']")).getText().length() > 0) {
+								isPromotedFlag = true; 
+							}
+						} catch (NoSuchElementException ex) {
+							// do nothing here
+						}
+						
+						try{
+							productName = webDriver.findElement(By.xpath("//div[@id='J_Title']/h3[@class='tb-main-title']")).getText().trim();
+							monthSaleAmount = webDriver.findElement(By.xpath("//em[@class='J_TDealCount']")).getText();
+							favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//em[@class='J_FavCount']")).getText());
+							shopName = webDriver.findElement(By.xpath("//div[@class='tb-shop-name']//a")).getText();
+							
+							
+							if (containsCategoryFlag) {
+								
+								categoryLinkElementList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li/a"));
+								
+								for (WebElement categoryLinkElement : categoryLinkElementList) {
+									
+									Category category = new Category();
+									
+									String categoryName = null; 
+									String categoryPrice = null; 
+									String categoryStockNumber = null; 
+									
+									// simulate choosing a color category
+									categoryLinkElement.click();
+									
+									WebElement selectedCategoryLi = webDriver.findElement(By.xpath("//*[@data-property='颜色分类']/li[contains(concat(' ', normalize-space(@class), ' '), ' tb-selected ')]"));
+									
+									categoryName = selectedCategoryLi.findElements(By.cssSelector("a > span")).get(0).getAttribute("innerHTML");
+						        	
+									if (isPromotedFlag) {
+										categoryPrice = webDriver.findElement(By.id("J_PromoPriceNum")).getText();
+									} else {
+										categoryPrice = StringUtility.extractFirstFewDigits(webDriver.findElement(By.id("J_StrPrice")).getText());
+									}
+									
+									categoryStockNumber = webDriver.findElement(By.id("J_SpanStock")).getText();
+									
+									/*
+									logger.info("categoryName = " + categoryName);
+									logger.info("categoryPrice = " + categoryPrice);
+									logger.info("categoryStockNumber = " + categoryStockNumber);
+									*/
+									
+									category.setCategoryName(categoryName);
+									category.setCategoryPrice(new Double(categoryPrice));
+									category.setCategoryStockNumber(new Integer(categoryStockNumber));
+									
+									product.addProductCategory(category);
+								}
+							} else {
+								if (isPromotedFlag) {
+									productPrice = webDriver.findElement(By.id("J_PromoPriceNum")).getText();
+								} else {
+									productPrice = StringUtility.extractFirstFewDigits(webDriver.findElement(By.id("J_StrPrice")).getText());
+								}
+								
+								String defaultStockNumber = webDriver.findElement(By.id("J_SpanStock")).getText();
+								
+								Category defaultCategory = new Category();
+								defaultCategory.setCategoryName("默认款式");
+								defaultCategory.setCategoryPrice(new Double(productPrice));
+								defaultCategory.setCategoryStockNumber(new Integer(defaultStockNumber));
+								
+								product.addProductCategory(defaultCategory);
+							}
+							
+							product.setProductId(productSearchQueue.getProductId());
+							product.setProductName(productName);
+							product.setMonthSaleAmount(new Integer(monthSaleAmount));
+							
+							if (!containsCategoryFlag) {
+								product.setProductPrice(new Double(productPrice));
+							} else {
+								product.setProductPrice(product.getMinCategoryPrice());
+							}
+							
+							product.setShopName(shopName);
+							
+							if (favouriteCount != null && favouriteCount.trim().length() > 0) {
+								product.setFavouriteCount(new Integer(favouriteCount));
+							} else {
+								product.setFavouriteCount(0);
+							}
+							
+						} catch (Exception ex) {
+							containsError = true; 
+							ex.printStackTrace();
+						}
+						
 					} else if (SHOP_TYPE_TMALL.equalsIgnoreCase(shopType)) {
-						productName = webDriver.findElement(By.xpath("//div[@class='tb-detail-hd']/h1")).getText();
+						try{
+							if (webDriver.findElement(By.xpath("//div[@class='tb-sku']/dl/dt")).getText().equals("颜色分类")) {
+								containsCategoryFlag = true; 
+							}
+						} catch (NoSuchElementException ex) {
+							// do nothing here
+						}
+						
+						try{
+							if (webDriver.findElement(By.xpath("//*[@id='J_PromoPrice']")).getText().length() > 0) {
+								isPromotedFlag = true; 
+							}
+						} catch (NoSuchElementException ex) {
+							// do nothing here
+						}
+						
+						try{
+							productName = webDriver.findElement(By.xpath("//div[@class='tb-detail-hd']/h1")).getText().trim();
+							monthSaleAmount = webDriver.findElement(By.xpath("//div[@class='tm-indcon']/span[@class='tm-count']")).getText();
+							favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//span[@id='J_CollectCount']")).getText());
+							shopName = HtmlUtility.removeHtmlTags(webDriver.findElement(By.xpath("//a[@class='slogo-shopname']")).getText());
+						} catch (NoSuchElementException ex) {
+							containsError = true; 
+						}
 					}
 					
+					/*
+					logger.info("containsCategoryFlag = " + containsCategoryFlag);
+					logger.info("isPromotedFlag: " + isPromotedFlag);
+					
 					logger.info("productName: " + productName);
+					logger.info("monthSaleAmount: " + monthSaleAmount);
+					logger.info("favouriteCount: " + favouriteCount);
+					logger.info("shopName: " + shopName);
+					
+					logger.info("containsError: " + containsError);
+					*/
 					
 					
-					
-					// remove from product search queue
-					//productService.deleteProductSearchQueue(productSearchQueue.getId());
+					if (!containsError) {
+						product.setActiveFlag(true);
+						
+						product = productService.persist(product);
+						logger.info("product " + product.getId() + " had been saved. ");
+						
+						productService.deleteProductSearchQueue(productSearchQueue.getId());
+						logger.info("productSearchQueue " + productSearchQueue.getId() + " had been cleared. ");
+					}
 					
 				}
 				
