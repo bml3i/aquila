@@ -55,7 +55,7 @@ public class ProductSearchJob {
 			job = scheduleService.startJob(job);
 			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 			
-			List<ProductSearchQueue> productSearchQueues = productService.findProductSearchQueuesByMaxRetryCount(3);
+			List<ProductSearchQueue> productSearchQueues = productService.findProductSearchQueuesByMaxRetryCount(2);
 			
 			if (productSearchQueues != null) {
 				
