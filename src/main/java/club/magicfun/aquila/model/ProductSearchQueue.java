@@ -21,6 +21,8 @@ public class ProductSearchQueue {
 	@Column(name = "product_id")
 	private Long productId;
 	
+	@Column(name = "retry_cnt")
+	private Integer retryCount;
 	
 	@Column(name = "create_datetime")
 	private Date createDatetime;
@@ -48,6 +50,13 @@ public class ProductSearchQueue {
 	public void setCreateDatetime(Date createDatetime) {
 		this.createDatetime = createDatetime;
 	}
-	
+
+	public Integer getRetryCount() {
+		return retryCount;
+	}
+
+	public void setRetryCount(Integer retryCount) {
+		this.retryCount = retryCount;
+	}
 	
 }

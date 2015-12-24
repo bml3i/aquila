@@ -257,10 +257,15 @@ public class ProductSearchJob {
 						product.setActiveFlag(true);
 						
 						product = productService.persist(product);
-						logger.info("product " + product.getId() + " had been saved. ");
+						logger.info("product " + product.getProductId() + " had been saved. ");
 						
 						productService.deleteProductSearchQueue(productSearchQueue.getId());
 						logger.info("productSearchQueue " + productSearchQueue.getId() + " had been cleared. ");
+					} else {
+						logger.info("Failed to save product " + product.getProductId() + ".");
+						
+						productSearchQueue.setRetryCount(productSearchQueue.getRetryCount() + 1);
+						productService.persist(productSearchQueue);
 					}
 					
 				}

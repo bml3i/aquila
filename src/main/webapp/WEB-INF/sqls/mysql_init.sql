@@ -189,14 +189,15 @@ create table rank_search_hist (
 create table product_search_queue (
 	id int not null auto_increment, 
 	product_id bigint not null,
+	retry_cnt smallint default 0 not null,
 	create_datetime timestamp null,
 	primary key (id)
 );
 
-insert into product_search_queue (product_id, create_datetime) values (44057413538, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, create_datetime) values (42453456250, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, create_datetime) values (41129702139, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, create_datetime) values (1771185060, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, create_datetime) values (37833049213, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, create_datetime) values (38403988528, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (44057413538, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (42453456250, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (41129702139, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (1771185060, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (37833049213, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (38403988528, 0, '2015-12-01 00:00:00');
 
