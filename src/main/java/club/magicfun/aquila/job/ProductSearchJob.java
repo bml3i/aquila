@@ -57,7 +57,7 @@ public class ProductSearchJob {
 			
 			List<ProductSearchQueue> productSearchQueues = productService.findProductSearchQueuesByMaxRetryCount(2);
 			
-			if (productSearchQueues != null) {
+			if (productSearchQueues != null && productSearchQueues.size() > 0) {
 				
 				logger.info("Product Search queue size = " + productSearchQueues.size());
 				
