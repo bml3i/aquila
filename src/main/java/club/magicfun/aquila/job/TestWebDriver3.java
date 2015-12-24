@@ -94,7 +94,7 @@ public class TestWebDriver3 {
 //		productIds.add(44057413538l);
 //		productIds.add(42453456250l);
 //		productIds.add(41129702139l);
-		productIds.add(1771185060l);
+//		productIds.add(1771185060l);
 //		productIds.add(37833049213l);
 		productIds.add(38403988528l);
 		
@@ -172,7 +172,10 @@ public class TestWebDriver3 {
 							String categoryStockNumber = null; 
 							
 							// simulate choosing a color category
-							categoryLinkElement.click();
+							// do not click if there is only one category, as it should have been selected by default. 
+							if (categoryLinkElementList.size() >= 2) {
+								categoryLinkElement.click();	
+							}
 							
 							WebElement selectedCategoryLi = webDriver.findElement(By.xpath("//*[@data-property='颜色分类']/li[contains(concat(' ', normalize-space(@class), ' '), ' tb-selected ')]"));
 							

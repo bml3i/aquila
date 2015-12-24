@@ -144,7 +144,10 @@ public class ProductSearchJob {
 									String categoryStockNumber = null; 
 									
 									// simulate choosing a color category
-									categoryLinkElement.click();
+									// do not click if there is only one category, as it should have been selected by default. 
+									if (categoryLinkElementList.size() >= 2) {
+										categoryLinkElement.click();	
+									}
 									
 									WebElement selectedCategoryLi = webDriver.findElement(By.xpath("//*[@data-property='颜色分类']/li[contains(concat(' ', normalize-space(@class), ' '), ' tb-selected ')]"));
 									
