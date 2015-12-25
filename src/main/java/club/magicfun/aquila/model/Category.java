@@ -71,5 +71,11 @@ public class Category {
 	public void setCategoryStockNumber(Integer categoryStockNumber) {
 		this.categoryStockNumber = categoryStockNumber;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", categoryName=" + categoryName + ", categoryPrice=" + categoryPrice
+				+ ", categoryStockNumber=" + categoryStockNumber + "]";
+	}
+
 }

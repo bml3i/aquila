@@ -279,7 +279,9 @@ public class TestWebDriver3 {
 					
 					if (containsCategoryFlag) {
 						
-						categoryLinkElementList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li[@class='tb-txt']/a"));
+						categoryLinkElementList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li[not(contains(concat(' ', normalize-space(@class), ' '), ' tb-out-of-stock '))]/a"));
+						
+						System.out.println("categoryLinkElementList size: " + categoryLinkElementList.size());
 						
 						for (WebElement categoryLinkElement : categoryLinkElementList) {
 							
@@ -290,10 +292,7 @@ public class TestWebDriver3 {
 							String categoryStockNumber = null; 
 							
 							// simulate choosing a color category
-							// test
-							if (categoryLinkElementList.size() >= 2) {
-								categoryLinkElement.click();
-							}
+							categoryLinkElement.click();
 							
 							WebElement selectedCategoryLi = webDriver.findElement(By.xpath("//*[@data-property='颜色分类']/li[contains(concat(' ', normalize-space(@class), ' '), ' tb-selected ')]"));
 							
@@ -321,6 +320,8 @@ public class TestWebDriver3 {
 							
 							category.setCategoryStockNumber(new Integer(categoryStockNumber));
 							
+							logger.info("category: " + category.toString()); 
+							
 							product.addProductCategory(category);
 						}
 					} else {
@@ -342,6 +343,8 @@ public class TestWebDriver3 {
 						}
 						
 						defaultCategory.setCategoryStockNumber(new Integer(defaultStockNumber));
+						
+						logger.info("defaultCategory: " + defaultCategory.toString()); 
 						
 						product.addProductCategory(defaultCategory);
 					}
@@ -384,6 +387,7 @@ public class TestWebDriver3 {
 				product.setActiveFlag(true);
 				
 				// save product here
+				logger.info("[product] - " + product.toString());
 			}
 			
 			logger.info("---------------------");

@@ -238,7 +238,7 @@ public class ProductSearchJob {
 							
 							if (containsCategoryFlag) {
 								
-								categoryLinkElementList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li[@class='tb-txt']/a"));
+								categoryLinkElementList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li[not(contains(concat(' ', normalize-space(@class), ' '), ' tb-out-of-stock '))]/a"));
 								
 								for (WebElement categoryLinkElement : categoryLinkElementList) {
 									
@@ -249,10 +249,9 @@ public class ProductSearchJob {
 									String categoryStockNumber = null; 
 									
 									// simulate choosing a color category
-									// do not click if there is only one category, as it should have been selected by default. 
-									if (categoryLinkElementList.size() >= 2) {
+									//if (categoryLinkElementList.size() >= 2) {
 										categoryLinkElement.click();
-									}
+									//}
 									
 									WebElement selectedCategoryLi = webDriver.findElement(By.xpath("//*[@data-property='颜色分类']/li[contains(concat(' ', normalize-space(@class), ' '), ' tb-selected ')]"));
 									
@@ -346,7 +345,10 @@ public class ProductSearchJob {
 					if (!containsError) {
 						product.setActiveFlag(true);
 						
+						logger.info("[product] - " + product.toString());
+						
 						product = productService.persist(product);
+						
 						logger.info("product " + product.getProductId() + " had been saved. ");
 						
 						productService.deleteProductSearchQueue(productSearchQueue.getId());

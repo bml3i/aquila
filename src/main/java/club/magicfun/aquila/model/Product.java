@@ -153,4 +153,14 @@ public class Product {
 		return minPrice; 
 	}
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", productId=" + productId + ", productName=" + productName + ", monthSaleAmount="
+				+ monthSaleAmount + ", productPrice=" + productPrice + ", shopName=" + shopName + ", favouriteCount="
+				+ favouriteCount + ", categories=" + categories + ", activeFlag=" + activeFlag + ", createDatetime="
+				+ createDatetime + "]";
+	}
+	
+	
+
 }
