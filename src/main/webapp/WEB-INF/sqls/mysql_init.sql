@@ -194,10 +194,19 @@ create table product_search_queue (
 	primary key (id)
 );
 
+-- TAOBAO
 insert into product_search_queue (product_id, retry_cnt, create_datetime) values (44057413538, 0, '2015-12-01 00:00:00');
 insert into product_search_queue (product_id, retry_cnt, create_datetime) values (42453456250, 0, '2015-12-01 00:00:00');
 insert into product_search_queue (product_id, retry_cnt, create_datetime) values (41129702139, 0, '2015-12-01 00:00:00');
 insert into product_search_queue (product_id, retry_cnt, create_datetime) values (1771185060, 0, '2015-12-01 00:00:00');
 insert into product_search_queue (product_id, retry_cnt, create_datetime) values (37833049213, 0, '2015-12-01 00:00:00');
 insert into product_search_queue (product_id, retry_cnt, create_datetime) values (38403988528, 0, '2015-12-01 00:00:00');
+
+-- TMALL
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (5968030997, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (523767556371, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (524740490317, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (521299241246, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (520878856645, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, retry_cnt, create_datetime) values (45855398633, 0, '2015-12-01 00:00:00');
 

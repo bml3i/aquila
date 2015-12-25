@@ -235,6 +235,96 @@ public class ProductSearchJob {
 							monthSaleAmount = webDriver.findElement(By.xpath("//div[@class='tm-indcon']/span[@class='tm-count']")).getText();
 							favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//span[@id='J_CollectCount']")).getText());
 							shopName = HtmlUtility.removeHtmlTags(webDriver.findElement(By.xpath("//a[@class='slogo-shopname']")).getText());
+							
+							if (containsCategoryFlag) {
+								
+								categoryLinkElementList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li[@class='tb-txt']/a"));
+								
+								for (WebElement categoryLinkElement : categoryLinkElementList) {
+									
+									Category category = new Category();
+									
+									String categoryName = null; 
+									String categoryPrice = null; 
+									String categoryStockNumber = null; 
+									
+									// simulate choosing a color category
+									// do not click if there is only one category, as it should have been selected by default. 
+									if (categoryLinkElementList.size() >= 2) {
+										categoryLinkElement.click();
+									}
+									
+									WebElement selectedCategoryLi = webDriver.findElement(By.xpath("//*[@data-property='颜色分类']/li[contains(concat(' ', normalize-space(@class), ' '), ' tb-selected ')]"));
+									
+									categoryName = selectedCategoryLi.findElements(By.cssSelector("a > span")).get(0).getAttribute("innerHTML");
+						        	
+									if (isPromotedFlag) {
+										categoryPrice = StringUtility.extractFirstFewDigits(HtmlUtility.removeHtmlTags(webDriver.findElement(By.id("J_PromoPrice")).getText()));
+									} else {
+										categoryPrice = StringUtility.extractFirstFewDigits(HtmlUtility.removeHtmlTags(webDriver.findElement(By.id("J_StrPriceModBox")).getText()));
+									}
+									
+									categoryStockNumber = StringUtility.extractFirstFewDigits(webDriver.findElement(By.id("J_EmStock")).getText());
+									
+									/*
+									logger.info("categoryName = " + categoryName);
+									logger.info("categoryPrice = " + categoryPrice);
+									logger.info("categoryStockNumber = " + categoryStockNumber);
+									*/
+									
+									category.setCategoryName(categoryName);
+									
+									if (categoryPrice != null && categoryPrice.length() > 0) {
+										category.setCategoryPrice(new Double(categoryPrice));	
+									} else {
+										category.setCategoryPrice(0d);
+									}
+									
+									category.setCategoryStockNumber(new Integer(categoryStockNumber));
+									
+									product.addProductCategory(category);
+								}
+							} else {
+								if (isPromotedFlag) {
+									productPrice = StringUtility.extractFirstFewDigits(HtmlUtility.removeHtmlTags(webDriver.findElement(By.id("J_PromoPrice")).getText()));
+								} else {
+									productPrice = StringUtility.extractFirstFewDigits(HtmlUtility.removeHtmlTags(webDriver.findElement(By.id("J_StrPriceModBox")).getText()));
+								}
+								
+								String defaultStockNumber = StringUtility.extractFirstFewDigits(webDriver.findElement(By.id("J_EmStock")).getText());
+								
+								Category defaultCategory = new Category();
+								defaultCategory.setCategoryName("默认款式");
+								
+								if (productPrice != null && productPrice.length() > 0) {
+									defaultCategory.setCategoryPrice(new Double(productPrice));
+								} else {
+									defaultCategory.setCategoryPrice(0d);
+								}
+								
+								defaultCategory.setCategoryStockNumber(new Integer(defaultStockNumber));
+								
+								product.addProductCategory(defaultCategory);
+							}
+							
+							product.setProductId(productSearchQueue.getProductId());
+							product.setProductName(productName);
+							product.setMonthSaleAmount(new Integer(monthSaleAmount));
+							
+							if (!containsCategoryFlag) {
+								product.setProductPrice(new Double(productPrice));
+							} else {
+								product.setProductPrice(product.getMinCategoryPrice());
+							}
+							
+							product.setShopName(shopName);
+							
+							if (favouriteCount != null && favouriteCount.trim().length() > 0) {
+								product.setFavouriteCount(new Integer(favouriteCount));
+							} else {
+								product.setFavouriteCount(0);
+							}
+							
 						} catch (NoSuchElementException ex) {
 							containsError = true; 
 						}
