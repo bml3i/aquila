@@ -43,6 +43,8 @@ public class TestWebDriver4 {
 		Long productId = 522818128551l;
 		
 		WebDriver webDriver = new ChromeDriver();
+		
+		webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); 
         
 		String url = PRODUCT_CATEGORY_URL_TEMPLATE.replaceFirst("\\{PRODUCTID\\}", productId.toString());
 		
@@ -65,11 +67,8 @@ public class TestWebDriver4 {
 	        
 	        dealCountButton.click();
 	        
-	        webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); 
-	        
 	        int targetPageIndex = 1; 
 	        int currentPageIndex = 1; 
-	        boolean nextPageNotFoundFlag = false; 
 	        
 	        while (targetPageIndex <= 1000) {
 	        	
@@ -82,18 +81,17 @@ public class TestWebDriver4 {
 	        		
 	        		try {
 	        			nextPageLink = webDriver.findElement(By.xpath("//div[@id='deal-record']/div[@class='tb-pagination']//a[@class='J_TAjaxTrigger page-next']"));
-	        			
-	        			logger.info("nextPageLink location: " + nextPageLink.getLocation());
-		        		logger.info("nextPageLink: " + nextPageLink.getText());
-		        		
 		        		nextPageLink.click();
-						Thread.sleep(1000l);
+		        		
+		        		// wait for 1 second
+						try {
+							Thread.sleep(1000l);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 	        			
 	        		} catch (NoSuchElementException ex) {
-						nextPageNotFoundFlag = true; 
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					} 
 	        	}
 	        	
 	        	currentPageIndex = Integer.parseInt(webDriver.findElement(By.xpath("//div[@id='deal-record']/div[@class='tb-pagination']//span[@class='page-cur']")).getAttribute("page"));
@@ -105,30 +103,19 @@ public class TestWebDriver4 {
 	        		break;
 	        	}
 	        	
-	        	logger.info("currentPageIndex: " + currentPageIndex);
-	        	
 	        	List<WebElement> dealRecordElements = webDriver.findElements(By.xpath("//div[@id='deal-record']/table/tbody/tr[not(@class='tb-change-info')]"));
 		        
 		        for (WebElement dealRecord : dealRecordElements) {
-//		        	logger.info("date: " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim());
-//		        	logger.info("amount: " + dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
-//		        	logger.info("sku: " + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText());
-					logger.info(">>> " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim()
-							+ "|" + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText() + "|"
-							+ dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
-		        }
-		        
-		        if (nextPageNotFoundFlag) {
-		        	logger.info("This is the last page, and the next page is not found.");
-		        	break; 
+		        	String dealDateTime = dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim();
+		        	String dealAmount = dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim();
+		        	String dealSku = dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText().replaceAll("颜色分类:", "");
+					
+		        	logger.info(">>> " + dealDateTime + "|" + dealAmount + "|" + dealSku);
 		        }
 		        
 		        targetPageIndex++; 
 		        
 	        }
-	        
-	        
-	        
 	        
 		} else if (SHOP_TYPE_TMALL.equalsIgnoreCase(shopType)) {
 			// TODO
