@@ -107,18 +107,15 @@ public class TestWebDriver4 {
 	        	
 	        	logger.info("currentPageIndex: " + currentPageIndex);
 	        	
-	        	List<WebElement> dealRecordElements = webDriver.findElements(By.xpath("//div[@id='deal-record']/table/tbody/tr"));
+	        	List<WebElement> dealRecordElements = webDriver.findElements(By.xpath("//div[@id='deal-record']/table/tbody/tr[not(@class='tb-change-info')]"));
 		        
 		        for (WebElement dealRecord : dealRecordElements) {
 //		        	logger.info("date: " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim());
 //		        	logger.info("amount: " + dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
 //		        	logger.info("sku: " + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText());
-		        	try {
-						logger.info(">>> " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim()
-								+ "|" + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText() + "|"
-								+ dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
-		        	} catch (NoSuchElementException ex) {
-					}
+					logger.info(">>> " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim()
+							+ "|" + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText() + "|"
+							+ dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
 		        }
 		        
 		        if (nextPageNotFoundFlag) {
