@@ -23,6 +23,10 @@ public class TestWebDriver4 {
 	private static final String SHOP_TYPE_TMALL = "tmall";
 	private static final String SHOP_TYPE_TAOBAO = "taobao";
 	
+	public static final int MAX_EXTRACT_PAGE_COUNT = 1000; 
+	
+	public static final long SLEEP_TIME = 1000l; 
+	
 	public static void main(String[] args) {
 
 		String dir = System.getProperty("user.dir");
@@ -40,7 +44,8 @@ public class TestWebDriver4 {
 		// variables
 		String shopType = null;
 		
-		Long productId = 522818128551l;
+		//Long productId = 522818128551l; //taobao
+		Long productId = 19916201091l; //tmall
 		
 		WebDriver webDriver = new ChromeDriver();
 		
@@ -60,7 +65,6 @@ public class TestWebDriver4 {
 		
 		logger.info("shop type = " + shopType);
         
-        
 		if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(shopType)) {
         
 	        WebElement dealCountButton = webDriver.findElement(By.xpath("//a[@shortcut-label='查看成交记录查看成交记录']"));
@@ -70,7 +74,7 @@ public class TestWebDriver4 {
 	        int targetPageIndex = 1; 
 	        int currentPageIndex = 1; 
 	        
-	        while (targetPageIndex <= 1000) {
+	        while (targetPageIndex <= MAX_EXTRACT_PAGE_COUNT) {
 	        	
 	        	logger.info("targetPageIndex: " + targetPageIndex);
 	        	
@@ -83,9 +87,8 @@ public class TestWebDriver4 {
 	        			nextPageLink = webDriver.findElement(By.xpath("//div[@id='deal-record']/div[@class='tb-pagination']//a[@class='J_TAjaxTrigger page-next']"));
 		        		nextPageLink.click();
 		        		
-		        		// wait for 1 second
 						try {
-							Thread.sleep(1000l);
+							Thread.sleep(SLEEP_TIME);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -114,7 +117,6 @@ public class TestWebDriver4 {
 		        }
 		        
 		        targetPageIndex++; 
-		        
 	        }
 	        
 		} else if (SHOP_TYPE_TMALL.equalsIgnoreCase(shopType)) {
