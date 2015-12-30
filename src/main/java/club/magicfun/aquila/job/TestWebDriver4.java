@@ -113,9 +113,12 @@ public class TestWebDriver4 {
 //		        	logger.info("date: " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim());
 //		        	logger.info("amount: " + dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
 //		        	logger.info("sku: " + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText());
-					logger.info(">>> " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim()
-							+ "|" + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText() + "|"
-							+ dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
+		        	try {
+						logger.info(">>> " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim()
+								+ "|" + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText() + "|"
+								+ dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
+		        	} catch (NoSuchElementException ex) {
+					}
 		        }
 		        
 		        if (nextPageNotFoundFlag) {
