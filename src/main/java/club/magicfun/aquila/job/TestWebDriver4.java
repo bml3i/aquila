@@ -5,15 +5,24 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import club.magicfun.aquila.util.StringUtility;
 
 public class TestWebDriver4 {
 
+	private static final Logger logger = LoggerFactory.getLogger(TestWebDriver4.class);
+	
+	private static final String PRODUCT_CATEGORY_URL_TEMPLATE = "http://item.taobao.com/item.htm?id={PRODUCTID}";
+	
+	private static final String SHOP_TYPE_TMALL = "tmall";
+	private static final String SHOP_TYPE_TAOBAO = "taobao";
+	
 	public static void main(String[] args) {
 
 		String dir = System.getProperty("user.dir");
@@ -28,58 +37,102 @@ public class TestWebDriver4 {
 					+ File.separator + "chromedriver");
 		}
 		
+		// variables
+		String shopType = null;
+		
 		Long productId = 522818128551l;
 		
 		WebDriver webDriver = new ChromeDriver();
         
-        webDriver.get("https://item.taobao.com/item.htm?id=" + productId);
-        
-        System.out.println("title: " + webDriver.getTitle());
-        
-        
-        WebElement dealCountButton = webDriver.findElement(By.xpath("//a[@shortcut-label='查看成交记录查看成交记录']"));
-        
-        System.out.println("dealCountButton Location: " + dealCountButton.getLocation());
-        
-        dealCountButton.click();
-        
-        webDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS); 
-        
-        List<WebElement> dealRecordElements = webDriver.findElements(By.xpath("//div[@id='deal-record']/table/tbody/tr"));
-        
-        for (WebElement dealRecord : dealRecordElements) {
-        	//System.out.println("dealRecord Location: " + dealRecord.getLocation());
-        	System.out.println(dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim());
-        }
+		String url = PRODUCT_CATEGORY_URL_TEMPLATE.replaceFirst("\\{PRODUCTID\\}", productId.toString());
+		
+		webDriver.get(url);
+		
+		System.out.println("Current URL: " + webDriver.getCurrentUrl());
+		
+		if (StringUtility.containsAny(webDriver.getCurrentUrl(), "detail.tmall.com")) {
+			shopType = SHOP_TYPE_TMALL;
+		} else if (StringUtility.containsAny(webDriver.getCurrentUrl(), "item.taobao.com")) {
+			shopType = SHOP_TYPE_TAOBAO;
+		}
+		
+		logger.info("shop type = " + shopType);
         
         
+		if (SHOP_TYPE_TAOBAO.equalsIgnoreCase(shopType)) {
         
-        
-  /*
-        List<WebElement> colorCategoryList = webDriver.findElements(By.xpath("//*[@data-property='颜色分类']/li/a"));
-        
-        for (WebElement colorCategory : colorCategoryList) {
-        	
-        	// simulate choosing a color
-        	System.out.println("colorCategory Location: " + colorCategory.getLocation());
-        	colorCategory.click();
-        	
-        	//webDriver.manage().timeouts().implicitlyWait(500, TimeUnit.MICROSECONDS); 
-        	
-        	WebElement selectedColorLi = webDriver.findElement(By.xpath("//*[contains(concat(' ', normalize-space(@class), ' '), ' tb-selected ')]"));
-        	System.out.println("selectedLi: " + selectedColorLi.findElements(By.cssSelector("a > span")).get(0).getAttribute("innerHTML"));
-        	
-        	WebElement testElement = webDriver.findElement(By.id("J_PromoPriceNum"));
-        	
-        	System.out.println("testElement Location: " + testElement.getLocation());
-        	
-        	System.out.println("price: " + webDriver.findElement(By.id("J_PromoPriceNum")).getText());
-        	System.out.println("stock: " + webDriver.findElement(By.id("J_SpanStock")).getText());
-        	
-        	System.out.print("\n");
-        	
-        }
-  */      
+	        WebElement dealCountButton = webDriver.findElement(By.xpath("//a[@shortcut-label='查看成交记录查看成交记录']"));
+	        
+	        dealCountButton.click();
+	        
+	        webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); 
+	        
+	        int targetPageIndex = 1; 
+	        int currentPageIndex = 1; 
+	        boolean nextPageNotFoundFlag = false; 
+	        
+	        while (targetPageIndex <= 1000) {
+	        	
+	        	logger.info("targetPageIndex: " + targetPageIndex);
+	        	
+	        	// click next page link
+	        	if (targetPageIndex > 1) {
+	        		
+	        		WebElement nextPageLink = null; 
+	        		
+	        		try {
+	        			nextPageLink = webDriver.findElement(By.xpath("//div[@id='deal-record']/div[@class='tb-pagination']//a[@class='J_TAjaxTrigger page-next']"));
+	        			
+	        			logger.info("nextPageLink location: " + nextPageLink.getLocation());
+		        		logger.info("nextPageLink: " + nextPageLink.getText());
+		        		
+		        		nextPageLink.click();
+						Thread.sleep(1000l);
+	        			
+	        		} catch (NoSuchElementException ex) {
+						nextPageNotFoundFlag = true; 
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+	        	}
+	        	
+	        	currentPageIndex = Integer.parseInt(webDriver.findElement(By.xpath("//div[@id='deal-record']/div[@class='tb-pagination']//span[@class='page-cur']")).getAttribute("page"));
+	        	
+	        	logger.info("currentPageIndex: " + currentPageIndex);
+	        	
+	        	if (currentPageIndex < targetPageIndex) {
+	        		logger.info("break the while block because currentPageIndex (" + currentPageIndex + ") < targetPageIndex (" + targetPageIndex + "). ");
+	        		break;
+	        	}
+	        	
+	        	logger.info("currentPageIndex: " + currentPageIndex);
+	        	
+	        	List<WebElement> dealRecordElements = webDriver.findElements(By.xpath("//div[@id='deal-record']/table/tbody/tr"));
+		        
+		        for (WebElement dealRecord : dealRecordElements) {
+//		        	logger.info("date: " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim());
+//		        	logger.info("amount: " + dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
+//		        	logger.info("sku: " + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText());
+					logger.info(">>> " + dealRecord.findElement(By.xpath("td[@class='tb-start']")).getText().trim()
+							+ "|" + dealRecord.findElement(By.xpath("td[@class='tb-sku']")).getText() + "|"
+							+ dealRecord.findElement(By.xpath("td[@class='tb-amount']")).getText().trim());
+		        }
+		        
+		        if (nextPageNotFoundFlag) {
+		        	logger.info("This is the last page, and the next page is not found.");
+		        	break; 
+		        }
+		        
+		        targetPageIndex++; 
+		        
+	        }
+	        
+	        
+	        
+	        
+		} else if (SHOP_TYPE_TMALL.equalsIgnoreCase(shopType)) {
+			// TODO
+		}
         
         webDriver.close();  
         webDriver.quit();
