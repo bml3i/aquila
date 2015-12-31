@@ -48,8 +48,8 @@ public class TestWebDriver4 {
 		// variables
 		String shopType = null;
 		
-		Long productId = 522818128551l; //taobao
-		//Long productId = 17382419997l; //tmall
+		//Long productId = 522818128551l; //taobao
+		Long productId = 17382419997l; //tmall
 		
 		WebDriver webDriver = new ChromeDriver();
 		
@@ -137,6 +137,12 @@ public class TestWebDriver4 {
 			logger.info("dealCountButton location: " + dealCountButton.getLocation());
 			
 	        dealCountButton.click();
+	        
+	        try {
+				Thread.sleep(SLEEP_TIME);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 	        
 	        WebDriverUtility.hideElement(webDriver, "//div[@id='J_MUIMallbar']");
 	        
