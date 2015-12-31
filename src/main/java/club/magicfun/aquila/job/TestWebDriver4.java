@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import club.magicfun.aquila.util.StringUtility;
+import club.magicfun.aquila.util.WebDriverUtility;
 
 public class TestWebDriver4 {
 
@@ -47,8 +48,8 @@ public class TestWebDriver4 {
 		// variables
 		String shopType = null;
 		
-		//Long productId = 522818128551l; //taobao
-		Long productId = 17382419997l; //tmall
+		Long productId = 522818128551l; //taobao
+		//Long productId = 17382419997l; //tmall
 		
 		WebDriver webDriver = new ChromeDriver();
 		
@@ -59,6 +60,12 @@ public class TestWebDriver4 {
 		String url = PRODUCT_CATEGORY_URL_TEMPLATE.replaceFirst("\\{PRODUCTID\\}", productId.toString());
 		
 		webDriver.get(url);
+		
+		try {
+			Thread.sleep(SLEEP_TIME);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		System.out.println("Current URL: " + webDriver.getCurrentUrl());
 		
@@ -130,6 +137,8 @@ public class TestWebDriver4 {
 			logger.info("dealCountButton location: " + dealCountButton.getLocation());
 			
 	        dealCountButton.click();
+	        
+	        WebDriverUtility.hideElement(webDriver, "//div[@id='J_MUIMallbar']");
 	        
 	        int targetPageIndex = 1; 
 	        int currentPageIndex = 1; 
