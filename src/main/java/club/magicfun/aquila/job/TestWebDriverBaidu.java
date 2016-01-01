@@ -15,7 +15,7 @@ public class TestWebDriverBaidu {
 
 	private static final Logger logger = LoggerFactory.getLogger(TestWebDriverBaidu.class);
 	
-	private static final String BAIDU_SEARCH_URL = "https://www.baidu.com/s?wd={KEYWORD}"; 
+	private static final String BAIDU_SEARCH_URL = "http://www.baidu.com/s?wd={KEYWORD}"; 
 	
 	public static final long SLEEP_TIME = 1000l; 
 	
