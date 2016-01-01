@@ -20,7 +20,7 @@ public class TestWebDriverProxy {
 private static final Logger logger = LoggerFactory.getLogger(TestWebDriverProxy.class);
 	
 	private static final String BAIDU_SEARCH_URL = "http://www.baidu.com/s?wd={KEYWORD}&rsv_iqid＝{RANDOM}"; 
-	
+		
 	public static final long SLEEP_TIME = 1000l; 
 	
 	public static void main(String[] args) {

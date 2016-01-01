@@ -166,8 +166,11 @@ create table jobs (
 	primary key (id)
 );
 
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 120);
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.ProductSearchJob', 'Product Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 2);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 120);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.ProductSearchJob', 'Product Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 2);
+
+-- test baidu auto-click
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.BaiduAutoClickJob', 'Baidu Auto-Click Job', 1, 'C', '2015-12-01 00:00:00', null, null, 2);
 
 
 /* 11. rank_search_hist */
