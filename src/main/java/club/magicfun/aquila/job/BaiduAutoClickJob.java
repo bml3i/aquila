@@ -25,7 +25,9 @@ public class BaiduAutoClickJob {
 	
 	private static final String BAIDU_SEARCH_URL = "http://www.baidu.com/s?wd={KEYWORD}&rsv_iqid＝{RANDOM}"; 
 	
-	private static final String PROXY_EXTRACT_URL = "http://xvre.daili666api.com/ip/?tid=557510611046590&num=1&delay=1&category=2&foreign=none&exclude_ports=8090,8123&filter=on";
+	private static final int PROXY_NUM = 2; 
+	
+	private static final String PROXY_EXTRACT_URL = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&delay=1&category=2&foreign=none&exclude_ports=8090,8123&filter=on";
 	
 	private static final String searchKeyword = "吕记汤包";
 	//private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
@@ -54,11 +56,10 @@ public class BaiduAutoClickJob {
 			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 			
 			WebDriver webDriver0 = new ChromeDriver();
-			String proxyRow = null; 
+			String proxyResult = null; 
 			try {
-				webDriver0.get(PROXY_EXTRACT_URL);
-				proxyRow = webDriver0.findElement(By.xpath("//body/pre")).getText().trim();
-				//logger.info("proxyRow:" + proxyRow);
+				webDriver0.get(PROXY_EXTRACT_URL.replaceFirst("\\{PROXYNUM\\}", String.valueOf(PROXY_NUM)));
+				proxyResult = webDriver0.findElement(By.xpath("//body/pre")).getText().trim();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			} finally {
@@ -66,44 +67,31 @@ public class BaiduAutoClickJob {
 				webDriver0.quit();
 			}
 			
-			Proxy proxy = new Proxy();
-	        proxy.setProxyType(ProxyType.MANUAL);
-	        
-	        logger.info("proxyRow:" + proxyRow);
-	        if(proxyRow != null && proxyRow.length() > 0) {
-	        	proxy.setHttpProxy(proxyRow);
-	        } else {
-	        	proxy.setHttpProxy("127.0.0.1:80");
-	        }
-	        
-			DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-			capabilities.setCapability(CapabilityType.PROXY, proxy);
+			String[] proxyArray = proxyResult.split("\n");
 			
-			WebDriver webDriver = new ChromeDriver(capabilities);
-			
-			int maxRetryCount = 20; 
-			boolean foundOutFlag = false; 
-			
-			for (int i = 1; i < maxRetryCount; i++) {
+			for (int proxyIndex = 0; proxyIndex < proxyArray.length; proxyIndex++) {
 				
-				String random1 = String.valueOf(Math.random());
-				String url = BAIDU_SEARCH_URL.replaceFirst("\\{KEYWORD\\}", searchKeyword).replaceFirst("\\{RANDOM\\}", random1);
+				String proxyRow = proxyArray[proxyIndex];
+				logger.info("proxyRow:" + proxyRow);
 				
-				webDriver.get(url);
+				Proxy proxy = new Proxy();
+		        proxy.setProxyType(ProxyType.MANUAL);
+		        proxy.setHttpProxy(proxyRow);
+		        
+				DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+				capabilities.setCapability(CapabilityType.PROXY, proxy);
 				
-				try {
-					Thread.sleep(SLEEP_TIME);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				WebDriver webDriver = new ChromeDriver(capabilities);
 				
-				try {
+				int maxRetryCount = 10; 
+				boolean foundOutFlag = false; 
 				
-					WebElement targetLink = webDriver.findElement(By.partialLinkText(targetLinkPartialText));
+				for (int retryIndex = 1; retryIndex < maxRetryCount; retryIndex++) {
 					
-					logger.info("found out! click now! ");
-					foundOutFlag = true; 
-					targetLink.click();
+					String random1 = String.valueOf(Math.random());
+					String url = BAIDU_SEARCH_URL.replaceFirst("\\{KEYWORD\\}", searchKeyword).replaceFirst("\\{RANDOM\\}", random1);
+					
+					webDriver.get(url);
 					
 					try {
 						Thread.sleep(SLEEP_TIME);
@@ -111,11 +99,30 @@ public class BaiduAutoClickJob {
 						e.printStackTrace();
 					}
 					
-					break; 
-				
-				} catch (NoSuchElementException nsex) {
-					// do nothing
+					try {
+					
+						WebElement targetLink = webDriver.findElement(By.partialLinkText(targetLinkPartialText));
+						
+						foundOutFlag = true; 
+						targetLink.click();
+						
+						logger.info("Successful click through IP: " + proxyRow);
+						
+						try {
+							Thread.sleep(SLEEP_TIME);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+						break; 
+					
+					} catch (NoSuchElementException nsex) {
+					}
+					
 				}
+				
+				webDriver.close();  
+		        webDriver.quit();
 				
 			}
 	        
