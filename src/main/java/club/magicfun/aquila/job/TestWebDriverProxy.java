@@ -42,9 +42,21 @@ private static final Logger logger = LoggerFactory.getLogger(TestWebDriverProxy.
 		
 		Proxy proxy = new Proxy();
         proxy.setProxyType(ProxyType.MANUAL);
-        proxy.setHttpProxy("119.253.252.23:3128");
+        proxy.setHttpProxy("119.188.115.27:80");
         //218.213.166.218:81
-        //119.253.252.23:3128
+        
+        /*
+101.226.249.237:80
+218.78.210.190:8080
+116.246.6.52:80
+101.231.48.200:3128
+124.160.194.71:80
+218.106.96.204:80
+180.97.29.57:80
+119.188.115.26:8088
+182.18.19.219:3128
+119.188.115.27:80
+         * */
         
 		
 		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
@@ -52,10 +64,12 @@ private static final Logger logger = LoggerFactory.getLogger(TestWebDriverProxy.
 		
 		WebDriver webDriver = new ChromeDriver(capabilities);
 		
-		//webDriver.get("http://1212.ip138.com/ic.asp");
+		webDriver.get("http://1212.ip138.com/ic.asp");
 		
-		//String ipString = webDriver.findElement(By.xpath("//body/center")).getText().trim();
-		//logger.info("IP info: " + ipString);
+		String ipString = webDriver.findElement(By.xpath("//body/center")).getText().trim();
+		logger.info("IP info: " + ipString);
+		
+		/*
 		
 		int maxRetryCount = 20; 
 		
@@ -92,6 +106,8 @@ private static final Logger logger = LoggerFactory.getLogger(TestWebDriverProxy.
 			}
 			
 		}
+		
+		*/
 		
 		webDriver.close();  
         webDriver.quit();
