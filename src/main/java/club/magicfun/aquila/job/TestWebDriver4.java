@@ -138,12 +138,6 @@ public class TestWebDriver4 {
 			
 	        dealCountButton.click();
 	        
-	        try {
-				Thread.sleep(SLEEP_TIME);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-	        
 	        WebDriverUtility.hideElement(webDriver, "//div[@id='J_MUIMallbar']");
 	        
 	        int targetPageIndex = 1; 
