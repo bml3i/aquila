@@ -2,6 +2,7 @@ package club.magicfun.aquila.job;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -42,7 +43,7 @@ private static final Logger logger = LoggerFactory.getLogger(TestWebDriverProxy.
 		
 		Proxy proxy = new Proxy();
         proxy.setProxyType(ProxyType.MANUAL);
-        proxy.setHttpProxy("119.188.115.27:80");
+        proxy.setHttpProxy("180.97.29.57:80");
         //218.213.166.218:81
         
         /*
@@ -64,12 +65,13 @@ private static final Logger logger = LoggerFactory.getLogger(TestWebDriverProxy.
 		
 		WebDriver webDriver = new ChromeDriver(capabilities);
 		
+		webDriver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+		
 		webDriver.get("http://1212.ip138.com/ic.asp");
 		
 		String ipString = webDriver.findElement(By.xpath("//body/center")).getText().trim();
 		logger.info("IP info: " + ipString);
 		
-		/*
 		
 		int maxRetryCount = 20; 
 		
@@ -107,7 +109,6 @@ private static final Logger logger = LoggerFactory.getLogger(TestWebDriverProxy.
 			
 		}
 		
-		*/
 		
 		webDriver.close();  
         webDriver.quit();

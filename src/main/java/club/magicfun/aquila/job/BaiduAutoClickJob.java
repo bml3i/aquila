@@ -1,5 +1,7 @@
 package club.magicfun.aquila.job;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Proxy;
@@ -25,9 +27,11 @@ public class BaiduAutoClickJob {
 	
 	private static final String BAIDU_SEARCH_URL = "http://www.baidu.com/s?wd={KEYWORD}&rsv_iqid＝{RANDOM}"; 
 	
-	private static final int PROXY_NUM = 2; 
+	private static final int PROXY_NUM = 5; 
 	
-	private static final String PROXY_EXTRACT_URL = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&delay=1&category=2&foreign=none&exclude_ports=8090,8123&filter=on";
+	private static final String PROXY_EXTRACT_URL_00 = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&delay=1&category=2&foreign=none&exclude_ports=8090,8123&filter=on";
+	private static final String PROXY_EXTRACT_URL_01 = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&operator=2&delay=1&category=2&foreign=none&filter=on&area=山东";
+	
 	
 	private static final String searchKeyword = "吕记汤包";
 	//private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
@@ -43,7 +47,7 @@ public class BaiduAutoClickJob {
 		super();
 	}
 
-	@Scheduled(cron = "0/10 * * * * ? ")
+	@Scheduled(cron = "0/30 * * * * ? ")
     public void run(){
 		
 		String className = this.getClass().getName();
@@ -58,7 +62,7 @@ public class BaiduAutoClickJob {
 			WebDriver webDriver0 = new ChromeDriver();
 			String proxyResult = null; 
 			try {
-				webDriver0.get(PROXY_EXTRACT_URL.replaceFirst("\\{PROXYNUM\\}", String.valueOf(PROXY_NUM)));
+				webDriver0.get(PROXY_EXTRACT_URL_01.replaceFirst("\\{PROXYNUM\\}", String.valueOf(PROXY_NUM)));
 				proxyResult = webDriver0.findElement(By.xpath("//body/pre")).getText().trim();
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -71,42 +75,37 @@ public class BaiduAutoClickJob {
 			
 			for (int proxyIndex = 0; proxyIndex < proxyArray.length; proxyIndex++) {
 				
-				String proxyRow = proxyArray[proxyIndex];
-				logger.info("proxyRow:" + proxyRow);
+				WebDriver webDriver = null; 
+				String proxyRow = null;
 				
-				Proxy proxy = new Proxy();
-		        proxy.setProxyType(ProxyType.MANUAL);
-		        proxy.setHttpProxy(proxyRow);
-		        
-				DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-				capabilities.setCapability(CapabilityType.PROXY, proxy);
-				
-				WebDriver webDriver = new ChromeDriver(capabilities);
-				
-				int maxRetryCount = 10; 
-				boolean foundOutFlag = false; 
-				
-				for (int retryIndex = 1; retryIndex < maxRetryCount; retryIndex++) {
+				try {
+					proxyRow = proxyArray[proxyIndex];
+					logger.info("proxyRow:" + proxyRow);
 					
-					String random1 = String.valueOf(Math.random());
-					String url = BAIDU_SEARCH_URL.replaceFirst("\\{KEYWORD\\}", searchKeyword).replaceFirst("\\{RANDOM\\}", random1);
+					Proxy proxy = new Proxy();
+			        proxy.setProxyType(ProxyType.MANUAL);
+			        proxy.setHttpProxy(proxyRow);
+			        
+					DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+					capabilities.setCapability(CapabilityType.PROXY, proxy);
 					
-					webDriver.get(url);
+					webDriver = new ChromeDriver(capabilities);
+					webDriver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
 					
-					try {
-						Thread.sleep(SLEEP_TIME);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					// get ip information
+					webDriver.get("http://1212.ip138.com/ic.asp");
+					String ipString = webDriver.findElement(By.xpath("//body/center")).getText().trim();
+					logger.info("IP info: " + ipString);
 					
-					try {
+					int maxRetryCount = 10; 
+					boolean foundOutFlag = false; 
 					
-						WebElement targetLink = webDriver.findElement(By.partialLinkText(targetLinkPartialText));
+					for (int retryIndex = 1; retryIndex < maxRetryCount; retryIndex++) {
 						
-						foundOutFlag = true; 
-						targetLink.click();
+						String random1 = String.valueOf(Math.random());
+						String url = BAIDU_SEARCH_URL.replaceFirst("\\{KEYWORD\\}", searchKeyword).replaceFirst("\\{RANDOM\\}", random1);
 						
-						logger.info("Successful click through IP: " + proxyRow);
+						webDriver.get(url);
 						
 						try {
 							Thread.sleep(SLEEP_TIME);
@@ -114,15 +113,36 @@ public class BaiduAutoClickJob {
 							e.printStackTrace();
 						}
 						
-						break; 
-					
-					} catch (NoSuchElementException nsex) {
+						try {
+						
+							WebElement targetLink = webDriver.findElement(By.partialLinkText(targetLinkPartialText));
+							
+							foundOutFlag = true; 
+							targetLink.click();
+							
+							logger.info("Successful click through IP: " + proxyRow);
+							
+							try {
+								Thread.sleep(SLEEP_TIME);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							
+							break; 
+						
+						} catch (NoSuchElementException nsex) {
+						}
+						
 					}
+		        
+				} catch (Exception ex) {
+					logger.info("Error when using proxy: " + proxyRow);
 					
+					//ex.printStackTrace();
+				} finally {
+					webDriver.close();  
+			        webDriver.quit();
 				}
-				
-				webDriver.close();  
-		        webDriver.quit();
 				
 			}
 	        
