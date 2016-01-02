@@ -34,8 +34,8 @@ public class BaiduAutoClickJob {
 	
 	
 	private static final String searchKeyword = "吕记汤包";
-	//private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
-	private static final String targetLinkPartialText = "包子加盟_包子连锁_灌汤包加盟-天津吕记包子加盟连锁";
+	private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
+	//private static final String targetLinkPartialText = "包子加盟_包子连锁_灌汤包加盟-天津吕记包子加盟连锁";
 	
 	
 	public static final long SLEEP_TIME = 1000l; 
