@@ -29,6 +29,9 @@ public class BaiduAutoClickJob {
 	
 	private static final int PROXY_NUM = 5; 
 	
+	private static final int WEBDRIVER_PAGE_TIMEOUT_SHORT = 5; 
+	private static final int WEBDRIVER_PAGE_TIMEOUT_LONG = 30; 
+	
 	private static final String PROXY_EXTRACT_URL_00 = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&delay=1&category=2&foreign=none&exclude_ports=8090,8123&filter=on";
 	private static final String PROXY_EXTRACT_URL_01 = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&operator=2&delay=1&category=2&foreign=none&filter=on&area=山东";
 	
@@ -47,7 +50,7 @@ public class BaiduAutoClickJob {
 		super();
 	}
 
-	@Scheduled(cron = "0/30 * * * * ? ")
+	@Scheduled(cron = "0/20 * * * * ? ")
     public void run(){
 		
 		String className = this.getClass().getName();
@@ -90,12 +93,14 @@ public class BaiduAutoClickJob {
 					capabilities.setCapability(CapabilityType.PROXY, proxy);
 					
 					webDriver = new ChromeDriver(capabilities);
-					webDriver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+					webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT_SHORT, TimeUnit.SECONDS);
 					
 					// get ip information
 					webDriver.get("http://1212.ip138.com/ic.asp");
 					String ipString = webDriver.findElement(By.xpath("//body/center")).getText().trim();
 					logger.info("IP info: " + ipString);
+					
+					webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT_LONG, TimeUnit.SECONDS);
 					
 					int maxRetryCount = 10; 
 					boolean foundOutFlag = false; 
