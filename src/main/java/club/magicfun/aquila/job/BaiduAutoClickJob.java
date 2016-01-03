@@ -69,13 +69,11 @@ public class BaiduAutoClickJob {
 			List<Agent> activeAgents = agentService.findFewRecentActiveAgents(AGENT_NUMBER_PER_TIME);
 			
 			for (Agent agent: activeAgents) {
+				boolean successFlag = false; 
 				WebDriver webDriver = null; 
 				
 				try {
 					logger.info("using agent:" + agent.getIPAndPort());
-					
-					// update updateTime to date
-					agentService.persist(agent);
 					
 					Proxy proxy = new Proxy();
 			        proxy.setProxyType(ProxyType.MANUAL);
@@ -124,6 +122,7 @@ public class BaiduAutoClickJob {
 					        }}).click(); 
 						
 							logger.info("Successful click through proxy: " + agent.getIPAndPort());
+							successFlag = true; 
 							
 							try {
 								Thread.sleep(SLEEP_TIME);
@@ -147,6 +146,12 @@ public class BaiduAutoClickJob {
 				} finally {
 			        webDriver.quit();
 				}
+			
+				// update agent
+				if (!successFlag) {
+					agent.setActiveFlag(false);
+				}
+				agentService.persist(agent);
 				
 			}
 	        
