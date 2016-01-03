@@ -213,3 +213,17 @@ insert into product_search_queue (product_id, retry_cnt, create_datetime) values
 insert into product_search_queue (product_id, retry_cnt, create_datetime) values (520878856645, 0, '2015-12-01 00:00:00');
 insert into product_search_queue (product_id, retry_cnt, create_datetime) values (45855398633, 0, '2015-12-01 00:00:00');
 
+/* 13. agents */
+create table agents (
+	id int not null auto_increment, 
+	ip_num varchar(16) not null,
+	port_num smallint not null,
+	description varchar(64),
+	active_flg boolean default 0,
+	retry_cnt smallint default 0 not null,
+	create_datetime timestamp not null,
+	update_datetime timestamp null,
+	primary key (id)
+);
+
+

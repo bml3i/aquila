@@ -11,6 +11,8 @@ import org.openqa.selenium.Proxy.ProxyType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +31,18 @@ public class BaiduAutoClickJob {
 	
 	private static final int PROXY_NUM = 5; 
 	
-	private static final int WEBDRIVER_PAGE_TIMEOUT_SHORT = 5; 
+	private static final int WEBDRIVER_PAGE_TIMEOUT_SHORT = 10; 
 	private static final int WEBDRIVER_PAGE_TIMEOUT_LONG = 20; 
 	
 	private static final String PROXY_EXTRACT_URL_00 = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&delay=1&category=2&foreign=none&exclude_ports=8090,8123&filter=on";
 	private static final String PROXY_EXTRACT_URL_01 = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&operator=1,2,3&delay=1&category=2&foreign=none&filter=on";
 	
 	
-	private static final String searchKeyword = "吕记汤包";
-	private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
-	//private static final String targetLinkPartialText = "包子加盟_包子连锁_灌汤包加盟-天津吕记包子加盟连锁";
+	//private static final String searchKeyword = "吕记汤包";
+	//private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
 	
+	private static final String searchKeyword = "包子培训";
+	private static final String targetLinkPartialText = "天津大帅包餐饮管理有限公司";
 	
 	public static final long SLEEP_TIME = 1000l; 
 	
@@ -50,7 +53,7 @@ public class BaiduAutoClickJob {
 		super();
 	}
 
-	@Scheduled(cron = "0/20 * * * * ? ")
+	@Scheduled(cron = "0/15 * * * * ? ")
     public void run(){
 		
 		String className = this.getClass().getName();
@@ -102,7 +105,7 @@ public class BaiduAutoClickJob {
 					logger.info("IP info: " + ipString);
 					*/
 					
-					webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT_LONG, TimeUnit.SECONDS);
+					//webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT_LONG, TimeUnit.SECONDS);
 					
 					int maxRetryCount = 10; 
 					boolean foundOutFlag = false; 
@@ -115,17 +118,32 @@ public class BaiduAutoClickJob {
 						webDriver.get(url);
 						
 						try {
-							Thread.sleep(SLEEP_TIME);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+							// ERR_PROXY_CONNECTION_FAILED
+							// Could not connect
+							
+							if (webDriver.findElement(By.xpath("//*[contains(text(), 'ERR_PROXY_CONNECTION_FAILED')]")).getText().length() > 0) {
+								logger.info("contains 'ERR_PROXY_CONNECTION_FAILED', break!");
+								break;
+							}
+							
+							if (webDriver.findElement(By.xpath("//*[contains(text(), 'Could not connect')]")).getText().length() > 0) {
+								logger.info("contains 'Could not connect', break!");
+								break;
+							}
+						} catch (NoSuchElementException ex) {
+							// do nothing
 						}
 						
-						try {
 						
-							WebElement targetLink = webDriver.findElement(By.partialLinkText(targetLinkPartialText));
-							
+						try {
+							WebDriverWait wait = new WebDriverWait(webDriver, WEBDRIVER_PAGE_TIMEOUT_SHORT);
+					        wait.until(new ExpectedCondition<WebElement>(){  
+					            @Override  
+					            public WebElement apply(WebDriver d) {  
+					                return d.findElement(By.partialLinkText(targetLinkPartialText));  
+					        }}).click(); 
+						
 							foundOutFlag = true; 
-							targetLink.click();
 							
 							logger.info("Successful click through IP: " + proxyRow);
 							
@@ -138,8 +156,10 @@ public class BaiduAutoClickJob {
 							break; 
 						
 						} catch (NoSuchElementException nsex) {
+							//nsex.printStackTrace();
+						} catch (Exception e) {
+							//e.printStackTrace();
 						}
-						
 					}
 		        
 				} catch (Exception ex) {
@@ -147,7 +167,6 @@ public class BaiduAutoClickJob {
 					
 					//ex.printStackTrace();
 				} finally {
-					webDriver.close();  
 			        webDriver.quit();
 				}
 				
