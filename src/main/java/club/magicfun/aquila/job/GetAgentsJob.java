@@ -1,6 +1,7 @@
 package club.magicfun.aquila.job;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -32,6 +33,8 @@ public class GetAgentsJob {
 	
 	private static final int WEBDRIVER_PAGE_TIMEOUT = 5; 
 	
+	private static final int MIN_ACTIVE_PROXY_NUM = 10; 
+	
 	private static final String SHOW_IP_INFO_URL = "http://1212.ip138.com/ic.asp"; 
 	private static final String PROXY_EXTRACT_URL = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&operator=1,2,3&delay=1&category=2&foreign=none&filter=on";
 	
@@ -62,71 +65,76 @@ public class GetAgentsJob {
 			job = scheduleService.startJob(job);
 			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 			
-			WebDriver webDriver0 = new ChromeDriver();
-			String proxyResult = null; 
-			try {
-				webDriver0.get(PROXY_EXTRACT_URL.replaceFirst("\\{PROXYNUM\\}", String.valueOf(PROXY_EXTRACT_NUM)));
-				proxyResult = webDriver0.findElement(By.xpath("//body/pre")).getText().trim();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			} finally {
-				webDriver0.quit();
-			}
+			List<Agent> activeAgents = agentService.findFewRecentActiveAgents(MIN_ACTIVE_PROXY_NUM);
 			
-			String[] proxyArray = proxyResult.split("\n");
-			
-			for (int proxyIndex = 0; proxyIndex < proxyArray.length; proxyIndex++) {
+			if (activeAgents.size() < MIN_ACTIVE_PROXY_NUM) {
 				
-				WebDriver webDriver = null; 
-				String proxyRow = null;
-				
+				WebDriver webDriver0 = new ChromeDriver();
+				String proxyResult = null; 
 				try {
-					proxyRow = proxyArray[proxyIndex];
-					logger.info("proxyRow:" + proxyRow);
+					webDriver0.get(PROXY_EXTRACT_URL.replaceFirst("\\{PROXYNUM\\}", String.valueOf(PROXY_EXTRACT_NUM)));
+					proxyResult = webDriver0.findElement(By.xpath("//body/pre")).getText().trim();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				} finally {
+					webDriver0.quit();
+				}
+				
+				String[] proxyArray = proxyResult.split("\n");
+				
+				for (int proxyIndex = 0; proxyIndex < proxyArray.length; proxyIndex++) {
 					
-					Proxy proxy = new Proxy();
-			        proxy.setProxyType(ProxyType.MANUAL);
-			        proxy.setHttpProxy(proxyRow);
-			        
-					DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-					capabilities.setCapability(CapabilityType.PROXY, proxy);
-					
-					webDriver = new ChromeDriver(capabilities);
-					
-					// get ip information
-					webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT, TimeUnit.SECONDS);
-					
-					webDriver.get(SHOW_IP_INFO_URL);
-					String ipInfo = webDriver.findElement(By.xpath("//body/center")).getText().trim();
-					logger.info("IP info: " + ipInfo);
-					
-					// test accessing the target site
-					Date beginTime = new Date();
-					webDriver.get(TARGET_SITE_URL);
-					Date endTime = new Date();
-					
-					logger.info("Delay: " + (endTime.getTime() - beginTime.getTime()));
-					
-					Agent agent = new Agent();
-					agent.setIpAddress(proxyRow.split(":")[0]);
-					agent.setPortNumber(proxyRow.split(":")[1]);
-					agent.setDescription(ipInfo);
-					agent.setActiveFlag(true);
-					agent.setRetryCount(0);
-					agent.setDelay(endTime.getTime() - beginTime.getTime());
-					
-					agentService.persist(agent); 
+					WebDriver webDriver = null; 
+					String proxyRow = null;
 					
 					try {
-						Thread.sleep(SLEEP_TIME);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+						proxyRow = proxyArray[proxyIndex];
+						logger.info("proxyRow:" + proxyRow);
+						
+						Proxy proxy = new Proxy();
+				        proxy.setProxyType(ProxyType.MANUAL);
+				        proxy.setHttpProxy(proxyRow);
+				        
+						DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+						capabilities.setCapability(CapabilityType.PROXY, proxy);
+						
+						webDriver = new ChromeDriver(capabilities);
+						
+						// get ip information
+						webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT, TimeUnit.SECONDS);
+						
+						webDriver.get(SHOW_IP_INFO_URL);
+						String ipInfo = webDriver.findElement(By.xpath("//body/center")).getText().trim();
+						logger.info("IP info: " + ipInfo);
+						
+						// test accessing the target site
+						Date beginTime = new Date();
+						webDriver.get(TARGET_SITE_URL);
+						Date endTime = new Date();
+						
+						logger.info("Delay: " + (endTime.getTime() - beginTime.getTime()));
+						
+						Agent agent = new Agent();
+						agent.setIpAddress(proxyRow.split(":")[0]);
+						agent.setPortNumber(proxyRow.split(":")[1]);
+						agent.setDescription(ipInfo);
+						agent.setActiveFlag(true);
+						agent.setRetryCount(0);
+						agent.setDelay(endTime.getTime() - beginTime.getTime());
+						
+						agentService.persist(agent); 
+						
+						try {
+							Thread.sleep(SLEEP_TIME);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+					} catch (Exception ex) {
+						logger.info("Error when using proxy: " + proxyRow);
+					} finally {
+				        webDriver.quit();
 					}
-					
-				} catch (Exception ex) {
-					logger.info("Error when using proxy: " + proxyRow);
-				} finally {
-			        webDriver.quit();
 				}
 			}
 	        

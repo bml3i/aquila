@@ -170,7 +170,7 @@ insert into jobs (class_name, description, active_flg, run_status, create_dateti
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.ProductSearchJob', 'Product Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 2);
 
 -- extract proxy and validate it
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.GetAgentsJob', 'Get Agents Job', 1, 'C', '2015-12-01 00:00:00', null, null, 1);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.GetAgentsJob', 'Get Agents Job', 1, 'C', '2015-12-01 00:00:00', null, null, 5);
 
 -- test baidu auto-click
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.BaiduAutoClickJob', 'Baidu Auto-Click Job', 1, 'C', '2015-12-01 00:00:00', null, null, 1);

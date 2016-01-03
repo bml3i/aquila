@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -14,8 +16,10 @@ import javax.persistence.Table;
 @Entity
 @NamedQueries({ 
 	@NamedQuery(name = "Agent.findAllActiveAgents", query = "select a from Agent a where a.activeFlag = 1"),
-	@NamedQuery(name = "Agent.findFewRecentActiveAgents", query = "select a from Agent a where a.activeFlag = 1 and (a.updateDatetime is null) limit ?"),
 	@NamedQuery(name = "Agent.findAllInactiveAgents", query = "select a from Agent a where a.activeFlag = 0")
+})
+@NamedNativeQueries({
+	@NamedNativeQuery(name = "Agent.findFewRecentActiveAgents", query = "select a.* from agents a where a.active_flg = 1 LIMIT ?1", resultClass=Agent.class),
 })
 @Table(name = "agents")
 public class Agent {
