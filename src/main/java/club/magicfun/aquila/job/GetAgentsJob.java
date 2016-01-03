@@ -29,11 +29,11 @@ public class GetAgentsJob {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GetAgentsJob.class);
 	
-	private static final int PROXY_EXTRACT_NUM = 20; 
+	private static final int PROXY_EXTRACT_NUM = 40; 
 	
 	private static final int WEBDRIVER_PAGE_TIMEOUT = 5; 
 	
-	private static final int MIN_ACTIVE_PROXY_NUM = 20; 
+	private static final int MIN_ACTIVE_PROXY_NUM = 40; 
 	
 	private static final String SHOW_IP_INFO_URL = "http://1212.ip138.com/ic.asp"; 
 	private static final String PROXY_EXTRACT_URL = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&operator=1,2,3&delay=1&category=2&foreign=none&filter=on";
@@ -112,17 +112,24 @@ public class GetAgentsJob {
 						webDriver.get(TARGET_SITE_URL);
 						Date endTime = new Date();
 						
-						logger.info("Delay: " + (endTime.getTime() - beginTime.getTime()));
+						long timeDifference = endTime.getTime() - beginTime.getTime();
 						
-						Agent agent = new Agent();
-						agent.setIpAddress(proxyRow.split(":")[0]);
-						agent.setPortNumber(proxyRow.split(":")[1]);
-						agent.setDescription(ipInfo);
-						agent.setActiveFlag(true);
-						agent.setRetryCount(0);
-						agent.setDelay(endTime.getTime() - beginTime.getTime());
+						logger.info("Delay: " + timeDifference);
 						
-						agentService.persist(agent); 
+						// ignore if delay > 3000 ms
+						if (timeDifference <= 3000) {
+							logger.info("Persist proxy: " + proxyRow);
+							
+							Agent agent = new Agent();
+							agent.setIpAddress(proxyRow.split(":")[0]);
+							agent.setPortNumber(proxyRow.split(":")[1]);
+							agent.setDescription(ipInfo);
+							agent.setActiveFlag(true);
+							agent.setRetryCount(0);
+							agent.setDelay(timeDifference);
+							
+							agentService.persist(agent); 
+						}
 						
 						try {
 							Thread.sleep(SLEEP_TIME);

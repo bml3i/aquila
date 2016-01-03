@@ -32,16 +32,15 @@ public class BaiduAutoClickJob {
 	
 	private static final String BAIDU_SEARCH_URL = "http://www.baidu.com/s?wd={KEYWORD}&rsv_iqid＝{RANDOM}"; 
 	
-	private static final int AGENT_NUMBER_PER_TIME = 2; 
+	private static final int AGENT_NUMBER_PER_TIME = 5; 
 	
-	private static final int WEBDRIVER_PAGE_TIMEOUT_SHORT = 10; 
-	private static final int WEBDRIVER_PAGE_TIMEOUT_LONG = 20; 
+	private static final int WEBDRIVER_PAGE_TIMEOUT = 15; 
 	
-	//private static final String searchKeyword = "吕记汤包";
-	//private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
+	private static final String searchKeyword = "吕记汤包";
+	private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
 	
-	private static final String searchKeyword = "包子培训";
-	private static final String targetLinkPartialText = "天津大帅包餐饮管理有限公司";
+	//private static final String searchKeyword = "包子培训";
+	//private static final String targetLinkPartialText = "天津大帅包餐饮管理有限公司";
 	
 	public static final long SLEEP_TIME = 1000l; 
 	
@@ -74,6 +73,9 @@ public class BaiduAutoClickJob {
 				
 				try {
 					logger.info("using agent:" + agent.getIPAndPort());
+					
+					// update updateTime to date
+					agentService.persist(agent);
 					
 					Proxy proxy = new Proxy();
 			        proxy.setProxyType(ProxyType.MANUAL);
@@ -122,8 +124,6 @@ public class BaiduAutoClickJob {
 					        }}).click(); 
 						
 							logger.info("Successful click through proxy: " + agent.getIPAndPort());
-							
-							agentService.persist(agent);
 							
 							try {
 								Thread.sleep(SLEEP_TIME);
