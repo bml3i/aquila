@@ -1,5 +1,6 @@
 package club.magicfun.aquila.job;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import club.magicfun.aquila.model.Agent;
 import club.magicfun.aquila.model.Job;
 import club.magicfun.aquila.service.AgentService;
 import club.magicfun.aquila.service.ScheduleService;
@@ -26,9 +28,9 @@ public class GetAgentsJob {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GetAgentsJob.class);
 	
-	private static final int PROXY_EXTRACT_NUM = 3; 
+	private static final int PROXY_EXTRACT_NUM = 20; 
 	
-	private static final int WEBDRIVER_PAGE_TIMEOUT_SHORT = 10; 
+	private static final int WEBDRIVER_PAGE_TIMEOUT_SHORT = 5; 
 	
 	private static final String SHOW_IP_INFO_URL = "http://1212.ip138.com/ic.asp"; 
 	private static final String PROXY_EXTRACT_URL = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&operator=1,2,3&delay=1&category=2&foreign=none&filter=on";
@@ -93,11 +95,27 @@ public class GetAgentsJob {
 					
 					// get ip information
 					webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT_SHORT, TimeUnit.SECONDS);
+					
 					webDriver.get(SHOW_IP_INFO_URL);
 					String ipInfo = webDriver.findElement(By.xpath("//body/center")).getText().trim();
 					logger.info("IP info: " + ipInfo);
 					
+					// test accessing the target site
+					Date beginTime = new Date();
 					webDriver.get(TARGET_SITE_URL);
+					Date endTime = new Date();
+					
+					logger.info("Delay: " + (endTime.getTime() - beginTime.getTime()));
+					
+					Agent agent = new Agent();
+					agent.setIpAddress(proxyRow.split(":")[0]);
+					agent.setPortNumber(proxyRow.split(":")[1]);
+					agent.setDescription(ipInfo);
+					agent.setActiveFlag(true);
+					agent.setRetryCount(0);
+					agent.setDelay(endTime.getTime() - beginTime.getTime());
+					
+					agentService.persist(agent); 
 					
 					try {
 						Thread.sleep(SLEEP_TIME);

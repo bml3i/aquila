@@ -13,8 +13,8 @@ import javax.persistence.Table;
 
 @Entity
 @NamedQueries({ 
-	@NamedQuery(name = "findActiveAgents", query = "select a from Agent a where a.activeFlag = 1"),
-	@NamedQuery(name = "findInactiveAgents", query = "select a from Agent a where a.activeFlag = 0") 
+	@NamedQuery(name = "Agent.findActiveAgents", query = "select a from Agent a where a.activeFlag = 1"),
+	@NamedQuery(name = "Agent.findInactiveAgents", query = "select a from Agent a where a.activeFlag = 0") 
 })
 @Table(name = "agents")
 public class Agent {
@@ -40,7 +40,7 @@ public class Agent {
 	private Integer retryCount;
 	
 	@Column(name = "delay")
-	private Double delay; 
+	private Long delay; 
 	
 	@Column(name = "create_datetime")
 	private Date createDatetime;
@@ -112,11 +112,11 @@ public class Agent {
 		this.updateDatetime = updateDatetime;
 	}
 	
-	public Double getDelay() {
+	public Long getDelay() {
 		return delay;
 	}
 
-	public void setDelay(Double delay) {
+	public void setDelay(Long delay) {
 		this.delay = delay;
 	}
 

@@ -224,7 +224,7 @@ create table agents (
 	description varchar(64),
 	active_flg boolean default 0,
 	retry_cnt smallint default 0 not null,
-	delay decimal(8,2) null,
+	delay bigint null,
 	create_datetime timestamp not null,
 	update_datetime timestamp null,
 	primary key (id)
