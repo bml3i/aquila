@@ -169,8 +169,11 @@ create table jobs (
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 120);
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.ProductSearchJob', 'Product Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 2);
 
+-- extract proxy and validate it
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.GetAgentsJob', 'Get Agents Job', 1, 'C', '2015-12-01 00:00:00', null, null, 1);
+
 -- test baidu auto-click
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.BaiduAutoClickJob', 'Baidu Auto-Click Job', 1, 'C', '2015-12-01 00:00:00', null, null, 1);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.BaiduAutoClickJob', 'Baidu Auto-Click Job', 0, 'C', '2015-12-01 00:00:00', null, null, 1);
 
 
 /* 11. rank_search_hist */
@@ -216,11 +219,12 @@ insert into product_search_queue (product_id, retry_cnt, create_datetime) values
 /* 13. agents */
 create table agents (
 	id int not null auto_increment, 
-	ip_num varchar(16) not null,
+	ip_address varchar(16) not null,
 	port_num smallint not null,
 	description varchar(64),
 	active_flg boolean default 0,
 	retry_cnt smallint default 0 not null,
+	delay decimal(8,2) null,
 	create_datetime timestamp not null,
 	update_datetime timestamp null,
 	primary key (id)
