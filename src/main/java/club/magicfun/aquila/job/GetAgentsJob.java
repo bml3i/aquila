@@ -30,7 +30,7 @@ public class GetAgentsJob {
 	
 	private static final int PROXY_EXTRACT_NUM = 20; 
 	
-	private static final int WEBDRIVER_PAGE_TIMEOUT_SHORT = 5; 
+	private static final int WEBDRIVER_PAGE_TIMEOUT = 5; 
 	
 	private static final String SHOW_IP_INFO_URL = "http://1212.ip138.com/ic.asp"; 
 	private static final String PROXY_EXTRACT_URL = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&operator=1,2,3&delay=1&category=2&foreign=none&filter=on";
@@ -94,7 +94,7 @@ public class GetAgentsJob {
 					webDriver = new ChromeDriver(capabilities);
 					
 					// get ip information
-					webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT_SHORT, TimeUnit.SECONDS);
+					webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT, TimeUnit.SECONDS);
 					
 					webDriver.get(SHOW_IP_INFO_URL);
 					String ipInfo = webDriver.findElement(By.xpath("//body/center")).getText().trim();

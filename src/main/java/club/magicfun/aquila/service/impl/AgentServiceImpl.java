@@ -43,12 +43,17 @@ public class AgentServiceImpl implements AgentService {
 
 	@Override
 	public List<Agent> findAllActiveAgents() {
-		return agentRepository.findActiveAgents();
+		return agentRepository.findAllActiveAgents();
 	}
 
 	@Override
 	public List<Agent> findAllInactiveAgents() {
-		return agentRepository.findInactiveAgents();
+		return agentRepository.findAllInactiveAgents();
+	}
+
+	@Override
+	public List<Agent> findFewRecentActiveAgents(Integer number) {
+		return agentRepository.findFewRecentActiveAgents(number);
 	}
 	
 }

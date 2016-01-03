@@ -14,6 +14,8 @@ public interface AgentService {
 	
 	List<Agent> findAllActiveAgents();
 	
+	List<Agent> findFewRecentActiveAgents(Integer number);
+	
 	List<Agent> findAllInactiveAgents();
 	
 }

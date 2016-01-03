@@ -8,8 +8,10 @@ import club.magicfun.aquila.model.Agent;
 
 public interface AgentRepository extends JpaRepository<Agent, Integer> {
 
-	List<Agent> findActiveAgents();
+	List<Agent> findAllActiveAgents();
 	
-	List<Agent> findInactiveAgents();
+	List<Agent> findFewRecentActiveAgents(Integer number);
+	
+	List<Agent> findAllInactiveAgents();
 	
 }

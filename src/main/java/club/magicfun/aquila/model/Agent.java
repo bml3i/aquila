@@ -13,8 +13,9 @@ import javax.persistence.Table;
 
 @Entity
 @NamedQueries({ 
-	@NamedQuery(name = "Agent.findActiveAgents", query = "select a from Agent a where a.activeFlag = 1"),
-	@NamedQuery(name = "Agent.findInactiveAgents", query = "select a from Agent a where a.activeFlag = 0") 
+	@NamedQuery(name = "Agent.findAllActiveAgents", query = "select a from Agent a where a.activeFlag = 1"),
+	@NamedQuery(name = "Agent.findFewRecentActiveAgents", query = "select a from Agent a where a.activeFlag = 1 and (a.updateDatetime is null) limit ?"),
+	@NamedQuery(name = "Agent.findAllInactiveAgents", query = "select a from Agent a where a.activeFlag = 0")
 })
 @Table(name = "agents")
 public class Agent {

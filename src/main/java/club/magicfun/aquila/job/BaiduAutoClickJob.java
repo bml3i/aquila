@@ -1,5 +1,6 @@
 package club.magicfun.aquila.job;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -19,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import club.magicfun.aquila.model.Agent;
 import club.magicfun.aquila.model.Job;
+import club.magicfun.aquila.service.AgentService;
 import club.magicfun.aquila.service.ScheduleService;
 
 @Component
@@ -29,14 +32,10 @@ public class BaiduAutoClickJob {
 	
 	private static final String BAIDU_SEARCH_URL = "http://www.baidu.com/s?wd={KEYWORD}&rsv_iqid＝{RANDOM}"; 
 	
-	private static final int PROXY_NUM = 5; 
+	private static final int AGENT_NUMBER_PER_TIME = 2; 
 	
 	private static final int WEBDRIVER_PAGE_TIMEOUT_SHORT = 10; 
 	private static final int WEBDRIVER_PAGE_TIMEOUT_LONG = 20; 
-	
-	private static final String PROXY_EXTRACT_URL_00 = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&delay=1&category=2&foreign=none&exclude_ports=8090,8123&filter=on";
-	private static final String PROXY_EXTRACT_URL_01 = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&operator=1,2,3&delay=1&category=2&foreign=none&filter=on";
-	
 	
 	//private static final String searchKeyword = "吕记汤包";
 	//private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
@@ -48,6 +47,9 @@ public class BaiduAutoClickJob {
 	
 	@Autowired
 	private ScheduleService scheduleService;
+	
+	@Autowired
+	private AgentService agentService;
 	
 	public BaiduAutoClickJob() {
 		super();
@@ -65,50 +67,26 @@ public class BaiduAutoClickJob {
 			job = scheduleService.startJob(job);
 			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 			
-			WebDriver webDriver0 = new ChromeDriver();
-			String proxyResult = null; 
-			try {
-				webDriver0.get(PROXY_EXTRACT_URL_01.replaceFirst("\\{PROXYNUM\\}", String.valueOf(PROXY_NUM)));
-				proxyResult = webDriver0.findElement(By.xpath("//body/pre")).getText().trim();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			} finally {
-				webDriver0.close();  
-				webDriver0.quit();
-			}
+			List<Agent> activeAgents = agentService.findFewRecentActiveAgents(AGENT_NUMBER_PER_TIME);
 			
-			String[] proxyArray = proxyResult.split("\n");
-			
-			for (int proxyIndex = 0; proxyIndex < proxyArray.length; proxyIndex++) {
-				
+			for (Agent agent: activeAgents) {
 				WebDriver webDriver = null; 
-				String proxyRow = null;
 				
 				try {
-					proxyRow = proxyArray[proxyIndex];
-					logger.info("proxyRow:" + proxyRow);
+					logger.info("using agent:" + agent.getIPAndPort());
 					
 					Proxy proxy = new Proxy();
 			        proxy.setProxyType(ProxyType.MANUAL);
-			        proxy.setHttpProxy(proxyRow);
+			        proxy.setHttpProxy(agent.getIPAndPort());
 			        
 					DesiredCapabilities capabilities = DesiredCapabilities.chrome();
 					capabilities.setCapability(CapabilityType.PROXY, proxy);
 					
 					webDriver = new ChromeDriver(capabilities);
 					
-					// get ip information
-					/*
-					webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT_SHORT, TimeUnit.SECONDS);
-					webDriver.get("http://1212.ip138.com/ic.asp");
-					String ipString = webDriver.findElement(By.xpath("//body/center")).getText().trim();
-					logger.info("IP info: " + ipString);
-					*/
-					
 					//webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT_LONG, TimeUnit.SECONDS);
 					
 					int maxRetryCount = 10; 
-					boolean foundOutFlag = false; 
 					
 					for (int retryIndex = 1; retryIndex < maxRetryCount; retryIndex++) {
 						
@@ -143,9 +121,9 @@ public class BaiduAutoClickJob {
 					                return d.findElement(By.partialLinkText(targetLinkPartialText));  
 					        }}).click(); 
 						
-							foundOutFlag = true; 
+							logger.info("Successful click through proxy: " + agent.getIPAndPort());
 							
-							logger.info("Successful click through IP: " + proxyRow);
+							agentService.persist(agent);
 							
 							try {
 								Thread.sleep(SLEEP_TIME);
@@ -163,7 +141,7 @@ public class BaiduAutoClickJob {
 					}
 		        
 				} catch (Exception ex) {
-					logger.info("Error when using proxy: " + proxyRow);
+					logger.info("Error when using proxy: " + agent.getIPAndPort());
 					
 					//ex.printStackTrace();
 				} finally {
