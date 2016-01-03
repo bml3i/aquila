@@ -86,7 +86,7 @@ public class BaiduAutoClickJob {
 					
 					webDriver = new ChromeDriver(capabilities);
 					
-					//webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT_LONG, TimeUnit.SECONDS);
+					webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT, TimeUnit.SECONDS);
 					
 					int maxRetryCount = 10; 
 					
@@ -116,7 +116,7 @@ public class BaiduAutoClickJob {
 						
 						
 						try {
-							WebDriverWait wait = new WebDriverWait(webDriver, WEBDRIVER_PAGE_TIMEOUT_SHORT);
+							WebDriverWait wait = new WebDriverWait(webDriver, WEBDRIVER_PAGE_TIMEOUT);
 					        wait.until(new ExpectedCondition<WebElement>(){  
 					            @Override  
 					            public WebElement apply(WebDriver d) {  
