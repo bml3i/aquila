@@ -112,6 +112,14 @@ public class Agent {
 		this.updateDatetime = updateDatetime;
 	}
 	
+	public Double getDelay() {
+		return delay;
+	}
+
+	public void setDelay(Double delay) {
+		this.delay = delay;
+	}
+
 	// get full ip address & port
 	public String getIPAndPort() {
 		return this.ipAddress + ":" + this.portNumber; 
