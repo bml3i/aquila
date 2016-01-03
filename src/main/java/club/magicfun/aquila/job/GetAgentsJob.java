@@ -33,7 +33,7 @@ public class GetAgentsJob {
 	
 	private static final int WEBDRIVER_PAGE_TIMEOUT = 5; 
 	
-	private static final int MIN_ACTIVE_PROXY_NUM = 10; 
+	private static final int MIN_ACTIVE_PROXY_NUM = 20; 
 	
 	private static final String SHOW_IP_INFO_URL = "http://1212.ip138.com/ic.asp"; 
 	private static final String PROXY_EXTRACT_URL = "http://xvre.daili666api.com/ip/?tid=557510611046590&num={PROXYNUM}&operator=1,2,3&delay=1&category=2&foreign=none&filter=on";
