@@ -31,7 +31,7 @@ public class GetAgentsJob {
 	
 	private static final int PROXY_EXTRACT_NUM = 40; 
 	
-	private static final int WEBDRIVER_PAGE_TIMEOUT = 5; 
+	private static final int WEBDRIVER_PAGE_TIMEOUT = 10; 
 	
 	private static final int MIN_ACTIVE_PROXY_NUM = 20; 
 	
@@ -116,8 +116,8 @@ public class GetAgentsJob {
 						
 						logger.info("Delay: " + timeDifference);
 						
-						// ignore if delay > 4000 ms
-						if (timeDifference <= 4000) {
+						// ignore if delay > 5000 ms
+						if (timeDifference <= 5000) {
 							logger.info("Persist proxy: " + proxyRow);
 							
 							Agent agent = new Agent();
