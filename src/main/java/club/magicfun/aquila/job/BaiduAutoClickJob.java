@@ -108,7 +108,7 @@ public class BaiduAutoClickJob {
 								break;
 							}
 						} catch (NoSuchElementException ex) {
-							break; 
+							// do nothing
 						}
 						
 						try {
