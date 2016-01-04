@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @NamedNativeQueries({
 	@NamedNativeQuery(
 		name = "Agent.findFewRecentActiveAgents", 
-		query = "select a.* from agents a where a.active_flg = 1 and (a.update_datetime is null or date_sub(a.update_datetime, interval 60 minute) ) limit ?1", 
+		query = "select a.* from agents a where a.active_flg = 1 and (a.update_datetime is null or a.update_datetime <= date_sub(now(), interval 60 minute)) limit ?1", 
 		resultClass=Agent.class),
 })
 @Table(name = "agents")
