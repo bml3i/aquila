@@ -34,7 +34,7 @@ public class TestWebDriverBaidu {
 		}
 		
 		String searchKeyword = "吕记汤包";
-		String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
+		String targetLinkPartialText = "吕记包子速冻包子 知名品牌速冻包子";
 		
 		WebDriver webDriver = new ChromeDriver();
 		
@@ -67,7 +67,7 @@ public class TestWebDriverBaidu {
 			
 		}
 		
-		webDriver.close();  
+		webDriver.close(); 
         webDriver.quit();
 	}
 

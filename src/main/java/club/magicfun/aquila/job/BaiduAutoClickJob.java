@@ -34,10 +34,10 @@ public class BaiduAutoClickJob {
 	
 	private static final int AGENT_NUMBER_PER_TIME = 5; 
 	
-	private static final int WEBDRIVER_PAGE_TIMEOUT = 15; 
+	private static final int WEBDRIVER_PAGE_TIMEOUT = 30; 
 	
 	private static final String searchKeyword = "吕记汤包";
-	private static final String targetLinkPartialText = "吕记包子吕记汤包 知名品牌吕记汤包";
+	private static final String targetLinkPartialText = "吕记包子速冻包子 知名品牌速冻包子";
 	
 	//private static final String searchKeyword = "包子培训";
 	//private static final String targetLinkPartialText = "天津大帅包餐饮管理有限公司";
@@ -111,15 +111,16 @@ public class BaiduAutoClickJob {
 							break; 
 						}
 						
+						try {
+							Thread.sleep(SLEEP_TIME);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						
 						try {
-							WebDriverWait wait = new WebDriverWait(webDriver, WEBDRIVER_PAGE_TIMEOUT);
-					        wait.until(new ExpectedCondition<WebElement>(){  
-					            @Override  
-					            public WebElement apply(WebDriver d) {  
-					                return d.findElement(By.partialLinkText(targetLinkPartialText));  
-					        }}).click(); 
-						
+					        WebElement targetLinkElement = webDriver.findElement(By.partialLinkText(targetLinkPartialText));
+					        targetLinkElement.click();
+					        
 							logger.info("Successful click through proxy: " + agent.getIPAndPort());
 							
 							try {
