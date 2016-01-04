@@ -69,7 +69,7 @@ public class BaiduAutoClickJob {
 			List<Agent> activeAgents = agentService.findFewRecentActiveAgents(AGENT_NUMBER_PER_TIME);
 			
 			for (Agent agent: activeAgents) {
-				boolean successFlag = false; 
+				boolean errorFlag = false; 
 				WebDriver webDriver = null; 
 				
 				try {
@@ -96,16 +96,15 @@ public class BaiduAutoClickJob {
 						webDriver.get(url);
 						
 						try {
-							// ERR_PROXY_CONNECTION_FAILED
-							// Could not connect
-							
 							if (webDriver.findElement(By.xpath("//*[contains(text(), 'ERR_PROXY_CONNECTION_FAILED')]")).getText().length() > 0) {
 								logger.info("contains 'ERR_PROXY_CONNECTION_FAILED', break!");
+								errorFlag = true; 
 								break;
 							}
 							
 							if (webDriver.findElement(By.xpath("//*[contains(text(), 'Could not connect')]")).getText().length() > 0) {
 								logger.info("contains 'Could not connect', break!");
+								errorFlag = true; 
 								break;
 							}
 						} catch (NoSuchElementException ex) {
@@ -122,7 +121,6 @@ public class BaiduAutoClickJob {
 					        }}).click(); 
 						
 							logger.info("Successful click through proxy: " + agent.getIPAndPort());
-							successFlag = true; 
 							
 							try {
 								Thread.sleep(SLEEP_TIME);
@@ -145,12 +143,18 @@ public class BaiduAutoClickJob {
 					//ex.printStackTrace();
 				} finally {
 			        webDriver.quit();
+			        webDriver = null; 
 				}
 			
 				// update agent
-				if (!successFlag) {
+				if (errorFlag) {
+					agent.setRetryCount(agent.getRetryCount() + 1);
+				}
+				
+				if (agent.getRetryCount() >= 3) {
 					agent.setActiveFlag(false);
 				}
+				
 				agentService.persist(agent);
 				
 			}

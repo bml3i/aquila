@@ -78,6 +78,7 @@ public class GetAgentsJob {
 					ex.printStackTrace();
 				} finally {
 					webDriver0.quit();
+					webDriver0 = null; 
 				}
 				
 				String[] proxyArray = proxyResult.split("\n");
@@ -103,14 +104,17 @@ public class GetAgentsJob {
 						// get ip information
 						webDriver.manage().timeouts().pageLoadTimeout(WEBDRIVER_PAGE_TIMEOUT, TimeUnit.SECONDS);
 						
+						Date beginTime = new Date();
 						webDriver.get(SHOW_IP_INFO_URL);
+						Date endTime = new Date();
+						
 						String ipInfo = webDriver.findElement(By.xpath("//body/center")).getText().trim();
 						logger.info("IP info: " + ipInfo);
 						
 						// test accessing the target site
-						Date beginTime = new Date();
-						webDriver.get(TARGET_SITE_URL);
-						Date endTime = new Date();
+						//Date beginTime = new Date();
+						//webDriver.get(TARGET_SITE_URL);
+						//Date endTime = new Date();
 						
 						long timeDifference = endTime.getTime() - beginTime.getTime();
 						
@@ -134,13 +138,14 @@ public class GetAgentsJob {
 						try {
 							Thread.sleep(SLEEP_TIME);
 						} catch (InterruptedException e) {
-							e.printStackTrace();
+							//e.printStackTrace();
 						}
 						
 					} catch (Exception ex) {
 						logger.info("Error when using proxy: " + proxyRow);
 					} finally {
 				        webDriver.quit();
+				        webDriver = null; 
 					}
 				}
 			}
