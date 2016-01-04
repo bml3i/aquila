@@ -53,9 +53,21 @@ public class TestWebDriver4 {
 		
 		WebDriver webDriver = new ChromeDriver();
 		
-		//webDriver.manage().window().maximize();
+		try {
+			Thread.sleep(SLEEP_TIME);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
-		webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); 
+		webDriver.manage().window().maximize();
+		
+		try {
+			Thread.sleep(SLEEP_TIME);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
         
 		String url = PRODUCT_CATEGORY_URL_TEMPLATE.replaceFirst("\\{PRODUCTID\\}", productId.toString());
 		
