@@ -37,10 +37,9 @@ public class BaiduAutoClickJob {
 	private static final int WEBDRIVER_PAGE_TIMEOUT = 30; 
 	
 	private static final String searchKeyword = "吕记汤包";
-	private static final String targetLinkPartialText = "吕记包子速冻包子 知名品牌速冻包子";
-	
 	//private static final String searchKeyword = "包子培训";
-	//private static final String targetLinkPartialText = "天津大帅包餐饮管理有限公司";
+	
+	private static final String[] targetLinkPartialTexts = {"吕记包子速冻包子 知名品牌速冻包子", "包子加盟_包子连锁_灌汤包加盟-天津吕记包子加盟连锁", "包子培训汤包加盟灌汤包加盟狗不"};
 	
 	public static final long SLEEP_TIME = 1000l; 
 	
@@ -117,24 +116,34 @@ public class BaiduAutoClickJob {
 							e.printStackTrace();
 						}
 						
-						try {
-					        WebElement targetLinkElement = webDriver.findElement(By.partialLinkText(targetLinkPartialText));
-					        targetLinkElement.click();
-					        
-							logger.info("Successful click through proxy: " + agent.getIPAndPort());
-							
-							try {
-								Thread.sleep(SLEEP_TIME);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							
-							break; 
+						boolean successFlag = false; 
 						
-						} catch (NoSuchElementException nsex) {
-							//nsex.printStackTrace();
-						} catch (Exception e) {
-							//e.printStackTrace();
+						for (int targetTextIndex = 0; targetTextIndex < targetLinkPartialTexts.length; targetTextIndex++) {
+							try {
+						        WebElement targetLinkElement = webDriver.findElement(By.partialLinkText(targetLinkPartialTexts[targetTextIndex]));
+						        targetLinkElement.click();
+						        
+						        successFlag = true; 
+								logger.info("Successful click through proxy: " + agent.getIPAndPort());
+								
+								try {
+									Thread.sleep(SLEEP_TIME);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								
+								break; 
+							
+							} catch (NoSuchElementException nsex) {
+								//nsex.printStackTrace();
+							} catch (Exception e) {
+								//e.printStackTrace();
+							}
+						}
+						
+						if (successFlag) {
+							logger.info("Break as it was already clicked successfully! ");
+							break; 
 						}
 					}
 		        
@@ -152,7 +161,7 @@ public class BaiduAutoClickJob {
 					agent.setRetryCount(agent.getRetryCount() + 1);
 				}
 				
-				if (agent.getRetryCount() >= 3) {
+				if (agent.getRetryCount() >= 2) {
 					agent.setActiveFlag(false);
 				}
 				
