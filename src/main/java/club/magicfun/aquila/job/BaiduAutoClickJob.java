@@ -122,6 +122,13 @@ public class BaiduAutoClickJob {
 								errorFlag = true; 
 								break;
 							}
+							
+							if (webDriver.findElement(By.xpath("//*[contains(text(), '很抱歉，您要访问的页面不存在')]")).getText().length() > 0) {
+								logger.info("contains '很抱歉，您要访问的页面不存在', break!");
+								errorFlag = true; 
+								break;
+							}
+							
 						} catch (NoSuchElementException ex) {
 							// do nothing
 						}
