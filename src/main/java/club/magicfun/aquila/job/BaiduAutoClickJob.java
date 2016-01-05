@@ -22,7 +22,9 @@ import org.springframework.stereotype.Component;
 
 import club.magicfun.aquila.model.Agent;
 import club.magicfun.aquila.model.Job;
+import club.magicfun.aquila.model.MyLog;
 import club.magicfun.aquila.service.AgentService;
+import club.magicfun.aquila.service.MyLogService;
 import club.magicfun.aquila.service.ScheduleService;
 
 @Component
@@ -49,6 +51,9 @@ public class BaiduAutoClickJob {
 	
 	@Autowired
 	private AgentService agentService;
+	
+	@Autowired
+	private MyLogService myLogService;
 	
 	public BaiduAutoClickJob() {
 		super();
@@ -126,6 +131,12 @@ public class BaiduAutoClickJob {
 						        
 						        successFlag = true; 
 								logger.info("Successful click through proxy: " + agent.getIPAndPort());
+								
+								// get page title
+								String pageTitle = webDriver.getTitle();
+								
+								MyLog myLog = new MyLog("BAIDU_CLICK_SUCCESS", agent.getIPAndPort() + "::" + pageTitle);
+								myLogService.persist(myLog);
 								
 								try {
 									Thread.sleep(SLEEP_TIME);

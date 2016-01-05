@@ -231,3 +231,11 @@ create table agents (
 );
 
 
+/* 14. my_logs */
+create table my_logs (
+	id int not null auto_increment, 
+	log_type varchar(16) not null,
+	text varchar(256) null,
+	create_datetime timestamp not null,
+	primary key (id)
+);

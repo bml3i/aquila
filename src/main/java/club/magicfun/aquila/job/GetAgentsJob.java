@@ -21,7 +21,9 @@ import org.springframework.stereotype.Component;
 
 import club.magicfun.aquila.model.Agent;
 import club.magicfun.aquila.model.Job;
+import club.magicfun.aquila.model.MyLog;
 import club.magicfun.aquila.service.AgentService;
+import club.magicfun.aquila.service.MyLogService;
 import club.magicfun.aquila.service.ScheduleService;
 
 @Component
@@ -48,6 +50,8 @@ public class GetAgentsJob {
 	@Autowired
 	private AgentService agentService;
 	
+	@Autowired
+	private MyLogService myLogService;
 	
 	public GetAgentsJob() {
 		super();
@@ -133,6 +137,9 @@ public class GetAgentsJob {
 							agent.setDelay(timeDifference);
 							
 							agentService.persist(agent); 
+							
+							MyLog myLog = new MyLog("PROXY_GET_SUCCESS", agent.getIPAndPort() + "::" + ipInfo);
+							myLogService.persist(myLog);
 						}
 						
 						try {
