@@ -111,6 +111,12 @@ public class BaiduAutoClickJob {
 								break;
 							}
 							
+							if (webDriver.findElement(By.xpath("//*[contains(text(), 'ERR_CONNECTION_RESET')]")).getText().length() > 0) {
+								logger.info("contains 'ERR_CONNECTION_RESET', break!");
+								errorFlag = true; 
+								break;
+							}
+							
 							if (webDriver.findElement(By.xpath("//*[contains(text(), 'Could not connect')]")).getText().length() > 0) {
 								logger.info("contains 'Could not connect', break!");
 								errorFlag = true; 
