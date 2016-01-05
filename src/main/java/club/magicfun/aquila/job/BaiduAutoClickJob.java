@@ -41,9 +41,11 @@ public class BaiduAutoClickJob {
 	//private static final String searchKeyword = "吕记汤包";
 	//private static final String[] targetLinkPartialTexts = {"吕记包子速冻包子 知名品牌速冻包子", "包子加盟_包子连锁_灌汤包加盟-天津吕记包子加盟连锁", "包子培训汤包加盟灌汤包加盟狗不"};
 	
-	private static final String searchKeyword = "包子培训";
-	private static final String[] targetLinkPartialTexts = {"天津包子培训基地", "大帅包"};
+	//private static final String searchKeyword = "包子培训";
+	//private static final String[] targetLinkPartialTexts = {"天津包子培训基地", "大帅包"};
 	
+	private static final String searchKeyword = "包子加盟";
+	private static final String[] targetLinkPartialTexts = {"全国包子加盟店店，吕记包子", "吕记包子包子加盟店","包子加盟店认准吕记包子"};
 	
 	//private static final String searchKeyword = "包子培训";
 	//private static final String[] targetLinkPartialTexts = {"天津老卜家汤包", "老卜家汤包", "汤包培训班老卜家汤包-历史传承品牌"};
