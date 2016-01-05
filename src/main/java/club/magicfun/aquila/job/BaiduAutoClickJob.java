@@ -149,7 +149,7 @@ public class BaiduAutoClickJob {
 								myLogService.persist(myLog);
 								
 								try {
-									Thread.sleep(SLEEP_TIME);
+									Thread.sleep(5000l);
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 								}
