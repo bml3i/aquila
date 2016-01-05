@@ -36,10 +36,11 @@ public class BaiduAutoClickJob {
 	
 	private static final int WEBDRIVER_PAGE_TIMEOUT = 30; 
 	
-	private static final String searchKeyword = "吕记汤包";
-	//private static final String searchKeyword = "包子培训";
+	//private static final String searchKeyword = "吕记汤包";
+	//private static final String[] targetLinkPartialTexts = {"吕记包子速冻包子 知名品牌速冻包子", "包子加盟_包子连锁_灌汤包加盟-天津吕记包子加盟连锁", "包子培训汤包加盟灌汤包加盟狗不"};
 	
-	private static final String[] targetLinkPartialTexts = {"吕记包子速冻包子 知名品牌速冻包子", "包子加盟_包子连锁_灌汤包加盟-天津吕记包子加盟连锁", "包子培训汤包加盟灌汤包加盟狗不"};
+	private static final String searchKeyword = "包子培训";
+	private static final String[] targetLinkPartialTexts = {"天津老卜家汤包", "老卜家汤包", "汤包培训班老卜家汤包-历史传承品牌"};
 	
 	public static final long SLEEP_TIME = 1000l; 
 	
