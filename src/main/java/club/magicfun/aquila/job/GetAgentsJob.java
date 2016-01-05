@@ -42,7 +42,7 @@ public class GetAgentsJob {
 	
 	private static final String TARGET_SITE_URL = "http://www.baidu.com";
 	
-	public static final long SLEEP_TIME = 1000l; 
+	public static final long SLEEP_TIME = 2000l; 
 	
 	@Autowired
 	private ScheduleService scheduleService;

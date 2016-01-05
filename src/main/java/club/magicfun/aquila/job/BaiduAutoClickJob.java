@@ -48,7 +48,7 @@ public class BaiduAutoClickJob {
 	//private static final String searchKeyword = "包子培训";
 	//private static final String[] targetLinkPartialTexts = {"天津老卜家汤包", "老卜家汤包", "汤包培训班老卜家汤包-历史传承品牌"};
 	
-	public static final long SLEEP_TIME = 1000l; 
+	public static final long SLEEP_TIME = 2000l; 
 	
 	@Autowired
 	private ScheduleService scheduleService;
