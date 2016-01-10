@@ -61,6 +61,13 @@ public class RankSearchJob {
 				for (RankSearchQueue rankSearchQueue : rankSearchQueues) {
 					logger.info("Dealing with Rank Search Queues: " + rankSearchQueue.getKeyword());
 					
+					// delete ranks first by rank search queue id
+					List<Rank> originalRanks = rankingService.findAllRanksByRankSearchQueueId(rankSearchQueue.getId());
+					if (originalRanks != null && originalRanks.size() > 0) {
+						rankingService.deleteRanksInBatch(originalRanks); 
+						logger.info(originalRanks.size() + " old ranks had been deleted.");
+					}
+					
 					boolean containsError = false; 
 
 					Set<RankSearchType> rankSearchTypes = rankSearchQueue.getRankSearchTypes();

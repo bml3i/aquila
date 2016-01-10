@@ -57,5 +57,15 @@ public class RankingServiceImpl implements RankingService {
 	public List<RankSearchQueue> findFewActivePendingRankSearchQueues(Integer number) {
 		return rankSearchQueueRepository.findFewActivePendingRankSearchQueues(number);
 	}
+
+	@Override
+	public List<Rank> findAllRanksByRankSearchQueueId(Integer rankSearchQueueId) {
+		return rankRepository.findAllRanksByRankSearchQueueId(rankSearchQueueId);
+	}
+
+	@Override
+	public void deleteRanksInBatch(List<Rank> ranks) {
+		rankRepository.deleteInBatch(ranks);
+	}
 	
 }

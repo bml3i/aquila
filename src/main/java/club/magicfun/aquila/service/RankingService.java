@@ -15,4 +15,7 @@ public interface RankingService {
 	
 	Rank persist(Rank rank);
 	
+	List<Rank> findAllRanksByRankSearchQueueId(Integer rankSearchQueueId);
+	
+	void deleteRanksInBatch(List<Rank> ranks);
 }

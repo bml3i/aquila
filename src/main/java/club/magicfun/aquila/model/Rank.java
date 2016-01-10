@@ -10,9 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
 @Entity
+@NamedNativeQueries({
+	@NamedNativeQuery(
+		name = "Rank.findAllRanksByRankSearchQueueId", 
+		query = "select r.* from ranks r where r.rank_search_queue_id = ?1", 
+		resultClass=Rank.class),
+})
 @Table(name = "ranks")
 public class Rank {
 
