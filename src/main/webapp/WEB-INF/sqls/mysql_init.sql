@@ -113,15 +113,15 @@ insert into categories (product_table_id, category_name, category_price, categor
 insert into categories (product_table_id, category_name, category_price, category_stock_number) values (1, '蓝色款', 30.00, 100);
 
 
-/* 7. rank_search_keywords */
-create table rank_search_keywords (
+/* 7. rank_search_queue */
+create table rank_search_queue (
 	id int not null auto_increment, 
 	keyword varchar(32) not null,
 	create_datetime timestamp null,
 	primary key (id)
 );
 
-insert into rank_search_keywords (keyword, create_datetime) values ('魔方', '2015-12-01 00:00:00');
+insert into rank_search_queue (keyword, create_datetime) values ('魔方', '2015-12-01 00:00:00');
 
 
 /* 8. rank_search_types */
@@ -143,7 +143,7 @@ create table rank_search_keyword_type (
 	rank_search_keyword_id int not null,
 	rank_search_type_id int not null,
 	primary key (rank_search_keyword_id, rank_search_type_id),
-	foreign key (rank_search_keyword_id) references rank_search_keywords (id),
+	foreign key (rank_search_keyword_id) references rank_search_queue (id),
 	foreign key (rank_search_type_id) references rank_search_types (id)
 );
 
@@ -166,14 +166,14 @@ create table jobs (
 	primary key (id)
 );
 
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 120);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 120);
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.ProductSearchJob', 'Product Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 2);
 
 -- extract proxy and validate it
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.GetAgentsJob', 'Get Agents Job', 1, 'C', '2015-12-01 00:00:00', null, null, 5);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.GetAgentsJob', 'Get Agents Job', 0, 'C', '2015-12-01 00:00:00', null, null, 5);
 
 -- test baidu auto-click
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.BaiduAutoClickJob', 'Baidu Auto-Click Job', 1, 'C', '2015-12-01 00:00:00', null, null, 1);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.BaiduAutoClickJob', 'Baidu Auto-Click Job', 0, 'C', '2015-12-01 00:00:00', null, null, 1);
 
 
 /* 11. rank_search_hist */

@@ -23,7 +23,7 @@ public class RankSearchHistory {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "rank_search_keyword_id")
-	private RankSearchKeyword rankSearchKeyword;
+	private RankSearchQueue rankSearchKeyword;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "rank_search_type_id")
@@ -58,11 +58,11 @@ public class RankSearchHistory {
 		this.id = id;
 	}
 
-	public RankSearchKeyword getRankSearchKeyword() {
+	public RankSearchQueue getRankSearchKeyword() {
 		return rankSearchKeyword;
 	}
 
-	public void setRankSearchKeyword(RankSearchKeyword rankSearchKeyword) {
+	public void setRankSearchKeyword(RankSearchQueue rankSearchKeyword) {
 		this.rankSearchKeyword = rankSearchKeyword;
 	}
 

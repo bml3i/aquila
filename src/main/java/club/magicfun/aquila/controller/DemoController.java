@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import club.magicfun.aquila.model.Category;
 import club.magicfun.aquila.model.Job;
 import club.magicfun.aquila.model.Product;
-import club.magicfun.aquila.model.RankSearchKeyword;
+import club.magicfun.aquila.model.RankSearchQueue;
 import club.magicfun.aquila.model.RankSearchType;
 import club.magicfun.aquila.repository.JobRepository;
 import club.magicfun.aquila.repository.ProductRepository;
-import club.magicfun.aquila.repository.RankSearchKeywordRepository;
+import club.magicfun.aquila.repository.RankSearchQueueRepository;
 import club.magicfun.aquila.service.ProductService;
 
 @Controller
@@ -35,7 +35,7 @@ public class DemoController extends BaseController {
 	private ProductRepository productRepository;
 	
 	@Autowired
-	private RankSearchKeywordRepository rankSearchKeywordRepository;
+	private RankSearchQueueRepository rankSearchKeywordRepository;
 	
 	@Autowired
 	private JobRepository jobRepository;
@@ -64,10 +64,10 @@ public class DemoController extends BaseController {
 			}
 		}
 		
-		List<RankSearchKeyword> rankSearchKeywords = rankSearchKeywordRepository.findAll();
+		List<RankSearchQueue> rankSearchKeywords = rankSearchKeywordRepository.findAll();
 		
 		if (rankSearchKeywords != null && rankSearchKeywords.size() > 0) {
-			for(RankSearchKeyword rankSearchKeyword : rankSearchKeywords) {
+			for(RankSearchQueue rankSearchKeyword : rankSearchKeywords) {
 				logger.info(rankSearchKeyword.getId() + " - " + rankSearchKeyword.getKeyword());
 				
 				Set<RankSearchType> rankSearchTypes = rankSearchKeyword.getRankSearchTypes();

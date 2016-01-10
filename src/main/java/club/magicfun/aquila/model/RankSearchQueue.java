@@ -19,8 +19,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rank_search_keywords")
-public class RankSearchKeyword {
+@Table(name = "rank_search_queue")
+public class RankSearchQueue {
 
 	@Id
 	@Column(name = "id")

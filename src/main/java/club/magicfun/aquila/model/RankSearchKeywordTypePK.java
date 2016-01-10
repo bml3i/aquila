@@ -11,7 +11,7 @@ public class RankSearchKeywordTypePK implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "rank_search_keyword_id", referencedColumnName = "id")
-	private RankSearchKeyword rankSearchKeyword;
+	private RankSearchQueue rankSearchKeyword;
 
 	@ManyToOne
 	@JoinColumn(name = "rank_search_type_id", referencedColumnName = "id")

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import club.magicfun.aquila.model.Job;
 import club.magicfun.aquila.model.RankSearchHistory;
-import club.magicfun.aquila.model.RankSearchKeyword;
+import club.magicfun.aquila.model.RankSearchQueue;
 import club.magicfun.aquila.model.RankSearchType;
 import club.magicfun.aquila.service.RankingService;
 import club.magicfun.aquila.service.ScheduleService;
@@ -52,13 +52,13 @@ public class RankSearchJob {
 			job = scheduleService.startJob(job);
 			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 			
-			List<RankSearchKeyword> rankSearchKeywords = rankingService.findAllRankSearchKeywords();
+			List<RankSearchQueue> rankSearchQueues = rankingService.findAllRankSearchQueues();
 			
-			if (rankSearchKeywords != null) {
-				logger.info("Rank Search Keywords count = " + rankSearchKeywords.size());
+			if (rankSearchQueues != null) {
+				logger.info("Rank Search Queues count = " + rankSearchQueues.size());
 				
-				for (RankSearchKeyword rankSearchKeyword : rankSearchKeywords) {
-					logger.info("Dealing with Rank Search Keywords: " + rankSearchKeyword.getKeyword());
+				for (RankSearchQueue rankSearchKeyword : rankSearchQueues) {
+					logger.info("Dealing with Rank Search Queues: " + rankSearchKeyword.getKeyword());
 					
 					Set<RankSearchType> rankSearchTypes = rankSearchKeyword.getRankSearchTypes();
 					

@@ -35,7 +35,7 @@ public class RankSearchType {
 	private Set<RankSearchKeywordType> rankSearchKeywordTypes;
 
 	@ManyToMany(mappedBy = "rankSearchTypes", fetch = FetchType.LAZY)
-	private Set<RankSearchKeyword> rankSearchKeywords = new HashSet<RankSearchKeyword>();
+	private Set<RankSearchQueue> rankSearchKeywords = new HashSet<RankSearchQueue>();
 
 	public Integer getId() {
 		return id;
@@ -69,11 +69,11 @@ public class RankSearchType {
 		this.rankSearchKeywordTypes = rankSearchKeywordTypes;
 	}
 
-	public Set<RankSearchKeyword> getRankSearchKeywords() {
+	public Set<RankSearchQueue> getRankSearchKeywords() {
 		return rankSearchKeywords;
 	}
 
-	public void setRankSearchKeywords(Set<RankSearchKeyword> rankSearchKeywords) {
+	public void setRankSearchKeywords(Set<RankSearchQueue> rankSearchKeywords) {
 		this.rankSearchKeywords = rankSearchKeywords;
 	}
 
