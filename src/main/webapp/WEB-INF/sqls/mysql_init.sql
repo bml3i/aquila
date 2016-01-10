@@ -176,8 +176,8 @@ insert into jobs (class_name, description, active_flg, run_status, create_dateti
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.BaiduAutoClickJob', 'Baidu Auto-Click Job', 0, 'C', '2015-12-01 00:00:00', null, null, 1);
 
 
-/* 11. rank_search_hist */
-create table rank_search_hist (
+/* 11. ranks */
+create table ranks (
 	id int not null auto_increment, 
 	rank_search_keyword_id int not null,
 	rank_search_type_id int not null,

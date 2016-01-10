@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import club.magicfun.aquila.model.Job;
-import club.magicfun.aquila.model.RankSearchHistory;
+import club.magicfun.aquila.model.Rank;
 import club.magicfun.aquila.model.RankSearchQueue;
 import club.magicfun.aquila.model.RankSearchType;
 import club.magicfun.aquila.service.RankingService;
@@ -107,18 +107,18 @@ public class RankSearchJob {
 								System.out.println("------------------------");
 								*/
 								
-								RankSearchHistory rankSearchHistory = new RankSearchHistory();
-								rankSearchHistory.setRankSearchKeyword(rankSearchQueue);
-								rankSearchHistory.setRankSearchType(rankSearchType);
-								rankSearchHistory.setRankNumber(rankIndex);
-								rankSearchHistory.setProductId(Long.parseLong(itemProductId));
-								rankSearchHistory.setProductName(itemProductName);
-								rankSearchHistory.setProductPrice(Double.parseDouble(itemProductPrice));
-								rankSearchHistory.setDealCount(Integer.parseInt(itemProductDealCount));
-								rankSearchHistory.setShopName(itemShopName);
-								rankSearchHistory.setCreateDatetime(new Date());
+								Rank rank = new Rank();
+								rank.setRankSearchKeyword(rankSearchQueue);
+								rank.setRankSearchType(rankSearchType);
+								rank.setRankNumber(rankIndex);
+								rank.setProductId(Long.parseLong(itemProductId));
+								rank.setProductName(itemProductName);
+								rank.setProductPrice(Double.parseDouble(itemProductPrice));
+								rank.setDealCount(Integer.parseInt(itemProductDealCount));
+								rank.setShopName(itemShopName);
+								rank.setCreateDatetime(new Date());
 								
-								rankingService.persist(rankSearchHistory);
+								rankingService.persist(rank);
 							}
 							
 						}

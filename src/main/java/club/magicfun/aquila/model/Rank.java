@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rank_search_hist")
-public class RankSearchHistory {
+@Table(name = "ranks")
+public class Rank {
 
 	@Id
 	@Column(name = "id")
