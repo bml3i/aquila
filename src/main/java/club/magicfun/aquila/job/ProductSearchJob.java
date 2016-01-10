@@ -51,6 +51,8 @@ public class ProductSearchJob {
 		String className = this.getClass().getName();
 		Job job = scheduleService.findJobByClassName(className);
 		
+		Date currentDate = new Date();
+		
 		// determine if to run this job
 		if (job != null && job.isJobReadyToRun()) {
 			
@@ -346,6 +348,7 @@ public class ProductSearchJob {
 					
 					if (!containsError) {
 						product.setActiveFlag(true);
+						product.setCutoffDate(currentDate);
 						
 						logger.info("[product] - " + product.toString());
 						
@@ -353,7 +356,7 @@ public class ProductSearchJob {
 						
 						logger.info("product " + product.getProductId() + " had been saved. ");
 						
-						productSearchQueue.setCutoffDate(new Date());
+						productSearchQueue.setCutoffDate(currentDate);
 						
 					} else {
 						logger.info("Failed to save product " + product.getProductId() + ".");

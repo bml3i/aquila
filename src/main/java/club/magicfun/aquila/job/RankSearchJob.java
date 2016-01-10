@@ -48,6 +48,8 @@ public class RankSearchJob {
 
 		String className = this.getClass().getName();
 		Job job = scheduleService.findJobByClassName(className);
+		
+		Date currentDate = new Date();
 
 		// determine if to run this job
 		if (job != null && job.isJobReadyToRun()) {
@@ -129,6 +131,7 @@ public class RankSearchJob {
 									rank.setProductPrice(Double.parseDouble(itemProductPrice));
 									rank.setDealCount(Integer.parseInt(itemProductDealCount));
 									rank.setShopName(itemShopName);
+									rank.setCutoffDate(currentDate);
 									rank.setCreateDatetime(new Date());
 
 									rankingService.persist(rank);
