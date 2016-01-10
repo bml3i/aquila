@@ -117,11 +117,17 @@ insert into categories (product_table_id, category_name, category_price, categor
 create table rank_search_queue (
 	id int not null auto_increment, 
 	keyword varchar(32) not null,
-	create_datetime timestamp null,
+	active_flg boolean default 1,
+	retry_cnt smallint default 0 not null,
+	create_datetime timestamp not null,
+	update_datetime timestamp null,
+	cutoff_date date null,
 	primary key (id)
 );
 
-insert into rank_search_queue (keyword, create_datetime) values ('魔方', '2015-12-01 00:00:00');
+insert into rank_search_queue (keyword, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values ('水果刀', 1, 0, '2016-01-01 00:00:00', null, null);
+insert into rank_search_queue (keyword, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values ('魔方', 1, 0, '2016-01-01 00:00:00', null, null);
+insert into rank_search_queue (keyword, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values ('iphone6', 1, 0, '2016-01-01 00:00:00', null, null);
 
 
 /* 8. rank_search_types */
@@ -150,7 +156,12 @@ create table rank_search_queue_type (
 insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (1, 1);
 insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (1, 2);
 insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (1, 3);
-
+insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (2, 1);
+insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (2, 2);
+insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (2, 3);
+insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (3, 1);
+insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (3, 2);
+insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (3, 3);
 
 /* 10. jobs */
 create table jobs (
@@ -166,14 +177,14 @@ create table jobs (
 	primary key (id)
 );
 
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 120);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 2);
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.ProductSearchJob', 'Product Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 2);
 
 -- extract proxy and validate it
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.GetAgentsJob', 'Get Agents Job', 0, 'C', '2015-12-01 00:00:00', null, null, 5);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.GetAgentsJob', 'Get Agents Job', 0, 'C', '2015-12-01 00:00:00', null, null, 15);
 
 -- test baidu auto-click
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.BaiduAutoClickJob', 'Baidu Auto-Click Job', 0, 'C', '2015-12-01 00:00:00', null, null, 1);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.BaiduAutoClickJob', 'Baidu Auto-Click Job', 0, 'C', '2015-12-01 00:00:00', null, null, 2);
 
 
 /* 11. ranks */

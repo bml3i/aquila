@@ -9,6 +9,10 @@ public interface RankingService {
 
 	List<RankSearchQueue> findAllRankSearchQueues();
 	
-	Rank persist(Rank rankSearchHistory);
+	List<RankSearchQueue> findFewActivePendingRankSearchQueues(Integer number);
+	
+	RankSearchQueue persist(RankSearchQueue rankSearchQueue);
+	
+	Rank persist(Rank rank);
 	
 }

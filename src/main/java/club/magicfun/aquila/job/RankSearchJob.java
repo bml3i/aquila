@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -25,113 +26,132 @@ import club.magicfun.aquila.util.StringUtility;
 
 @Component
 public class RankSearchJob {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(RankSearchJob.class);
-	
+
 	private static final String RANK_SEARCH_URL_TEMPLATE = "http://s.taobao.com/search?q={KEYWORD}&sort={SORTTYPE}&style=list";
-	
+
 	@Autowired
 	private ScheduleService scheduleService;
-	
+
 	@Autowired
 	private RankingService rankingService;
-	
+
 	public RankSearchJob() {
 		super();
 	}
 
 	@Scheduled(cron = "0/30 * * * * ? ")
-    public void run(){
-		
+	public void run() {
+
 		String className = this.getClass().getName();
 		Job job = scheduleService.findJobByClassName(className);
-		
+
 		// determine if to run this job
 		if (job != null && job.isJobReadyToRun()) {
-			
+
 			job = scheduleService.startJob(job);
 			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
-			
+
 			List<RankSearchQueue> rankSearchQueues = rankingService.findAllRankSearchQueues();
-			
+
 			if (rankSearchQueues != null) {
 				logger.info("Rank Search Queues count = " + rankSearchQueues.size());
-				
+
 				for (RankSearchQueue rankSearchQueue : rankSearchQueues) {
 					logger.info("Dealing with Rank Search Queues: " + rankSearchQueue.getKeyword());
 					
+					boolean containsError = false; 
+
 					Set<RankSearchType> rankSearchTypes = rankSearchQueue.getRankSearchTypes();
-					
+
 					if (rankSearchTypes != null) {
-						
-						WebDriver webDriver = new ChromeDriver();
-						
-						for (RankSearchType rankSearchType : rankSearchTypes) {
-							logger.info("Dealing with Rank Search Type: " + rankSearchType.getName());
-							
-							String url = RANK_SEARCH_URL_TEMPLATE.replaceFirst("\\{KEYWORD\\}",
-									rankSearchQueue.getKeyword()).replaceFirst("\\{SORTTYPE\\}", rankSearchType.getSortType());
-							logger.info("URL: " + url);
-							
-							webDriver.get(url);
-							
-							List<WebElement> prodItemDivs = webDriver.findElements(By.xpath("//*[@class='list']/div/div[contains(concat(' ', normalize-space(@class), ' '), ' item ')]"));
-							
-							int rankIndex = 0; 
-							
-							for (WebElement prodItemDiv : prodItemDivs) {
-								
-								//System.out.println("webElement " + prodItemDiv.toString());
-								
-								rankIndex++;
-								
-								WebElement itemTitleLink = prodItemDiv.findElement(By.xpath("div[@class='col col-2']/p/a"));
-								
-								String itemProductId = itemTitleLink.getAttribute("data-nid");
-								
-								String itemProductName = HtmlUtility.removeHtmlTags(itemTitleLink.getText());
-								
-								String itemShopName = HtmlUtility.removeHtmlTags(prodItemDiv.findElement(By.xpath("div[@class='col col-2']/div/div[@class='shop']")).getText());
-								
-								String itemProductPrice = prodItemDiv.findElement(By.xpath("div[@class='col col-3']/div/span/strong")).getText();
-								
-								String itemProductDealCount = StringUtility.extractFirstFewDigits(prodItemDiv.findElement(By.xpath("div[@class='col col-4']/p[@class='deal-cnt']")).getText());
-								
-								/*
-								System.out.println("Item Rank index: " + rankIndex);
-								System.out.println("item product id: " + itemProductId);
-								System.out.println("item product name: " + itemProductName);
-								System.out.println("item product price: " + itemProductPrice);
-								System.out.println("item product deal count: " + itemProductDealCount);
-								System.out.println("shop name: " + itemShopName);
-								System.out.println("------------------------");
-								*/
-								
-								Rank rank = new Rank();
-								rank.setRankSearchQueue(rankSearchQueue);
-								rank.setRankSearchType(rankSearchType);
-								rank.setRankNumber(rankIndex);
-								rank.setProductId(Long.parseLong(itemProductId));
-								rank.setProductName(itemProductName);
-								rank.setProductPrice(Double.parseDouble(itemProductPrice));
-								rank.setDealCount(Integer.parseInt(itemProductDealCount));
-								rank.setShopName(itemShopName);
-								rank.setCreateDatetime(new Date());
-								
-								rankingService.persist(rank);
+
+						try {
+
+							WebDriver webDriver = new ChromeDriver();
+
+							for (RankSearchType rankSearchType : rankSearchTypes) {
+								logger.info("Dealing with Rank Search Type: " + rankSearchType.getName());
+
+								String url = RANK_SEARCH_URL_TEMPLATE
+										.replaceFirst("\\{KEYWORD\\}", rankSearchQueue.getKeyword())
+										.replaceFirst("\\{SORTTYPE\\}", rankSearchType.getSortType());
+								logger.info("URL: " + url);
+
+								webDriver.get(url);
+
+								List<WebElement> prodItemDivs = webDriver.findElements(By.xpath(
+										"//*[@class='list']/div/div[contains(concat(' ', normalize-space(@class), ' '), ' item ')]"));
+
+								int rankIndex = 0;
+
+								for (WebElement prodItemDiv : prodItemDivs) {
+
+									// System.out.println("webElement " +
+									// prodItemDiv.toString());
+
+									rankIndex++;
+
+									WebElement itemTitleLink = prodItemDiv
+											.findElement(By.xpath("div[@class='col col-2']/p/a"));
+
+									String itemProductId = itemTitleLink.getAttribute("data-nid");
+
+									String itemProductName = HtmlUtility.removeHtmlTags(itemTitleLink.getText());
+
+									String itemShopName = HtmlUtility.removeHtmlTags(prodItemDiv
+											.findElement(By.xpath("div[@class='col col-2']/div/div[@class='shop']"))
+											.getText());
+
+									String itemProductPrice = prodItemDiv
+											.findElement(By.xpath("div[@class='col col-3']/div/span/strong")).getText();
+
+									String itemProductDealCount = StringUtility.extractFirstFewDigits(prodItemDiv
+											.findElement(By.xpath("div[@class='col col-4']/p[@class='deal-cnt']"))
+											.getText());
+
+									Rank rank = new Rank();
+									rank.setRankSearchQueue(rankSearchQueue);
+									rank.setRankSearchType(rankSearchType);
+									rank.setRankNumber(rankIndex);
+									rank.setProductId(Long.parseLong(itemProductId));
+									rank.setProductName(itemProductName);
+									rank.setProductPrice(Double.parseDouble(itemProductPrice));
+									rank.setDealCount(Integer.parseInt(itemProductDealCount));
+									rank.setShopName(itemShopName);
+									rank.setCreateDatetime(new Date());
+
+									rankingService.persist(rank);
+								}
+
 							}
-							
+
+							webDriver.close();
+							webDriver.quit();
+						} catch (NoSuchElementException ex) {
+							containsError = true; 
 						}
-						
-						webDriver.close();  
-						webDriver.quit();
 					}
+					
+					if (!containsError) {
+						rankSearchQueue.setCutoffDate(new Date());
+					} else {
+						rankSearchQueue.setRetryCount(rankSearchQueue.getRetryCount() + 1);
+						
+						// update active flag if retry_cnt >= 2
+						if (rankSearchQueue.getRetryCount() >= 2) {
+							rankSearchQueue.setActiveFlag(false);
+						}
+					}
+					
+					rankingService.persist(rankSearchQueue);
 				}
 			}
-			
+
 			job = scheduleService.completeJob(job);
 		} else {
-			logger.warn("Job has not been configured for " + className + " or the job is not ready to run.");
+			logger.info("Job has not been configured for " + className + " or the job is not ready to run.");
 		}
 	}
 }

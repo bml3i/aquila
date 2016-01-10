@@ -39,5 +39,23 @@ public class RankingServiceImpl implements RankingService {
 		}
 		return rankRepository.save(rank);
 	}
+
+	@Override
+	public RankSearchQueue persist(RankSearchQueue rankSearchQueue) {
+		if (rankSearchQueue.getId() == null) {
+			rankSearchQueue.setCreateDatetime(new Date());
+		}
+		
+		if (rankSearchQueue.getId() != null) {
+			rankSearchQueue.setUpdateDatetime(new Date());
+		}
+		
+		return rankSearchQueueRepository.save(rankSearchQueue);
+	}
+
+	@Override
+	public List<RankSearchQueue> findFewActivePendingRankSearchQueues(Integer number) {
+		return rankSearchQueueRepository.findFewActivePendingRankSearchQueues(number);
+	}
 	
 }

@@ -33,7 +33,7 @@ public class ProductSearchJob {
 	private static final String SHOP_TYPE_TMALL = "tmall";
 	private static final String SHOP_TYPE_TAOBAO = "taobao";
 	
-	private static final int PRODUCT_SEARCH_NUMBER_PER_TIME = 5; 
+	private static final int PRODUCT_SEARCH_NUMBER_PER_TIME = 30; 
 
 	@Autowired
 	private ScheduleService scheduleService;
