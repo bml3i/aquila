@@ -7,11 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
 @Entity
-@NamedQuery(name = "ProductSearchQueue.findByMaxRetryCount", query = "select psq from ProductSearchQueue psq where psq.retryCount <= ?1")
+@NamedNativeQueries({
+	@NamedNativeQuery(
+		name = "ProductSearchQueue.findFewActivePendingProductSearchQueues", 
+		query = "select psq.* from product_search_queue psq where psq.active_flg = 1 and (psq.cutoff_date is null or psq.cutoff_date <= date_sub(now(), interval 1 day)) limit ?1", 
+		resultClass=ProductSearchQueue.class),
+})
 @Table(name = "product_search_queue")
 public class ProductSearchQueue {
 
@@ -23,11 +29,20 @@ public class ProductSearchQueue {
 	@Column(name = "product_id")
 	private Long productId;
 	
+	@Column(name = "active_flg")
+	private Boolean activeFlag;
+	
 	@Column(name = "retry_cnt")
 	private Integer retryCount;
 	
 	@Column(name = "create_datetime")
 	private Date createDatetime;
+	
+	@Column(name = "update_datetime")
+	private Date updateDatetime;
+	
+	@Column(name = "cutoff_date")
+	private Date cutoffDate;
 
 	public Integer getId() {
 		return id;
@@ -59,6 +74,30 @@ public class ProductSearchQueue {
 
 	public void setRetryCount(Integer retryCount) {
 		this.retryCount = retryCount;
+	}
+
+	public Boolean getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(Boolean activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+
+	public Date getUpdateDatetime() {
+		return updateDatetime;
+	}
+
+	public void setUpdateDatetime(Date updateDatetime) {
+		this.updateDatetime = updateDatetime;
+	}
+
+	public Date getCutoffDate() {
+		return cutoffDate;
+	}
+
+	public void setCutoffDate(Date cutoffDate) {
+		this.cutoffDate = cutoffDate;
 	}
 	
 }

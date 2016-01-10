@@ -34,6 +34,10 @@ public class ProductServiceImpl implements ProductService {
 			productSearchQueue.setCreateDatetime(new Date());
 		}
 		
+		if (productSearchQueue.getId() != null) {
+			productSearchQueue.setUpdateDatetime(new Date());
+		}
+		
 		return productSearchQueueRepository.save(productSearchQueue);
 	}
 
@@ -67,8 +71,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductSearchQueue> findProductSearchQueuesByMaxRetryCount(Integer maxRetryCount) {
-		return productSearchQueueRepository.findByMaxRetryCount(maxRetryCount);
+	public List<ProductSearchQueue> findFewActivePendingProductSearchQueues(Integer number) {
+		return productSearchQueueRepository.findFewActivePendingProductSearchQueues(number);
 	}
 
 

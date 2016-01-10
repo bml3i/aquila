@@ -1,5 +1,6 @@
 package club.magicfun.aquila.job;
 
+import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -32,6 +33,7 @@ public class ProductSearchJob {
 	private static final String SHOP_TYPE_TMALL = "tmall";
 	private static final String SHOP_TYPE_TAOBAO = "taobao";
 	
+	private static final int PRODUCT_SEARCH_NUMBER_PER_TIME = 5; 
 
 	@Autowired
 	private ScheduleService scheduleService;
@@ -55,7 +57,7 @@ public class ProductSearchJob {
 			job = scheduleService.startJob(job);
 			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 			
-			List<ProductSearchQueue> productSearchQueues = productService.findProductSearchQueuesByMaxRetryCount(2);
+			List<ProductSearchQueue> productSearchQueues = productService.findFewActivePendingProductSearchQueues(PRODUCT_SEARCH_NUMBER_PER_TIME);
 			
 			if (productSearchQueues != null && productSearchQueues.size() > 0) {
 				
@@ -351,14 +353,21 @@ public class ProductSearchJob {
 						
 						logger.info("product " + product.getProductId() + " had been saved. ");
 						
-						productService.deleteProductSearchQueue(productSearchQueue.getId());
-						logger.info("productSearchQueue " + productSearchQueue.getId() + " had been cleared. ");
+						productSearchQueue.setCutoffDate(new Date());
+						
 					} else {
 						logger.info("Failed to save product " + product.getProductId() + ".");
 						
+						// update retry_cnt
 						productSearchQueue.setRetryCount(productSearchQueue.getRetryCount() + 1);
-						productService.persist(productSearchQueue);
+						
+						// update active flag if retry_cnt >= 2
+						if (productSearchQueue.getRetryCount() >= 2) {
+							productSearchQueue.setActiveFlag(false);
+						}
 					}
+					
+					productService.persist(productSearchQueue);
 					
 				}
 				

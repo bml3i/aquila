@@ -8,6 +8,6 @@ import club.magicfun.aquila.model.ProductSearchQueue;
 
 public interface ProductSearchQueueRepository extends JpaRepository<ProductSearchQueue, Integer> {
 
-	List<ProductSearchQueue> findByMaxRetryCount(Integer maxRetryCount);
+	List<ProductSearchQueue> findFewActivePendingProductSearchQueues(Integer number);
 	
 }

@@ -166,8 +166,8 @@ create table jobs (
 	primary key (id)
 );
 
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 120);
-insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.ProductSearchJob', 'Product Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 2);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.RankSearchJob', 'Rank Search Job', 0, 'C', '2015-12-01 00:00:00', null, null, 120);
+insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.ProductSearchJob', 'Product Search Job', 1, 'C', '2015-12-01 00:00:00', null, null, 2);
 
 -- extract proxy and validate it
 insert into jobs (class_name, description, active_flg, run_status, create_datetime, start_datetime, end_datetime, min_interval_minute) values ('club.magicfun.aquila.job.GetAgentsJob', 'Get Agents Job', 0, 'C', '2015-12-01 00:00:00', null, null, 5);
@@ -195,26 +195,29 @@ create table ranks (
 create table product_search_queue (
 	id int not null auto_increment, 
 	product_id bigint not null,
+	active_flg boolean default 1,
 	retry_cnt smallint default 0 not null,
-	create_datetime timestamp null,
+	create_datetime timestamp not null,
+	update_datetime timestamp null,
+	cutoff_date date null,
 	primary key (id)
 );
 
 -- TAOBAO
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (44057413538, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (42453456250, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (41129702139, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (1771185060, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (37833049213, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (38403988528, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (44057413538, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (42453456250, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (41129702139, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (1771185060, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (37833049213, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (38403988528, 1, 0, '2016-01-01 00:00:00', null, null);
 
 -- TMALL
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (5968030997, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (523767556371, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (524740490317, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (521299241246, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (520878856645, 0, '2015-12-01 00:00:00');
-insert into product_search_queue (product_id, retry_cnt, create_datetime) values (45855398633, 0, '2015-12-01 00:00:00');
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (5968030997, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (523767556371, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (524740490317, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (521299241246, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (520878856645, 1, 0, '2016-01-01 00:00:00', null, null);
+insert into product_search_queue (product_id, active_flg, retry_cnt, create_datetime, update_datetime, cutoff_date) values (45855398633, 1, 0, '2016-01-01 00:00:00', null, null);
 
 /* 13. agents */
 create table agents (

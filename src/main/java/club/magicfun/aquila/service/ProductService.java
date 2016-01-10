@@ -9,7 +9,7 @@ public interface ProductService {
 
 	List<ProductSearchQueue> findAllProductSearchQueues();
 	
-	List<ProductSearchQueue> findProductSearchQueuesByMaxRetryCount(Integer maxRetryCount);
+	List<ProductSearchQueue> findFewActivePendingProductSearchQueues(Integer number);
 	
 	ProductSearchQueue persist(ProductSearchQueue productSearchQueue);
 	
