@@ -90,11 +90,12 @@ create table products (
 	fav_count int not null,
 	shop_name varchar(32) not null,
 	active_flg boolean default 1,
+	cutoff_date date not null,
 	create_datetime timestamp null,
 	primary key (id)
 );
 
-insert into products (product_id, product_name, month_sale_amount, product_price, fav_count, shop_name, active_flg, create_datetime) values (123456, '测试宝贝', 1200, 11.5, 101, '测试商店', true, '2015-10-01 00:00:00');
+insert into products (product_id, product_name, month_sale_amount, product_price, fav_count, shop_name, active_flg, cutoff_date, create_datetime) values (123456, '测试宝贝', 1200, 11.5, 101, '测试商店', true, '2015-10-01', '2015-10-01 00:00:00');
 
 /* 6. categories */
 create table categories (
@@ -198,6 +199,7 @@ create table ranks (
 	product_price decimal(8,2) not null,
 	deal_count int not null,
 	shop_name varchar(32) not null,
+	cutoff_date date not null,
 	create_datetime timestamp not null,
 	primary key (id)
 );

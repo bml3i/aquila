@@ -55,6 +55,9 @@ public class Rank {
 	@Column(name = "shop_name")
 	private String shopName;
 	
+	@Column(name = "cutoff_date")
+	private Date cutoffDate;
+	
 	@Column(name = "create_datetime")
 	private Date createDatetime;
 
@@ -136,5 +139,13 @@ public class Rank {
 
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
+	}
+
+	public Date getCutoffDate() {
+		return cutoffDate;
+	}
+
+	public void setCutoffDate(Date cutoffDate) {
+		this.cutoffDate = cutoffDate;
 	}
 }

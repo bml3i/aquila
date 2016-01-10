@@ -49,6 +49,9 @@ public class Product {
 	@Column(name = "active_flg")
 	private Boolean activeFlag;
 	
+	@Column(name = "cutoff_date")
+	private Date cutoffDate;
+	
 	@Column(name = "create_datetime")
 	private Date createDatetime;
 
@@ -151,6 +154,14 @@ public class Product {
 		}
 		
 		return minPrice; 
+	}
+	
+	public Date getCutoffDate() {
+		return cutoffDate;
+	}
+
+	public void setCutoffDate(Date cutoffDate) {
+		this.cutoffDate = cutoffDate;
 	}
 
 	@Override
