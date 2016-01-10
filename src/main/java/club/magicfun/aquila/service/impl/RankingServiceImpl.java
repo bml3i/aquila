@@ -19,7 +19,7 @@ import club.magicfun.aquila.service.RankingService;
 public class RankingServiceImpl implements RankingService {
 
 	@Autowired
-	private RankSearchQueueRepository rankSearchKeywordRepository;
+	private RankSearchQueueRepository rankSearchQueueRepository;
 	
 	@Autowired
 	private RankSearchTypeRepository rankSearchTypeRepository;
@@ -29,7 +29,7 @@ public class RankingServiceImpl implements RankingService {
 
 	@Override
 	public List<RankSearchQueue> findAllRankSearchQueues() {
-		return rankSearchKeywordRepository.findAll();
+		return rankSearchQueueRepository.findAll();
 	}
 
 	@Override

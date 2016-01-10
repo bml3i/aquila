@@ -34,11 +34,11 @@ public class RankSearchQueue {
 	private String description;
 	
 	@OneToMany(mappedBy = "rankSearchKeyword", fetch = FetchType.LAZY)
-	private Set<RankSearchKeywordType> rankSearchKeywordTypes;
+	private Set<RankSearchQueueType> rankSearchKeywordTypes;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
 	@OrderBy("id ASC")
-	@JoinTable(name = "rank_search_keyword_type", joinColumns = { @JoinColumn(name = "rank_search_keyword_id") }, inverseJoinColumns = { @JoinColumn(name = "rank_search_type_id") })
+	@JoinTable(name = "rank_search_queue_type", joinColumns = { @JoinColumn(name = "rank_search_queue_id") }, inverseJoinColumns = { @JoinColumn(name = "rank_search_type_id") })
 	private Set<RankSearchType> rankSearchTypes = new HashSet<RankSearchType>();
 
 	@Column(name = "create_datetime")
@@ -68,11 +68,11 @@ public class RankSearchQueue {
 		this.description = description;
 	}
 
-	public Set<RankSearchKeywordType> getRankSearchKeywordTypes() {
+	public Set<RankSearchQueueType> getRankSearchKeywordTypes() {
 		return rankSearchKeywordTypes;
 	}
 
-	public void setRankSearchKeywordTypes(Set<RankSearchKeywordType> rankSearchKeywordTypes) {
+	public void setRankSearchKeywordTypes(Set<RankSearchQueueType> rankSearchKeywordTypes) {
 		this.rankSearchKeywordTypes = rankSearchKeywordTypes;
 	}
 

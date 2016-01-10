@@ -32,10 +32,10 @@ public class RankSearchType {
 	private String sortType;
 	
 	@OneToMany(mappedBy = "rankSearchType", fetch = FetchType.LAZY)
-	private Set<RankSearchKeywordType> rankSearchKeywordTypes;
+	private Set<RankSearchQueueType> rankSearchKeywordTypes;
 
 	@ManyToMany(mappedBy = "rankSearchTypes", fetch = FetchType.LAZY)
-	private Set<RankSearchQueue> rankSearchKeywords = new HashSet<RankSearchQueue>();
+	private Set<RankSearchQueue> rankSearchQueues = new HashSet<RankSearchQueue>();
 
 	public Integer getId() {
 		return id;
@@ -61,20 +61,20 @@ public class RankSearchType {
 		this.description = description;
 	}
 
-	public Set<RankSearchKeywordType> getRankSearchKeywordTypes() {
+	public Set<RankSearchQueueType> getRankSearchKeywordTypes() {
 		return rankSearchKeywordTypes;
 	}
 
-	public void setRankSearchKeywordTypes(Set<RankSearchKeywordType> rankSearchKeywordTypes) {
+	public void setRankSearchKeywordTypes(Set<RankSearchQueueType> rankSearchKeywordTypes) {
 		this.rankSearchKeywordTypes = rankSearchKeywordTypes;
 	}
 
-	public Set<RankSearchQueue> getRankSearchKeywords() {
-		return rankSearchKeywords;
+	public Set<RankSearchQueue> getRankSearchQueues() {
+		return rankSearchQueues;
 	}
 
-	public void setRankSearchKeywords(Set<RankSearchQueue> rankSearchKeywords) {
-		this.rankSearchKeywords = rankSearchKeywords;
+	public void setRankSearchQueues(Set<RankSearchQueue> rankSearchQueues) {
+		this.rankSearchQueues = rankSearchQueues;
 	}
 
 	public String getSortType() {

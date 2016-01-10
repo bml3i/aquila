@@ -57,10 +57,10 @@ public class RankSearchJob {
 			if (rankSearchQueues != null) {
 				logger.info("Rank Search Queues count = " + rankSearchQueues.size());
 				
-				for (RankSearchQueue rankSearchKeyword : rankSearchQueues) {
-					logger.info("Dealing with Rank Search Queues: " + rankSearchKeyword.getKeyword());
+				for (RankSearchQueue rankSearchQueue : rankSearchQueues) {
+					logger.info("Dealing with Rank Search Queues: " + rankSearchQueue.getKeyword());
 					
-					Set<RankSearchType> rankSearchTypes = rankSearchKeyword.getRankSearchTypes();
+					Set<RankSearchType> rankSearchTypes = rankSearchQueue.getRankSearchTypes();
 					
 					if (rankSearchTypes != null) {
 						
@@ -70,7 +70,7 @@ public class RankSearchJob {
 							logger.info("Dealing with Rank Search Type: " + rankSearchType.getName());
 							
 							String url = RANK_SEARCH_URL_TEMPLATE.replaceFirst("\\{KEYWORD\\}",
-									rankSearchKeyword.getKeyword()).replaceFirst("\\{SORTTYPE\\}", rankSearchType.getSortType());
+									rankSearchQueue.getKeyword()).replaceFirst("\\{SORTTYPE\\}", rankSearchType.getSortType());
 							logger.info("URL: " + url);
 							
 							webDriver.get(url);
@@ -108,7 +108,7 @@ public class RankSearchJob {
 								*/
 								
 								RankSearchHistory rankSearchHistory = new RankSearchHistory();
-								rankSearchHistory.setRankSearchKeyword(rankSearchKeyword);
+								rankSearchHistory.setRankSearchKeyword(rankSearchQueue);
 								rankSearchHistory.setRankSearchType(rankSearchType);
 								rankSearchHistory.setRankNumber(rankIndex);
 								rankSearchHistory.setProductId(Long.parseLong(itemProductId));

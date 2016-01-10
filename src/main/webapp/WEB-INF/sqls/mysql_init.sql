@@ -138,18 +138,18 @@ insert into rank_search_types (name, description, sort_type) values ('RENQI', '�
 insert into rank_search_types (name, description, sort_type) values ('XIAOLIANG', '销量排序', 'sale-desc');
 insert into rank_search_types (name, description, sort_type) values ('XINYONG', '信用排序', 'credit-desc');
 
-/* 9. rank_search_keyword_type */
-create table rank_search_keyword_type (
-	rank_search_keyword_id int not null,
+/* 9. rank_search_queue_type */
+create table rank_search_queue_type (
+	rank_search_queue_id int not null,
 	rank_search_type_id int not null,
-	primary key (rank_search_keyword_id, rank_search_type_id),
-	foreign key (rank_search_keyword_id) references rank_search_queue (id),
+	primary key (rank_search_queue_id, rank_search_type_id),
+	foreign key (rank_search_queue_id) references rank_search_queue (id),
 	foreign key (rank_search_type_id) references rank_search_types (id)
 );
 
-insert into rank_search_keyword_type (rank_search_keyword_id, rank_search_type_id) values (1, 1);
-insert into rank_search_keyword_type (rank_search_keyword_id, rank_search_type_id) values (1, 2);
-insert into rank_search_keyword_type (rank_search_keyword_id, rank_search_type_id) values (1, 3);
+insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (1, 1);
+insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (1, 2);
+insert into rank_search_queue_type (rank_search_queue_id, rank_search_type_id) values (1, 3);
 
 
 /* 10. jobs */

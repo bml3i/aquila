@@ -7,8 +7,8 @@ import javax.persistence.Table;
 
 @Entity
 @IdClass(RankSearchKeywordTypePK.class)
-@Table(name = "rank_search_keyword_type")
-public class RankSearchKeywordType {
+@Table(name = "rank_search_queue_type")
+public class RankSearchQueueType {
 
 	@Id
 	private RankSearchQueue rankSearchKeyword;
