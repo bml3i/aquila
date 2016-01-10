@@ -31,6 +31,8 @@ public class RankSearchJob {
 
 	private static final String RANK_SEARCH_URL_TEMPLATE = "http://s.taobao.com/search?q={KEYWORD}&sort={SORTTYPE}&style=list";
 
+	private static final int RANK_SEARCH_QUEUE_NUMBER_PER_TIME = 5;
+	
 	@Autowired
 	private ScheduleService scheduleService;
 
@@ -53,9 +55,9 @@ public class RankSearchJob {
 			job = scheduleService.startJob(job);
 			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 
-			List<RankSearchQueue> rankSearchQueues = rankingService.findAllRankSearchQueues();
+			List<RankSearchQueue> rankSearchQueues = rankingService.findFewActivePendingRankSearchQueues(RANK_SEARCH_QUEUE_NUMBER_PER_TIME);
 
-			if (rankSearchQueues != null) {
+			if (rankSearchQueues != null && rankSearchQueues.size() > 0) {
 				logger.info("Rank Search Queues count = " + rankSearchQueues.size());
 
 				for (RankSearchQueue rankSearchQueue : rankSearchQueues) {
