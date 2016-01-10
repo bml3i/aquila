@@ -108,7 +108,7 @@ public class RankSearchJob {
 								*/
 								
 								Rank rank = new Rank();
-								rank.setRankSearchKeyword(rankSearchQueue);
+								rank.setRankSearchQueue(rankSearchQueue);
 								rank.setRankSearchType(rankSearchType);
 								rank.setRankNumber(rankIndex);
 								rank.setProductId(Long.parseLong(itemProductId));

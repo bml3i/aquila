@@ -10,8 +10,8 @@ public class RankSearchKeywordTypePK implements Serializable {
 	private static final long serialVersionUID = -1719280929629996264L;
 
 	@ManyToOne
-	@JoinColumn(name = "rank_search_keyword_id", referencedColumnName = "id")
-	private RankSearchQueue rankSearchKeyword;
+	@JoinColumn(name = "rank_search_queue_id", referencedColumnName = "id")
+	private RankSearchQueue rankSearchQueue;
 
 	@ManyToOne
 	@JoinColumn(name = "rank_search_type_id", referencedColumnName = "id")

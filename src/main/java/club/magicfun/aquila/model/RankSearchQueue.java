@@ -33,8 +33,8 @@ public class RankSearchQueue {
 	@Column(name = "description")
 	private String description;
 	
-	@OneToMany(mappedBy = "rankSearchKeyword", fetch = FetchType.LAZY)
-	private Set<RankSearchQueueType> rankSearchKeywordTypes;
+	@OneToMany(mappedBy = "rankSearchQueue", fetch = FetchType.LAZY)
+	private Set<RankSearchQueueType> rankSearchQueueTypes;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
 	@OrderBy("id ASC")
@@ -68,12 +68,12 @@ public class RankSearchQueue {
 		this.description = description;
 	}
 
-	public Set<RankSearchQueueType> getRankSearchKeywordTypes() {
-		return rankSearchKeywordTypes;
+	public Set<RankSearchQueueType> getRankSearchQueueTypes() {
+		return rankSearchQueueTypes;
 	}
 
-	public void setRankSearchKeywordTypes(Set<RankSearchQueueType> rankSearchKeywordTypes) {
-		this.rankSearchKeywordTypes = rankSearchKeywordTypes;
+	public void setRankSearchQueueTypes(Set<RankSearchQueueType> rankSearchQueueTypes) {
+		this.rankSearchQueueTypes = rankSearchQueueTypes;
 	}
 
 	public Set<RankSearchType> getRankSearchTypes() {

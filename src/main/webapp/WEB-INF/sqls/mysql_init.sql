@@ -179,7 +179,7 @@ insert into jobs (class_name, description, active_flg, run_status, create_dateti
 /* 11. ranks */
 create table ranks (
 	id int not null auto_increment, 
-	rank_search_keyword_id int not null,
+	rank_search_queue_id int not null,
 	rank_search_type_id int not null,
 	rank_num int not null,
 	product_id bigint not null,

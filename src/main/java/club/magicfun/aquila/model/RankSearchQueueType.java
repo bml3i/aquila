@@ -11,17 +11,17 @@ import javax.persistence.Table;
 public class RankSearchQueueType {
 
 	@Id
-	private RankSearchQueue rankSearchKeyword;
+	private RankSearchQueue rankSearchQueue;
 
 	@Id
 	private RankSearchType rankSearchType;
 
-	public RankSearchQueue getRankSearchKeyword() {
-		return rankSearchKeyword;
+	public RankSearchQueue getRankSearchQueue() {
+		return rankSearchQueue;
 	}
 
-	public void setRankSearchKeyword(RankSearchQueue rankSearchKeyword) {
-		this.rankSearchKeyword = rankSearchKeyword;
+	public void setRankSearchQueue(RankSearchQueue rankSearchQueue) {
+		this.rankSearchQueue = rankSearchQueue;
 	}
 
 	public RankSearchType getRankSearchType() {

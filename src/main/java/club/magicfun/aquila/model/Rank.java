@@ -22,8 +22,8 @@ public class Rank {
 	private Integer id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "rank_search_keyword_id")
-	private RankSearchQueue rankSearchKeyword;
+	@JoinColumn(name = "rank_search_queue_id")
+	private RankSearchQueue rankSearchQueue;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "rank_search_type_id")
@@ -58,12 +58,12 @@ public class Rank {
 		this.id = id;
 	}
 
-	public RankSearchQueue getRankSearchKeyword() {
-		return rankSearchKeyword;
+	public RankSearchQueue getRankSearchQueue() {
+		return rankSearchQueue;
 	}
 
-	public void setRankSearchKeyword(RankSearchQueue rankSearchKeyword) {
-		this.rankSearchKeyword = rankSearchKeyword;
+	public void setRankSearchQueue(RankSearchQueue rankSearchQueue) {
+		this.rankSearchQueue = rankSearchQueue;
 	}
 
 	public RankSearchType getRankSearchType() {
