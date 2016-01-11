@@ -55,7 +55,7 @@ public class RankSearchJob {
 		if (job != null && job.isJobReadyToRun()) {
 
 			job = scheduleService.startJob(job);
-			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
+			logger.debug("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 
 			List<RankSearchQueue> rankSearchQueues = rankingService.findFewActivePendingRankSearchQueues(RANK_SEARCH_QUEUE_NUMBER_PER_TIME);
 
@@ -163,7 +163,7 @@ public class RankSearchJob {
 
 			job = scheduleService.completeJob(job);
 		} else {
-			logger.info("Job has not been configured for " + className + " or the job is not ready to run.");
+			logger.debug("Job has not been configured for " + className + " or the job is not ready to run.");
 		}
 	}
 }

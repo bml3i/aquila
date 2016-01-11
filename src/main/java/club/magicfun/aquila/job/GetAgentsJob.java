@@ -67,7 +67,7 @@ public class GetAgentsJob {
 		if (job != null && job.isJobReadyToRun()) {
 			
 			job = scheduleService.startJob(job);
-			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
+			logger.debug("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 			
 			List<Agent> activeAgents = agentService.findFewRecentActiveAgents(MIN_ACTIVE_PROXY_NUM);
 			
@@ -159,7 +159,7 @@ public class GetAgentsJob {
 	        
 			job = scheduleService.completeJob(job);
 		} else {
-			logger.info("Job has not been configured for " + className + " or the job is not ready to run.");
+			logger.debug("Job has not been configured for " + className + " or the job is not ready to run.");
 		}
 	}
 }

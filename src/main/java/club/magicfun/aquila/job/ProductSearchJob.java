@@ -57,7 +57,7 @@ public class ProductSearchJob {
 		if (job != null && job.isJobReadyToRun()) {
 			
 			job = scheduleService.startJob(job);
-			logger.info("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
+			logger.debug("Job [" + job.getId() + "," + job.getClassName() + "] is started.");
 			
 			List<ProductSearchQueue> productSearchQueues = productService.findFewActivePendingProductSearchQueues(PRODUCT_SEARCH_NUMBER_PER_TIME);
 			
@@ -380,7 +380,7 @@ public class ProductSearchJob {
 			
 			job = scheduleService.completeJob(job);
 		} else {
-			logger.info("Job has not been configured for " + className + " or the job is not ready to run.");
+			logger.debug("Job has not been configured for " + className + " or the job is not ready to run.");
 		}
 	}
 	
