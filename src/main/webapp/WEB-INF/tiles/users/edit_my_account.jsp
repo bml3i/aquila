@@ -77,6 +77,10 @@
 			<button type="submit" class="btn btn-primary" tabindex="7">
 				<s:message code="global.info.btn.update" />
 			</button>
+			<button type="button" class="btn" tabindex="8"
+				onclick="history.go(-1);">
+				<s:message code="global.info.btn.cancel" />
+			</button>
 		</div>
 	</fieldset>
 </form:form>
