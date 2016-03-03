@@ -85,7 +85,7 @@ create table products (
 	id int not null auto_increment,
 	product_id bigint not null,
 	product_name varchar(64) not null,
-	month_sale_amount int not null,
+	month_sale_amount int,
 	product_price decimal(8,2) not null,
 	fav_count int not null,
 	shop_name varchar(32) not null,

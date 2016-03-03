@@ -130,7 +130,7 @@ public class ProductSearchJob {
 						
 						try{
 							productName = webDriver.findElement(By.xpath("//div[@id='J_Title']/h3[@class='tb-main-title']")).getText().trim();
-							monthSaleAmount = webDriver.findElement(By.xpath("//em[@class='J_TDealCount']")).getText();
+							//monthSaleAmount = webDriver.findElement(By.xpath("//em[@class='J_TDealCount']")).getText();
 							favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//em[@class='J_FavCount']")).getText());
 							shopName = webDriver.findElement(By.xpath("//div[@class='tb-shop-name']//a")).getText();
 							
@@ -196,7 +196,7 @@ public class ProductSearchJob {
 							
 							product.setProductId(productSearchQueue.getProductId());
 							product.setProductName(productName);
-							product.setMonthSaleAmount(new Integer(monthSaleAmount));
+							//product.setMonthSaleAmount(new Integer(monthSaleAmount));
 							
 							if (!containsCategoryFlag) {
 								product.setProductPrice(new Double(productPrice));
@@ -236,7 +236,7 @@ public class ProductSearchJob {
 						
 						try{
 							productName = webDriver.findElement(By.xpath("//div[@class='tb-detail-hd']/h1")).getText().trim();
-							monthSaleAmount = webDriver.findElement(By.xpath("//div[@class='tm-indcon']/span[@class='tm-count']")).getText();
+							//monthSaleAmount = webDriver.findElement(By.xpath("//div[@class='tm-indcon']/span[@class='tm-count']")).getText();
 							favouriteCount = StringUtility.extractFirstFewDigits(webDriver.findElement(By.xpath("//span[@id='J_CollectCount']")).getText());
 							shopName = HtmlUtility.removeHtmlTags(webDriver.findElement(By.xpath("//a[@class='slogo-shopname']")).getText());
 							
@@ -312,7 +312,7 @@ public class ProductSearchJob {
 							
 							product.setProductId(productSearchQueue.getProductId());
 							product.setProductName(productName);
-							product.setMonthSaleAmount(new Integer(monthSaleAmount));
+							//product.setMonthSaleAmount(new Integer(monthSaleAmount));
 							
 							if (!containsCategoryFlag) {
 								product.setProductPrice(new Double(productPrice));
