@@ -26,12 +26,19 @@ public class AppStartupListener implements ApplicationListener<ContextRefreshedE
 			
 			// load the appropriate chrome drivers according to the OS type
 			if (osName.toLowerCase().indexOf("windows") > -1) {
-				System.setProperty("webdriver.chrome.driver", dir + File.separator + "drivers" + File.separator + "win"
-						+ File.separator + "chromedriver.exe");
+//				System.setProperty("webdriver.chrome.driver", dir + File.separator + "drivers" + File.separator + "win"
+//						+ File.separator + "chromedriver.exe");
+				System.setProperty("phantomjs.binary.path", dir + File.separator + "drivers" + File.separator + "win"
+						+ File.separator + "phantomjs.exe");
 			} else if (osName.toLowerCase().indexOf("mac") > -1) {
-				System.setProperty("webdriver.chrome.driver", dir + File.separator + "drivers" + File.separator + "mac"
-						+ File.separator + "chromedriver");
+//				System.setProperty("webdriver.chrome.driver", dir + File.separator + "drivers" + File.separator + "mac"
+//						+ File.separator + "chromedriver");
+				System.setProperty("phantomjs.binary.path", dir + File.separator + "drivers" + File.separator + "mac"
+						+ File.separator + "phantomjs");
 			}
+			
+			String userAgent = "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.41 Safari/535.1";
+			System.setProperty("phantomjs.page.settings.userAgent", userAgent);
 			
 			// update job run_status to "C" when application starts
 			List<Job> jobs = scheduleService.findAllJobs();

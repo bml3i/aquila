@@ -8,6 +8,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class ProductSearchJob {
 				
 				logger.info("Product Search queue size = " + productSearchQueues.size());
 				
-				WebDriver webDriver = new ChromeDriver();
+				WebDriver webDriver = new PhantomJSDriver();
 				
 				for (ProductSearchQueue productSearchQueue : productSearchQueues) {
 					

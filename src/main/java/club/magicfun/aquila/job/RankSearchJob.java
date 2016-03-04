@@ -1,5 +1,7 @@
 package club.magicfun.aquila.job;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +11,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,14 +83,19 @@ public class RankSearchJob {
 
 						try {
 
-							WebDriver webDriver = new ChromeDriver();
+							WebDriver webDriver = new PhantomJSDriver();
 
 							for (RankSearchType rankSearchType : rankSearchTypes) {
 								logger.info("Dealing with Rank Search Type: " + rankSearchType.getName());
 
-								String url = RANK_SEARCH_URL_TEMPLATE
-										.replaceFirst("\\{KEYWORD\\}", rankSearchQueue.getKeyword())
-										.replaceFirst("\\{SORTTYPE\\}", rankSearchType.getSortType());
+								String url = null;
+								try {
+									url = RANK_SEARCH_URL_TEMPLATE
+											.replaceFirst("\\{KEYWORD\\}", URLEncoder.encode(rankSearchQueue.getKeyword(), "utf-8"))
+											.replaceFirst("\\{SORTTYPE\\}", rankSearchType.getSortType());
+								} catch (UnsupportedEncodingException e) {
+									e.printStackTrace();
+								}
 								logger.info("URL: " + url);
 
 								webDriver.get(url);
